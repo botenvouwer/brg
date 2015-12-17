@@ -5,14 +5,14 @@
         <script>
 
             $(function(){
-
-                $.getJSON('rest/hello/mkyong/jan', function(shit){
+            /*
+                $.getJSON('rest/hello/jhfsjdfjh', function(shit){
                     console.log('gelukt');
                     console.log(shit);
                     $('#shithier').html('hallo ' + shit[0]);
 
                 });
-
+            */
             });
 
         </script>

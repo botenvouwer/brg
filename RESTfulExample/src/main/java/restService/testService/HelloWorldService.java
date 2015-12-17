@@ -1,22 +1,22 @@
-package com.mkyong.rest;
+package restService.testService;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
-@Path("/hello")
+@Path("/class")
 public class HelloWorldService {
 
     @GET
-    @Path("/{param}/{param2}")
-    public Response getMsg(@PathParam("param") String msg, @PathParam("param2") String naam) {
+    @Path("/method/{param}")
+    public Response getMsg(@PathParam("param") String msg) {
 
-        String output = "[3434,234234,234234,234234]";
+        String output = "je hebt me uitgevoerd test/class/method/"+msg;
 
         return Response
                 .status(200)
-                .type("application/json")
+                .type("text/plain")
                 .entity(output)
                 .build();
 
