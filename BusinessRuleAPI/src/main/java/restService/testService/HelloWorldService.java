@@ -19,7 +19,6 @@ public class HelloWorldService {
                 .type("text/plain")
                 .entity(output)
                 .build();
-
     }
 
 }

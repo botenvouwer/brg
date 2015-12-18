@@ -42,8 +42,8 @@
     <entry_points version="2.0" />
   </component>
   <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/BusinessRuleAPI" />
     <file type="web" url="file://$PROJECT_DIR$/restApi" />
-    <file type="web" url="file://$PROJECT_DIR$/RESTfulExample" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">

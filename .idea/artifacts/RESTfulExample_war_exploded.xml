@@ -4,7 +4,7 @@
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="RESTfulExample" />
+          <element id="module-output" name="BusinessRuleAPI" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: com.sun.jersey:jersey-server:1.8" />
@@ -13,9 +13,9 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/RESTfulExample/target/RESTfulExample/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/BusinessRuleAPI/target/RESTfulExample/META-INF/MANIFEST.MF" />
       </element>
-      <element id="javaee-facet-resources" facet="RESTfulExample/web/Web" />
+      <element id="javaee-facet-resources" facet="BusinessRuleAPI/web/Web" />
     </root>
   </artifact>
 </component>
