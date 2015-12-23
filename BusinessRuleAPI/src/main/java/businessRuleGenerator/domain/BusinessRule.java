@@ -1,5 +1,7 @@
 package businessRuleGenerator.domain;
 
+import java.util.ArrayList;
+
 /**
  * Created by melvin on 18-12-2015.
  */
@@ -11,8 +13,22 @@ public class BusinessRule {
     public String CRUDmode;
     public String ruleDescription;
     public String typeDescription;
+    public ArrayList<Statement> statements = new ArrayList<Statement>();
 
-    public BusinessRule() {
+    public BusinessRule(String category, String type, String code, String table, String CRUDmode, String ruleDescription, String typeDescription) {
+        this.category = category;
+        this.type = type;
+        this.code = code;
+        this.table = table;
+        this.CRUDmode = CRUDmode;
+        this.ruleDescription = ruleDescription;
+        this.typeDescription = typeDescription;
+        ArrayList<Statement> statements = new ArrayList<Statement>();
 
+        Statement st1 = new Statement(6, "description", "=", "AND", "wielen");
+        Statement st2 = new Statement(6, "description", "=", "OR", "test");
+
+        statements.add(st1);
+        statements.add(st2);
     }
 }

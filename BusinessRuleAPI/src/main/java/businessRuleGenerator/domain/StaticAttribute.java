@@ -7,7 +7,8 @@ public class StaticAttribute {
     public String value;
     public String dataType;
 
-    public StaticAttribute() {
-
+    public StaticAttribute(String value, String dataType) {
+        this.value = value;
+        this.dataType = dataType;
     }
 }
