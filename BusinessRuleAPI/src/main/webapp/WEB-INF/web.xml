@@ -16,7 +16,7 @@
 
   <servlet-mapping>
     <servlet-name>generator-serlvet</servlet-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>/service/*</url-pattern>
   </servlet-mapping>
 
   <servlet>

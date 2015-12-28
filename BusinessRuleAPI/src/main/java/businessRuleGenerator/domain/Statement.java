@@ -6,9 +6,11 @@ package businessRuleGenerator.domain;
 public class Statement {
     public int code;
     public String attribute;
+    public int order;
     public String logicalOperator;
     public String comparisonOperator;
-    public String dynamicAttribute;
+    public DynamicAttribute dynamicAttribute;
+    public StaticAttribute staticAttribute;
 
     public Statement() {
 
