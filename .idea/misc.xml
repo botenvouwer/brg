@@ -49,6 +49,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/RESTfulExample/pom.xml" />
+        <option value="$PROJECT_DIR$/BusinessRuleAPI/pom.xml" />
       </list>
     </option>
   </component>
