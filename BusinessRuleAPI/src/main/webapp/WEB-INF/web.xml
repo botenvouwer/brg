@@ -9,11 +9,7 @@
     <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
     <init-param>
       <param-name>com.sun.jersey.config.property.packages</param-name>
-      <param-value>restService.generateService</param-value>
-    </init-param>
-    <init-param>
-      <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
-      <param-value>true</param-value>
+      <param-value>restService.businessRuleGenerator</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
@@ -21,21 +17,6 @@
   <servlet-mapping>
     <servlet-name>generator-serlvet</servlet-name>
     <url-pattern>/service/*</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>test-serlvet</servlet-name>
-    <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
-    <init-param>
-      <param-name>com.sun.jersey.config.property.packages</param-name>
-      <param-value>restService.testService</param-value>
-    </init-param>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>test-serlvet</servlet-name>
-    <url-pattern>/test/*</url-pattern>
   </servlet-mapping>
 
 </web-app>
