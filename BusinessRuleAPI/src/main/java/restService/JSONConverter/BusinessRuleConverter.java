@@ -1,4 +1,4 @@
-package restService.JSONGenerator;
+package restService.JSONConverter;
 
 import businessRuleGenerator.domain.BusinessRule;
 import org.json.JSONObject;

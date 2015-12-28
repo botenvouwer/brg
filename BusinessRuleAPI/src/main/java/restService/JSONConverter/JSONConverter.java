@@ -1,4 +1,4 @@
-package restService.JSONGenerator;
+package restService.JSONConverter;
 
 import org.json.JSONObject;
 
