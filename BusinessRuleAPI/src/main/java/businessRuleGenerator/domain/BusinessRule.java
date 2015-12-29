@@ -16,7 +16,17 @@ public class BusinessRule {
     public String CRUDmode;
     public String ruleDescription;
     public String typeDescription;
-    ArrayList<Statement> statements;
+    public ArrayList<Statement> statements = new ArrayList<Statement>();
+
+    public BusinessRule(String category, String type, String code, String table, String CRUDmode, String ruleDescription, String typeDescription) {
+        this.category = category;
+        this.type = type;
+        this.code = code;
+        this.table = table;
+        this.CRUDmode = CRUDmode;
+        this.ruleDescription = ruleDescription;
+        this.typeDescription = typeDescription;
+    }
 
     public BusinessRule() {
 

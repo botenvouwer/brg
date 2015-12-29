@@ -1,0 +1,5 @@
+IF {$statements} THEN
+
+    {$act}
+
+END IF;

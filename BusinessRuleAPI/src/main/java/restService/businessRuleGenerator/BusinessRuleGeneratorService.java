@@ -3,6 +3,8 @@ package restService.businessRuleGenerator;
 import businessRuleGenerator.domain.BusinessRule;
 import org.json.JSONException;
 import org.json.JSONObject;
+import restService.JSONConverter.BusinessRuleConverter;
+import restService.JSONConverter.JSONConverter;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -61,6 +63,9 @@ public class BusinessRuleGeneratorService {
 
         ret = "<pre>"+ret+"</pre>";
 
+        JSONConverter jsonconv = new BusinessRuleConverter();
+        jsonconv.importObject("wat");
+
         return  Response.status(200).entity(ret).build();
 
     }
@@ -72,5 +77,42 @@ public class BusinessRuleGeneratorService {
         return  Response.status(200).entity("testetst").build();
 
     }
+
+    @GET
+    @Path("/test")
+    public Response test(){
+
+        String plsql = "create or replace trigger \"VBMG_KLANTEN_T1\"\n" +
+                "BEFORE\n" +
+                "insert or update on \"VBMG_KLANTEN\"\n" +
+                "for each row\n" +
+                "begin\n" +
+                "\n" +
+                "IF :new.GESLACHT NOT IN('M', 'V', 'O') THEN\n" +
+                "    raise_application_error(-20001, 'error rule overtreden');\n" +
+                "END IF;\n" +
+                "\n" +
+                "end;\u200B";
+
+        JSONObject test = new JSONObject();
+        try {
+            test.put("trigger", plsql);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String res = "";
+        try {
+            res = test.toString(4);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        //res = "<pre>"+res+"</pre>";
+
+        return  Response.status(200).entity(res).build();
+    }
+
+
 
 }

@@ -12,6 +12,14 @@ public class Statement {
     public DynamicAttribute dynamicAttribute;
     public StaticAttribute staticAttribute;
 
+    public Statement(int code, String attribute, int order, String logicalOperator, String comparisonOperator) {
+        this.code = code;
+        this.attribute = attribute;
+        this.order = order;
+        this.logicalOperator = logicalOperator;
+        this.comparisonOperator = comparisonOperator;
+    }
+
     public Statement() {
 
     }

@@ -1,0 +1,12 @@
+CREATE OR REPLACE TRIGGER {$trigger_name}
+BEFORE
+{$CRUDMode}
+ON {$table_name}
+FOR EACH ROW
+DECLARE
+   {$body}
+BEGIN
+   {$body}
+EXCEPTION
+   {$body}
+END;
