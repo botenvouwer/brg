@@ -82,14 +82,7 @@ public class BusinessRuleConverter implements JSONConverter {
 
             JSONObject br = new JSONObject(test.toString(4));
 
-            String res_category = br.getString("category");
-            String res_type = br.getString("type");
-            String res_code = br.getString("code");
-            String res_table = br.getString("table");
-            String res_crudmode = br.getString("CRUDmode");
-            String res_ruleDesc = br.getString("ruleDescription");
-            String res_typeDesc = br.getString("typeDescription");
-
+            BusinessRule businessRule_res = getBusinessRuleFromJSON(br);
             /*
             List<String> list = new ArrayList<String>();
             JSONArray statements = br.getJSONArray("statements");
@@ -97,7 +90,7 @@ public class BusinessRuleConverter implements JSONConverter {
                 list.add(statements.getJSONObject(i).getString("interestKey"));
             }
             */
-            System.out.println("result: " + res_ruleDesc);
+            System.out.println("result: " + businessRule_res.typeDescription);
 
         } catch (JSONException e) {
             e.printStackTrace();
