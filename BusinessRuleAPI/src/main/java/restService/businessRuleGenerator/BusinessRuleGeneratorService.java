@@ -20,6 +20,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 
 /**
  * Created by william on 17-Dec-15.
@@ -89,7 +90,7 @@ public class BusinessRuleGeneratorService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response example() {
 
-        BusinessRule rule = new BusinessRule("category_test", "type_test", "code_test", "table_test", "CRUD_test", "ruleDesc_test", "typeDesc_test");
+        BusinessRule rule = new BusinessRule("category_test", "type_test", "code_test", "table_test", "CRUD_test", "ruleDesc_test", "typeDesc_test", new ArrayList<Statement>());
 
         StaticAttribute sta1 = new StaticAttribute("30", "int");
         DynamicAttribute da1 = new DynamicAttribute("attribute_test", "test_foreignKey", "tableTest");
@@ -127,6 +128,7 @@ public class BusinessRuleGeneratorService {
             staticAttribute0.put("dataType", sta1.dataType);
             statements.put("staticAttribute", staticAttribute0);
 
+            br.append("statements", statements);
             br.append("statements", statements);
 
 
@@ -213,6 +215,14 @@ public class BusinessRuleGeneratorService {
 
         return  Response.status(200).entity("testetst").build();
 
+    }
+
+    @GET
+    @Path("/testThingy")
+    public Response testThingy(){
+        JSONConverter jc = new BusinessRuleConverter();
+        jc.importObject("{}");
+        return  Response.status(200).entity("{}").build();
     }
 
     @GET

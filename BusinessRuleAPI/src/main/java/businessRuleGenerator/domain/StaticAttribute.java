@@ -11,4 +11,8 @@ public class StaticAttribute {
         this.value = value;
         this.dataType = dataType;
     }
+
+    public StaticAttribute() {
+
+    }
 }

@@ -18,7 +18,7 @@ public class BusinessRule {
     public String typeDescription;
     public ArrayList<Statement> statements = new ArrayList<Statement>();
 
-    public BusinessRule(String category, String type, String code, String table, String CRUDmode, String ruleDescription, String typeDescription) {
+    public BusinessRule(String category, String type, String code, String table, String CRUDmode, String ruleDescription, String typeDescription, ArrayList<Statement> statements) {
         this.category = category;
         this.type = type;
         this.code = code;
@@ -26,6 +26,7 @@ public class BusinessRule {
         this.CRUDmode = CRUDmode;
         this.ruleDescription = ruleDescription;
         this.typeDescription = typeDescription;
+        this.statements = statements;
     }
 
     public BusinessRule() {

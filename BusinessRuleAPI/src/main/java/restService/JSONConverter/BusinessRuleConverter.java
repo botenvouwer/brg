@@ -16,21 +16,6 @@ import java.util.List;
  */
 public class BusinessRuleConverter implements JSONConverter {
 
-    private Statement getStatementFromJSON(JSONObject obj) {
-        try {
-            String attribute = obj.getString("attribute");
-            int order = obj.getInt("order");
-            String logicalOperator = obj.getString("logicalOperator");
-            String comparisonOperator = obj.getString("comparisonOperator");
-
-            return new Statement(attribute, order, logicalOperator, comparisonOperator, new DynamicAttribute("", "",""), new StaticAttribute("",""));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return new Statement();
-    }
-
     private BusinessRule getBusinessRuleFromJSON(JSONObject obj) {
         try {
             String category = obj.getString("category");
@@ -41,57 +26,129 @@ public class BusinessRuleConverter implements JSONConverter {
             String ruleDescription = obj.getString("ruleDescription");
             String typeDescription = obj.getString("typeDescription");
 
-            return new BusinessRule(category, type, code, table, CRUDmode, ruleDescription, typeDescription);
+            ArrayList<Statement> statements = new ArrayList<Statement>();
+            JSONArray statementsJSON = obj.getJSONArray("statements");
+            for(int i = 0 ; i < statementsJSON.length() ; i++) {
+                JSONObject statement = statementsJSON.getJSONObject(i);
+                statements.add(getStatementFromJSON(statement));
+            }
+
+            return new BusinessRule(category, type, code, table, CRUDmode, ruleDescription, typeDescription, statements);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return new BusinessRule();
     }
 
+    private Statement getStatementFromJSON(JSONObject obj) {
+        try {
+            String attribute = obj.getString("attribute");
+            int order = obj.getInt("order");
+            String logicalOperator = obj.getString("logicalOperator");
+            String comparisonOperator = obj.getString("comparisonOperator");
+            DynamicAttribute dynamicAttribute = getDynamicAttributeFromJSON(obj.getJSONObject("dynamicAttribute"));
+            StaticAttribute staticAttribute = getStaticAttributeFromJSON(obj.getJSONObject("staticAttribute"));
+
+            return new Statement(attribute, order, logicalOperator, comparisonOperator, dynamicAttribute, staticAttribute);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new Statement();
+    }
+
+    private StaticAttribute getStaticAttributeFromJSON(JSONObject obj) {
+        try {
+            String value = obj.getString("value");
+            String dataType = obj.getString("dataType");
+            return new StaticAttribute(value, dataType);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new StaticAttribute();
+    }
+
+    private DynamicAttribute getDynamicAttributeFromJSON(JSONObject obj) {
+        try {
+            String attribute = obj.getString("attribute");
+            String foreignKey = obj.getString("foreignKey");
+            String table = obj.getString("table");
+            return new DynamicAttribute(attribute, foreignKey, table);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new DynamicAttribute();
+    }
+
     @Override
     public void importObject(String json) {
         try {
 
-        BusinessRule rule = new BusinessRule();
-        rule.category = "testcategory";
-        rule.type = "testype";
-        rule.code = "testcode";
-        rule.table = "testtable";
-        rule.CRUDmode = "testCRUD";
-        rule.ruleDescription = "testRuleDesc";
-        rule.typeDescription = "testTypeDesc";
+        String teststr = "{\"businessRules\": [\n" +
+                "    {\n" +
+                "        \"CRUDmode\": \"CRUD_test\",\n" +
+                "        \"category\": \"category_test\",\n" +
+                "        \"code\": \"code_test\",\n" +
+                "        \"ruleDescription\": \"ruleDesc_test\",\n" +
+                "        \"statements\": [{\n" +
+                "            \"attribute\": \"attribute_test\",\n" +
+                "            \"comparisonOperator\": \"comparisonOperator_test\",\n" +
+                "            \"dynamicAttribute\": {\n" +
+                "                \"attribute\": \"attribute_test\",\n" +
+                "                \"foreignKey\": \"test_foreignKey\",\n" +
+                "                \"table\": \"tableTest\"\n" +
+                "            },\n" +
+                "            \"logicalOperator\": \"logicalOperator_test\",\n" +
+                "            \"order\": 0,\n" +
+                "            \"staticAttribute\": {\n" +
+                "                \"dataType\": \"int\",\n" +
+                "                \"value\": \"30\"\n" +
+                "            }\n" +
+                "        }],\n" +
+                "        \"table\": \"table_test\",\n" +
+                "        \"type\": \"type_test\",\n" +
+                "        \"typeDescription\": \"typeDesc_test\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"CRUDmode\": \"CRUD_test\",\n" +
+                "        \"category\": \"category_test\",\n" +
+                "        \"code\": \"code_test\",\n" +
+                "        \"ruleDescription\": \"ruleDesc_test\",\n" +
+                "        \"statements\": [{\n" +
+                "            \"attribute\": \"attribute_test\",\n" +
+                "            \"comparisonOperator\": \"comparisonOperator_test\",\n" +
+                "            \"dynamicAttribute\": {\n" +
+                "                \"attribute\": \"attribute_test\",\n" +
+                "                \"foreignKey\": \"test_foreignKey\",\n" +
+                "                \"table\": \"tableTest\"\n" +
+                "            },\n" +
+                "            \"logicalOperator\": \"logicalOperator_test\",\n" +
+                "            \"order\": 0,\n" +
+                "            \"staticAttribute\": {\n" +
+                "                \"dataType\": \"int\",\n" +
+                "                \"value\": \"30\"\n" +
+                "            }\n" +
+                "        }],\n" +
+                "        \"table\": \"table_test\",\n" +
+                "        \"type\": \"type_test\",\n" +
+                "        \"typeDescription\": \"typeDesc_test\"\n" +
+                "    }\n" +
+                "]}";
 
-        JSONObject test = new JSONObject();
 
-            test.put("category", rule.category);
-            test.put("type", rule.type);
-            test.put("code", rule.code);
-            test.put("table", rule.table);
-            test.put("CRUDmode", rule.CRUDmode);
-            test.put("ruleDescription", rule.ruleDescription);
-            test.put("typeDescription", rule.typeDescription);
+            JSONObject brs = new JSONObject(teststr);
 
 
-            JSONObject statement_obj = new JSONObject();
-            statement_obj.put("test2", "jantje2");
-            statement_obj.put("test", "jantje");
-
-            // test.append("test", ding);
-            //test.append("test", ding);
-
-
-
-            JSONObject br = new JSONObject(test.toString(4));
-
-            BusinessRule businessRule_res = getBusinessRuleFromJSON(br);
-            /*
-            List<String> list = new ArrayList<String>();
-            JSONArray statements = br.getJSONArray("statements");
-            for(int i = 0 ; i < statements.length() ; i++){
-                list.add(statements.getJSONObject(i).getString("interestKey"));
+            ArrayList<BusinessRule> businessRules = new ArrayList<BusinessRule>();
+            JSONArray businessrules = brs.getJSONArray("businessRules");
+            for(int i = 0 ; i < businessrules.length() ; i++) {
+                JSONObject businessRule = businessrules.getJSONObject(i);
+                businessRules.add(getBusinessRuleFromJSON(businessRule));
             }
-            */
-            System.out.println("result: " + businessRule_res.typeDescription);
+
+            for(BusinessRule br : businessRules) {
+                System.out.println("business: " + br.CRUDmode);
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
