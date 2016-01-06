@@ -18,10 +18,11 @@
         </script>
     </head>
     <body id="shithier">
-        <h2>GET:</h2>
-        <div><p>1. <b>Geeft uitgebreide JSON terug (object-in-object, arrays)</b><br/><a href="http://hubugen.tk/service/bsn">http://hubugen.tk/service/bsn</a></p>
-       <p>2. <b>Geeft plaintext terug</b><br/><a href="http://hubugen.tk/service/bsn/raw">http://hubugen.tk/service/bsn/raw</a></p>
-        <p>3. <b>Geeft een simpel JSON-oject terug</b><br/><a href="http://hubugen.tk/service/bsn/simple">http://hubugen.tk/service/bsn/simple</a></p></div>
-        <h2>POST:</h2>
+        <div>
+            <h2>GET:</h2>
+            <div><p>1. <b>Geeft uitgebreide JSON terug (object-in-object, arrays)</b><br/><a href="/service/bsn">/service/bsn</a></p>
+            <p>2. <b>Geeft plaintext terug</b><br/><a href="/service/bsn/raw">/service/bsn/raw</a></p>
+            <p>3. <b>Geeft een simpel JSON-oject terug</b><br/><a href="/service/bsn/simple">/service/bsn/simple</a></p></div>
+        </div>
     </body>
 </html>

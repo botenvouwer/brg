@@ -1,7 +1,6 @@
 package businessRuleGenerator.template;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +21,6 @@ public class TemplateFactory {
 
         File[] listOfFiles = templateDir.listFiles();
 
-        //todo: exeptions beter afvangen (terug geven zodat we een fatsoenlijke error kunnen weergeven)
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
 
@@ -31,7 +29,9 @@ public class TemplateFactory {
 
                 try {
                     fis = new FileInputStream(file);
-                } catch (FileNotFoundException e) {}
+                } catch (FileNotFoundException e) {
+                    throw new TemplateException("Template file: " + file.getName()+ " not found");
+                }
 
                 byte[] data = new byte[(int) file.length()];
 
@@ -39,22 +39,34 @@ public class TemplateFactory {
                     fis.read(data);
                     fis.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    throw new TemplateException("IOException when loading template file: " + file.getName());
                 }
 
                 String str = null;
                 try {
                     str = new String(data, "UTF-8");
                 } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
+                    throw new TemplateException("Unsupported Encoding when loading template file: " + file.getName());
                 }
 
                 templateFiles.put(file.getName(), str);
             }
         }
 
-        //switch maken en door alle templates loopen
-        Template template = new PLSQLTemplate(templateFiles, templateName);
+        return initiate(templateFiles, templateName);
+    }
+
+    private static Template initiate(Map<String, String> templateFiles, String templateName){
+
+        Template template;
+        switch (templateName) {
+            case "plsql":
+                template = new PLSQLTemplate(templateFiles, templateName);
+                break;
+            default:
+                template = new DefaultTemplate(templateFiles, templateName);
+                break;
+        }
 
         return template;
     }
