@@ -2,6 +2,7 @@ package businessRuleGenerator.generator;
 
 import businessRuleGenerator.domain.BusinessRule;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -9,6 +10,6 @@ import java.util.ArrayList;
  */
 public interface BusinessRuleGenerator {
 
-    public String generate(ArrayList<BusinessRule> businessRules);
+    public String generate(ArrayList<BusinessRule> businessRules) throws IOException;
 
 }
