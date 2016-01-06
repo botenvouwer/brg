@@ -33,6 +33,7 @@ public class BusinessRuleGeneratorService {
     ServletContext servletContext;
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     public Response index(){
 
         BusinessRule rule = new BusinessRule();
@@ -75,8 +76,6 @@ public class BusinessRuleGeneratorService {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        ret = "<pre>"+ret+"</pre>";
 
         JSONConverter jsonconv = new BusinessRuleConverter();
         jsonconv.importObject("wat");
