@@ -11,6 +11,14 @@ public class TemplateFactory {
 
     public static Template build(String templateDirectory, String templateName) throws TemplateException {
 
+        if(templateName == null || templateName.equals("")){
+            throw new TemplateException("templateName is not specified");
+        }
+
+        if(templateDirectory == null || templateDirectory.equals("")){
+            throw new TemplateException("templateDirectory is not specified");
+        }
+
         Map<String, String> templateFiles = new HashMap<String, String>();
 
         File templateDir = new File(templateDirectory+"\\"+templateName);
@@ -56,7 +64,7 @@ public class TemplateFactory {
         return initiate(templateFiles, templateName);
     }
 
-    private static Template initiate(Map<String, String> templateFiles, String templateName){
+    private static Template initiate(Map<String, String> templateFiles, String templateName) throws TemplateException {
 
         Template template;
         switch (templateName) {

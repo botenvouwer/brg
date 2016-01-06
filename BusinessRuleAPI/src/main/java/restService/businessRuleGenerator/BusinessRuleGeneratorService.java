@@ -28,7 +28,6 @@ import javax.ws.rs.core.Response;
 @Path("/bsn")
 public class BusinessRuleGeneratorService {
 
-
     @Context
     ServletContext servletContext;
 
@@ -266,7 +265,7 @@ public class BusinessRuleGeneratorService {
 
         String res = "";
         res += "template directory: "+ templateRoot;
-        res += "<br><br> " + template.body;
+        res += "<br><br> <pre>" + template;
 
         return Response.status(200).entity(res).build();
     }
