@@ -219,9 +219,10 @@ public class BusinessRuleGeneratorService {
     @GET
     @Path("/testThingy")
     public Response testThingy(){
-        JSONConverter jc = new BusinessRuleConverter();
-        jc.importObject("{}");
-        return  Response.status(200).entity("{}").build();
+        JSONConverter converter = new BusinessRuleConverter();
+        ArrayList<BusinessRule> list = (ArrayList<BusinessRule>) converter.importObject("{}");
+
+        return  Response.status(200).entity("<pre>"+list.get(0).toString()).build();
     }
 
     @GET

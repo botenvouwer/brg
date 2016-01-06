@@ -81,7 +81,10 @@ public class BusinessRuleConverter implements JSONConverter {
     }
 
     @Override
-    public void importObject(String json) {
+    public ArrayList<BusinessRule> importObject(String json) {
+
+        ArrayList<BusinessRule> businessRules = null;
+
         try {
 
         String teststr = "{\"businessRules\": [\n" +
@@ -139,20 +142,18 @@ public class BusinessRuleConverter implements JSONConverter {
             JSONObject brs = new JSONObject(teststr);
 
 
-            ArrayList<BusinessRule> businessRules = new ArrayList<BusinessRule>();
+            businessRules = new ArrayList<BusinessRule>();
             JSONArray businessrules = brs.getJSONArray("businessRules");
             for(int i = 0 ; i < businessrules.length() ; i++) {
                 JSONObject businessRule = businessrules.getJSONObject(i);
                 businessRules.add(getBusinessRuleFromJSON(businessRule));
             }
 
-            for(BusinessRule br : businessRules) {
-                System.out.println("business: " + br.CRUDmode);
-            }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        return businessRules;
 
     }
 

@@ -5,8 +5,8 @@ package businessRuleGenerator.domain;
  */
 public class DynamicAttribute {
     public String attribute;
-    public String foreignKey;
-    public String table;
+    public String foreignKey; //opt
+    public String table; //opt
 
     public DynamicAttribute(String attribute, String foreignKey, String table) {
         this.attribute = attribute;
@@ -16,5 +16,14 @@ public class DynamicAttribute {
 
     public DynamicAttribute() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "DynamicAttribute{" +
+                "attribute='" + attribute + '\'' +
+                ", foreignKey='" + foreignKey + '\'' +
+                ", table='" + table + '\'' +
+                '}';
     }
 }

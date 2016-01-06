@@ -15,4 +15,12 @@ public class StaticAttribute {
     public StaticAttribute() {
 
     }
+
+    @Override
+    public String toString() {
+        return "StaticAttribute{" +
+                "value='" + value + '\'' +
+                ", dataType='" + dataType + '\'' +
+                '}';
+    }
 }

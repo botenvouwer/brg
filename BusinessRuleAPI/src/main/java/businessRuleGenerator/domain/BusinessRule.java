@@ -14,8 +14,10 @@ public class BusinessRule {
     public String code;
     public String table;
     public String CRUDmode;
-    public String ruleDescription;
-    public String typeDescription;
+    public String ruleDescription; //opt
+    public String typeDescription; //opt
+
+    //op zijn minst 1 moet er zijn
     public ArrayList<Statement> statements = new ArrayList<Statement>();
 
     public BusinessRule(String category, String type, String code, String table, String CRUDmode, String ruleDescription, String typeDescription, ArrayList<Statement> statements) {
@@ -41,7 +43,17 @@ public class BusinessRule {
         return statements;
     }
 
-    public String toString(){
-        return "boeh";
+    @Override
+    public String toString() {
+        return "BusinessRule{" +
+                "category='" + category + '\'' +
+                ", type='" + type + '\'' +
+                ", code='" + code + '\'' +
+                ", table='" + table + '\'' +
+                ", CRUDmode='" + CRUDmode + '\'' +
+                ", ruleDescription='" + ruleDescription + '\'' +
+                ", typeDescription='" + typeDescription + '\'' +
+                ", statements=" + statements +
+                '}';
     }
 }

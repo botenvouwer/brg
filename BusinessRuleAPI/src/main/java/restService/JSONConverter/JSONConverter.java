@@ -7,7 +7,7 @@ import org.json.JSONObject;
  */
 public interface JSONConverter {
 
-    public void importObject(String json);
+    public Object importObject(String json);
     public JSONObject exportObject(Object object);
 
 }

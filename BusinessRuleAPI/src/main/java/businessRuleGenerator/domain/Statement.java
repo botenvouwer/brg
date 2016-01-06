@@ -7,7 +7,9 @@ public class Statement {
     public String attribute;
     public int order;
     public String logicalOperator;
-    public String comparisonOperator;
+    public String comparisonOperator; //opt
+
+    //Een van deze twee moet zijn gevult
     public DynamicAttribute dynamicAttribute;
     public StaticAttribute staticAttribute;
 
@@ -22,5 +24,17 @@ public class Statement {
 
     public Statement() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "Statement{" +
+                "attribute='" + attribute + '\'' +
+                ", order=" + order +
+                ", logicalOperator='" + logicalOperator + '\'' +
+                ", comparisonOperator='" + comparisonOperator + '\'' +
+                ", dynamicAttribute=" + dynamicAttribute +
+                ", staticAttribute=" + staticAttribute +
+                '}';
     }
 }
