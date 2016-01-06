@@ -1,13 +1,18 @@
 package restService.businessRuleGenerator;
 
 import businessRuleGenerator.domain.BusinessRule;
+import businessRuleGenerator.template.Template;
+import businessRuleGenerator.template.TemplateException;
+import businessRuleGenerator.template.TemplateFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 import restService.JSONConverter.BusinessRuleConverter;
 import restService.JSONConverter.JSONConverter;
 
+import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
 /**
@@ -16,6 +21,10 @@ import javax.ws.rs.core.Response;
 
 @Path("/bsn")
 public class BusinessRuleGeneratorService {
+
+
+    @Context
+    ServletContext servletContext;
 
     @GET
     public Response index(){
@@ -111,6 +120,29 @@ public class BusinessRuleGeneratorService {
         //res = "<pre>"+res+"</pre>";
 
         return  Response.status(200).entity(res).build();
+    }
+
+    @GET
+    @Path("runningdir")
+    public Response getRunDir(){
+
+        String res = System.getProperty( "catalina.base" );
+
+        String root = servletContext.getContextPath();
+        String root2 = servletContext.getRealPath("templates");
+
+        res += "<br><br> deze: "+ root+"<br><br> of die: "+ root2;
+
+        Template temp = null;
+        try {
+            temp = TemplateFactory.build(root2, "plsql");
+        } catch (TemplateException e) {
+            e.printStackTrace();
+        }
+
+        res += "<br><br> " + temp.body;
+
+        return Response.status(200).entity(res).build();
     }
 
 
