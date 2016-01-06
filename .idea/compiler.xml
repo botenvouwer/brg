@@ -31,10 +31,8 @@
         <module name="BusinessRuleAPI" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="BusinessRuleAPI" target="1.6" />
-      <module name="restApi" target="1.5" />
-      <module name="RESTfulExample" target="1.6" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="BusinessRuleAPI" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
