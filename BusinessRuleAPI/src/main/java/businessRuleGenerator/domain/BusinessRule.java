@@ -32,6 +32,14 @@ public class BusinessRule {
 
     }
 
+    public void addStatements(ArrayList<Statement> statements) {
+        this.statements = statements;
+    }
+
+    public ArrayList<Statement> getStatements() {
+        return statements;
+    }
+
     public String toString(){
         return "boeh";
     }

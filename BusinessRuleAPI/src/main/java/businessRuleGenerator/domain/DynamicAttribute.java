@@ -8,7 +8,9 @@ public class DynamicAttribute {
     public String foreignKey;
     public String table;
 
-    public DynamicAttribute() {
-
+    public DynamicAttribute(String attribute, String foreignKey, String table) {
+        this.attribute = attribute;
+        this.foreignKey = foreignKey;
+        this.table = table;
     }
 }

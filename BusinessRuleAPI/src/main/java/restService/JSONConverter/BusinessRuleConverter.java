@@ -1,7 +1,9 @@
 package restService.JSONConverter;
 
 import businessRuleGenerator.domain.BusinessRule;
+import businessRuleGenerator.domain.DynamicAttribute;
 import businessRuleGenerator.domain.Statement;
+import businessRuleGenerator.domain.StaticAttribute;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,13 +18,12 @@ public class BusinessRuleConverter implements JSONConverter {
 
     private Statement getStatementFromJSON(JSONObject obj) {
         try {
-            int code = obj.getInt("code");
             String attribute = obj.getString("attribute");
             int order = obj.getInt("order");
             String logicalOperator = obj.getString("logicalOperator");
             String comparisonOperator = obj.getString("comparisonOperator");
 
-            return new Statement(code, attribute, order, logicalOperator, comparisonOperator);
+            return new Statement(attribute, order, logicalOperator, comparisonOperator, new DynamicAttribute("", "",""), new StaticAttribute("",""));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,6 +1,9 @@
 package restService.businessRuleGenerator;
 
 import businessRuleGenerator.domain.BusinessRule;
+import businessRuleGenerator.domain.DynamicAttribute;
+import businessRuleGenerator.domain.Statement;
+import businessRuleGenerator.domain.StaticAttribute;
 import businessRuleGenerator.template.Template;
 import businessRuleGenerator.template.TemplateException;
 import businessRuleGenerator.template.TemplateFactory;
@@ -9,6 +12,7 @@ import org.json.JSONObject;
 import restService.JSONConverter.BusinessRuleConverter;
 import restService.JSONConverter.JSONConverter;
 
+import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -78,6 +82,58 @@ public class BusinessRuleGeneratorService {
         jsonconv.importObject("wat");
 
         return  Response.status(200).entity(ret).build();
+
+    }
+
+    @GET
+    @Path("/example")
+    public Response example() {
+
+        BusinessRule rule = new BusinessRule("category_test", "type_test", "code_test", "table_test", "CRUD_test", "ruleDesc_test", "typeDesc_test");
+
+        StaticAttribute sta1 = new StaticAttribute("30", "int");
+        DynamicAttribute da1 = new DynamicAttribute("attribute_test", "test_foreignKey", "tableTest");
+        Statement statement0 = new Statement("attribute_test", 0, "logicalOperator_test", "comparisonOperator_test", da1, sta1);
+        Statement statement1 = new Statement("attribute_test12", 0, "logicalOperator_test12", "comparisonOperator_test12", da1, sta1);
+        Statement statement2 = new Statement("attribute2", 0, "logicalOperator2", "comparisonOperator2", da1, sta1);
+
+        JSONObject br = new JSONObject();
+        String result = null;
+        try {
+            br.put("category", rule.category);
+            br.put("type", rule.type);
+            br.put("code", rule.code);
+            br.put("table", rule.table);
+            br.put("CRUDmode", rule.CRUDmode);
+            br.put("ruleDescription", rule.ruleDescription);
+            br.put("typeDescription", rule.typeDescription);
+
+            JSONObject statements = new JSONObject();
+            statements.put("attribute", statement0.attribute);
+            statements.put("order", statement0.order);
+            statements.put("logicalOperator", statement0.logicalOperator);
+            statements.put("comparisonOperator", statement0.comparisonOperator);
+
+            JSONObject dynamicAttribute0 = new JSONObject();
+            dynamicAttribute0.put("attribute", da1.attribute);
+            dynamicAttribute0.put("foreignKey", da1.foreignKey);
+            dynamicAttribute0.put("table", da1.table);
+            statements.put("dynamicAttribute", dynamicAttribute0);
+
+            JSONObject staticAttribute0 = new JSONObject();
+            staticAttribute0.put("value", sta1.value);
+            staticAttribute0.put("dataType", sta1.dataType);
+            statements.put("staticAttribute", staticAttribute0);
+
+            br.append("statements", statements);
+
+            result = br.toString(4);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return  Response.status(200).entity(result).build();
 
     }
 
