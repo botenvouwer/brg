@@ -8,6 +8,8 @@ import restService.JSONConverter.JSONConverter;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
@@ -68,6 +70,41 @@ public class BusinessRuleGeneratorService {
 
         return  Response.status(200).entity(ret).build();
 
+    }
+
+    @GET
+    @Path("/raw")
+    public Response rawResponse(){
+        String tekst = "create or replace trigger \"VBMG_KLANTEN_T1\"\n" +
+                "        BEFORE\n" +
+                "        insert or update on \"VBMG_KLANTEN\"\n" +
+                "        for each row\n" +
+                "        begin\n" +
+                "\n" +
+                "        IF :new.GESLACHT NOT IN('M', 'V', 'O') THEN\n" +
+                "        raise_application_error(-20001, 'error rule overtreden');\n" +
+                "        END IF;\n" +
+                "\n" +
+                "        end;";
+
+        return  Response.status(200).entity(tekst).build();
+    }
+
+    @GET
+    @Path("/simple")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response simpleResponse(){
+        String result = null;
+        try {
+        JSONObject simple = new JSONObject();
+
+            simple.put("testeasy1", "dit_is_makkelijk");
+            simple.put("testeasy2", "12321");
+            result = simple.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return  Response.status(200).entity(result).build();
     }
 
     @GET
