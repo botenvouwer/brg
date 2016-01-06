@@ -87,6 +87,7 @@ public class BusinessRuleGeneratorService {
 
     @GET
     @Path("/example")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response example() {
 
         BusinessRule rule = new BusinessRule("category_test", "type_test", "code_test", "table_test", "CRUD_test", "ruleDesc_test", "typeDesc_test");
@@ -96,6 +97,8 @@ public class BusinessRuleGeneratorService {
         Statement statement0 = new Statement("attribute_test", 0, "logicalOperator_test", "comparisonOperator_test", da1, sta1);
         Statement statement1 = new Statement("attribute_test12", 0, "logicalOperator_test12", "comparisonOperator_test12", da1, sta1);
         Statement statement2 = new Statement("attribute2", 0, "logicalOperator2", "comparisonOperator2", da1, sta1);
+
+        JSONObject businessRules = new JSONObject();
 
         JSONObject br = new JSONObject();
         String result = null;
@@ -127,7 +130,40 @@ public class BusinessRuleGeneratorService {
 
             br.append("statements", statements);
 
-            result = br.toString(4);
+
+        JSONObject br2 = new JSONObject();
+
+            br2.put("category", rule.category);
+            br2.put("type", rule.type);
+            br2.put("code", rule.code);
+            br2.put("table", rule.table);
+            br2.put("CRUDmode", rule.CRUDmode);
+            br2.put("ruleDescription", rule.ruleDescription);
+            br2.put("typeDescription", rule.typeDescription);
+
+            JSONObject statements2 = new JSONObject();
+            statements2.put("attribute", statement0.attribute);
+            statements2.put("order", statement0.order);
+            statements2.put("logicalOperator", statement0.logicalOperator);
+            statements2.put("comparisonOperator", statement0.comparisonOperator);
+
+            JSONObject dynamicAttribute1 = new JSONObject();
+            dynamicAttribute1.put("attribute", da1.attribute);
+            dynamicAttribute1.put("foreignKey", da1.foreignKey);
+            dynamicAttribute1.put("table", da1.table);
+            statements2.put("dynamicAttribute", dynamicAttribute1);
+
+            JSONObject staticAttribute1 = new JSONObject();
+            staticAttribute1.put("value", sta1.value);
+            staticAttribute1.put("dataType", sta1.dataType);
+            statements2.put("staticAttribute", staticAttribute1);
+
+            br2.append("statements", statements2);
+
+            businessRules.append("businessRules", br);
+            businessRules.append("businessRules", br2);
+
+            result = businessRules.toString(4);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -165,7 +201,7 @@ public class BusinessRuleGeneratorService {
 
             simple.put("testeasy1", "dit_is_makkelijk");
             simple.put("testeasy2", "12321");
-            result = simple.toString();
+            result = simple.toString(4);
         } catch (JSONException e) {
             e.printStackTrace();
         }
