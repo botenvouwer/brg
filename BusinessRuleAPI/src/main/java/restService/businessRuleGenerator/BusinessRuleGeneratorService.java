@@ -264,21 +264,19 @@ public class BusinessRuleGeneratorService {
     @Path("runningdir")
     public Response getRunDir(){
 
-        String res = System.getProperty( "catalina.base" );
+        //haal het path naar de template directory op
+        String templateRoot = servletContext.getRealPath("templates");
 
-        String root = servletContext.getContextPath();
-        String root2 = servletContext.getRealPath("templates");
-
-        res += "<br><br> deze: "+ root+"<br><br> of die: "+ root2;
-
-        Template temp = null;
+        Template template = null;
         try {
-            temp = TemplateFactory.build(root2, "plsql");
-        } catch (TemplateException e) {
+            template = TemplateFactory.build(templateRoot, "plsql");
+        } catch (TemplateException e){
             e.printStackTrace();
         }
 
-        res += "<br><br> " + temp.body;
+        String res = "";
+        res += "template directory: "+ templateRoot;
+        res += "<br><br> " + template.body;
 
         return Response.status(200).entity(res).build();
     }
