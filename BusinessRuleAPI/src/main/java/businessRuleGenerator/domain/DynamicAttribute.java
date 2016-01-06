@@ -13,4 +13,8 @@ public class DynamicAttribute {
         this.foreignKey = foreignKey;
         this.table = table;
     }
+
+    public DynamicAttribute() {
+
+    }
 }
