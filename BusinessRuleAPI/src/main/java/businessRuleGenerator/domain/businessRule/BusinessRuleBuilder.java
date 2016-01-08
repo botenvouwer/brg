@@ -4,9 +4,7 @@ import businessRuleGenerator.domain.Validator;
 import businessRuleGenerator.domain.ValidatorException;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by melvin on 8-1-2016.
@@ -75,16 +73,23 @@ public class BusinessRuleBuilder implements Validator {
 
     @Override
     public void validate() throws ValidatorException {
+        Map<String, String> attributes = new HashMap<String, String>();
+        attributes.put("category", category);
+        attributes.put("type", type);
+        attributes.put("code", code);
+        attributes.put("table", table);
+        attributes.put("CRUDmode", CRUDmode);
 
-        //if(statements.size() == 0) throw new ValidatorException("A valid businessrule requires atleast 1 statement.");
+        for(Map.Entry<String, String> attribute : attributes.entrySet()) if(attribute.getValue() == null) throw new ValidatorException("A valid businessrule requires a " + attribute.getKey());
+        if(statements.size() == 0) throw new ValidatorException("A valid businessrule requires atleast 1 statement.");
 
-        for(Field f : BusinessRuleBuilder.class.getFields()) {
-            System.out.println("Name: " + f.getName());
-        }
+        Set<Integer> set = new HashSet<Integer>();
+        for(Statement s : statements) set.add(s.order);
+        if(set.size() < statements.size()) throw new ValidatorException("Found duplicates in statement-order values.\nA valid businessrule requires statements with unique order-values");
     }
 
     public BusinessRule build() throws ValidatorException {
         validate();
-        return new BusinessRule(category, type, code, table, CRUDmode, ruleDescription, typeDescription, statements);
+        return new BusinessRule(category, type, code, table, CRUDmode, ruleDescription, typeDescription, statements, errorMessage);
     }
 }
