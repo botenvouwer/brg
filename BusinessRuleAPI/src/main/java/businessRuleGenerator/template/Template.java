@@ -16,10 +16,25 @@ public abstract class Template {
     public Map<String, String> dataType;
     public Map<String, String> stringOperator;
 
-    public Template(Map<String, String> templateData, String name) throws TemplateException {
+    public Template(){
+
+    }
+
+    public Template(String name, Map<String, String> templateData) throws TemplateException {
         this.name = name;
         body = templateData.get("body");
         statement = templateData.get("statement");
+        comparisonOperator = loadList(templateData.get("comparisonOperators"));
+        logicalOperator = loadList(templateData.get("logicalOperators"));
+        dataType = loadList(templateData.get("dataTypes"));
+        stringOperator = loadList(templateData.get("stringOperators"));
+    }
+
+    public void validate() throws TemplateException {
+
+        if(name == null || name.equals("")){
+            throw new TemplateException("templateName is not specified");
+        }
 
         if(body == null || body.equals("")){
             throw new TemplateException("Template "+ name +" does not contain body template");
@@ -28,11 +43,6 @@ public abstract class Template {
         if(statement == null || statement.equals("")){
             throw new TemplateException("Template "+ name +" does not contain statement template");
         }
-
-        comparisonOperator = loadList(templateData.get("comparisonOperators"));
-        logicalOperator = loadList(templateData.get("logicalOperators"));
-        dataType = loadList(templateData.get("dataTypes"));
-        stringOperator = loadList(templateData.get("stringOperators"));
 
         if(comparisonOperator == null || comparisonOperator.size() == 0){
             throw new TemplateException("Template "+ name +" does not contain comparisonOperators");
@@ -54,6 +64,8 @@ public abstract class Template {
 
     protected Map<String, String> loadList(String templateFile) throws TemplateException {
         Map<String, String> list = new HashMap<String, String>();
+
+        //todo: hufter proof maken zodat er geen exception meer nodig is
         try {
             String[] splitList = templateFile.split("\\r");
 

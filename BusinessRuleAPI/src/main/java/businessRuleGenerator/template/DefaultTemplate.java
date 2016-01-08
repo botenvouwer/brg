@@ -7,7 +7,7 @@ import java.util.Map;
  */
 public class DefaultTemplate extends Template {
 
-    public DefaultTemplate(Map<String, String> templateData, String name) throws TemplateException {
-        super(templateData, name);
+    public DefaultTemplate(String name, Map<String, String> templateData) throws TemplateException {
+        super(name, templateData);
     }
 }

@@ -24,7 +24,7 @@ public class TemplateFactory {
         File templateDir = new File(templateDirectory+"\\"+templateName);
 
         if(!templateDir.exists() || !templateDir.isDirectory()){
-            throw new TemplateException("Template '"+templateName+"' not found");
+            throw new TemplateException("Template '"+templateName+"' not found in: "+templateDir.getAbsolutePath());
         }
 
         File[] listOfFiles = templateDir.listFiles();
@@ -61,20 +61,22 @@ public class TemplateFactory {
             }
         }
 
-        return initiate(templateFiles, templateName);
+        return initiate(templateName, templateFiles);
     }
 
-    private static Template initiate(Map<String, String> templateFiles, String templateName) throws TemplateException {
+    private static Template initiate(String templateName, Map<String, String> templateFiles) throws TemplateException {
 
         Template template;
         switch (templateName) {
             case "plsql":
-                template = new PLSQLTemplate(templateFiles, templateName);
+                template = new PLSQLTemplate(templateName, templateFiles);
                 break;
             default:
-                template = new DefaultTemplate(templateFiles, templateName);
+                template = new DefaultTemplate(templateName, templateFiles);
                 break;
         }
+
+        template.validate();
 
         return template;
     }

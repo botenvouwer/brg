@@ -7,8 +7,8 @@ import java.util.Map;
  */
 public class PLSQLTemplate extends Template {
 
-    public PLSQLTemplate(Map<String, String> templateData, String name) throws TemplateException {
-        super(templateData, name);
+    public PLSQLTemplate(String name, Map<String, String> templateData) throws TemplateException {
+        super(name, templateData);
     }
 
 }
