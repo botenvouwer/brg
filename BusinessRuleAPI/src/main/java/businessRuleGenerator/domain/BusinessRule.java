@@ -4,6 +4,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by melvin on 18-12-2015.
@@ -41,6 +43,14 @@ public class BusinessRule {
 
     public ArrayList<Statement> getStatements() {
         return statements;
+    }
+
+    private void sortStatements() {
+        Collections.sort(statements, new Comparator<Statement>() {
+            @Override public int compare(Statement s1, Statement s2) {
+                return s1.order - s2.order; // Ascending
+            }
+        });
     }
 
     @Override
