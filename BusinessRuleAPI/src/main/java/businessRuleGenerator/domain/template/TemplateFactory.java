@@ -1,5 +1,7 @@
 package businessRuleGenerator.domain.template;
 
+import businessRuleGenerator.domain.ValidatorException;
+
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +11,7 @@ import java.util.Map;
  */
 public class TemplateFactory {
 
-    public static Template build(String templateDirectory, String templateName) throws TemplateException {
+    public static Template build(String templateDirectory, String templateName) throws TemplateException, ValidatorException {
 
         if(templateName == null || templateName.equals("")){
             throw new TemplateException("templateName is not specified");
@@ -64,7 +66,7 @@ public class TemplateFactory {
         return initiate(templateName, templateFiles);
     }
 
-    private static Template initiate(String templateName, Map<String, String> templateFiles) throws TemplateException {
+    private static Template initiate(String templateName, Map<String, String> templateFiles) throws TemplateException, ValidatorException {
 
         Template template;
         switch (templateName) {
