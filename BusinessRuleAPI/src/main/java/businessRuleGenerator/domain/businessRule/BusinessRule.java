@@ -18,6 +18,7 @@ public class BusinessRule implements Validator{
     public String CRUDmode;
     public String ruleDescription; //opt
     public String typeDescription; //opt
+    public String errorMessage;
 
     //op zijn minst 1 moet er zijn
     private ArrayList<Statement> statements = new ArrayList<Statement>();
@@ -48,6 +49,14 @@ public class BusinessRule implements Validator{
                 return s1.order - s2.order; // Ascending
             }
         });
+    }
+
+    public void setStatements(ArrayList<Statement> statements) {
+        this.statements = statements;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 
     @Override
