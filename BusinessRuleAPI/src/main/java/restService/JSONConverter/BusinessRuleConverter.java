@@ -1,5 +1,4 @@
 package restService.JSONConverter;
-
 import businessRuleGenerator.domain.BusinessRule;
 import businessRuleGenerator.domain.DynamicAttribute;
 import businessRuleGenerator.domain.Statement;
@@ -9,7 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by melvin on 28-12-2015.
@@ -17,6 +15,7 @@ import java.util.List;
 public class BusinessRuleConverter implements JSONConverter {
 
     private BusinessRule getBusinessRuleFromJSON(JSONObject obj) {
+
         try {
             String category = obj.getString("category");
             String type = obj.getString("type");
@@ -28,14 +27,15 @@ public class BusinessRuleConverter implements JSONConverter {
 
             ArrayList<Statement> statements = new ArrayList<Statement>();
             JSONArray statementsJSON = obj.getJSONArray("statements");
-            for(int i = 0 ; i < statementsJSON.length() ; i++) {
+            for (int i = 0; i < statementsJSON.length(); i++) {
                 JSONObject statement = statementsJSON.getJSONObject(i);
                 statements.add(getStatementFromJSON(statement));
             }
 
             return new BusinessRule(category, type, code, table, CRUDmode, ruleDescription, typeDescription, statements);
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        } catch(Exception jce) {
+
         }
         return new BusinessRule();
     }

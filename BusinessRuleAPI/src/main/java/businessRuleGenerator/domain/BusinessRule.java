@@ -31,14 +31,11 @@ public class BusinessRule {
         this.ruleDescription = ruleDescription;
         this.typeDescription = typeDescription;
         this.statements = statements;
+        sortStatements();
     }
 
     public BusinessRule() {
 
-    }
-
-    public void addStatements(ArrayList<Statement> statements) {
-        this.statements = statements;
     }
 
     public ArrayList<Statement> getStatements() {
