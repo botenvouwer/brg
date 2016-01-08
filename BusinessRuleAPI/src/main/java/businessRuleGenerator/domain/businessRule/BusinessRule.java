@@ -1,7 +1,7 @@
-package businessRuleGenerator.domain;
+package businessRuleGenerator.domain.businessRule;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import businessRuleGenerator.domain.Validator;
+import businessRuleGenerator.domain.ValidatorException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,7 +10,7 @@ import java.util.Comparator;
 /**
  * Created by melvin on 18-12-2015.
  */
-public class BusinessRule {
+public class BusinessRule implements Validator{
     public String category;
     public String type;
     public String code;
@@ -20,7 +20,7 @@ public class BusinessRule {
     public String typeDescription; //opt
 
     //op zijn minst 1 moet er zijn
-    public ArrayList<Statement> statements = new ArrayList<Statement>();
+    private ArrayList<Statement> statements = new ArrayList<Statement>();
 
     public BusinessRule(String category, String type, String code, String table, String CRUDmode, String ruleDescription, String typeDescription, ArrayList<Statement> statements) {
         this.category = category;
@@ -62,5 +62,10 @@ public class BusinessRule {
                 ", typeDescription='" + typeDescription + '\'' +
                 ", statements=" + statements +
                 '}';
+    }
+
+    @Override
+    public void validate() throws ValidatorException {
+
     }
 }

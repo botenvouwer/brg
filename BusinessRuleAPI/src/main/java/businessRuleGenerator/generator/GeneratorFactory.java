@@ -1,6 +1,6 @@
 package businessRuleGenerator.generator;
 
-import businessRuleGenerator.template.Template;
+import businessRuleGenerator.domain.template.Template;
 
 /**
  * Created by melvin on 28-12-2015.

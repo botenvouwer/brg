@@ -1,20 +1,35 @@
 package restService.JSONConverter;
-import businessRuleGenerator.domain.BusinessRule;
-import businessRuleGenerator.domain.DynamicAttribute;
-import businessRuleGenerator.domain.Statement;
-import businessRuleGenerator.domain.StaticAttribute;
+import businessRuleGenerator.domain.businessRule.BusinessRule;
+import businessRuleGenerator.domain.businessRule.DynamicAttribute;
+import businessRuleGenerator.domain.businessRule.Statement;
+import businessRuleGenerator.domain.businessRule.StaticAttribute;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by melvin on 28-12-2015.
  */
 public class BusinessRuleConverter implements JSONConverter {
 
-    private BusinessRule getBusinessRuleFromJSON(JSONObject obj) {
+    private BusinessRule getBusinessRuleFromJSON(JSONObject obj) throws JSONConverterException {
+
+        ArrayList<String> keyList = new ArrayList<String>();
+        keyList.add("category");
+        keyList.add("type");
+        keyList.add("code");
+        keyList.add("table");
+        keyList.add("CRUDmode");
+
+        for (String key : keyList){
+            if(obj.has(key)){
+                throw new JSONConverterException("Kan verwacht veld niet vinden met sluitel: "+ key);
+            }
+        }
 
         try {
             String category = obj.getString("category");
@@ -22,8 +37,16 @@ public class BusinessRuleConverter implements JSONConverter {
             String code = obj.getString("code");
             String table = obj.getString("table");
             String CRUDmode = obj.getString("CRUDmode");
-            String ruleDescription = obj.getString("ruleDescription");
-            String typeDescription = obj.getString("typeDescription");
+
+            String ruleDescription = null;
+            if(obj.has("ruleDescription")){
+                ruleDescription = obj.getString("ruleDescription");
+            }
+
+            String typeDescription = null;
+            if(obj.has("typeDescription")) {
+                typeDescription = obj.getString("typeDescription");
+            }
 
             ArrayList<Statement> statements = new ArrayList<Statement>();
             JSONArray statementsJSON = obj.getJSONArray("statements");
@@ -34,10 +57,9 @@ public class BusinessRuleConverter implements JSONConverter {
 
             return new BusinessRule(category, type, code, table, CRUDmode, ruleDescription, typeDescription, statements);
 
-        } catch(Exception jce) {
-
+        } catch(JSONException jce) {
+            throw new JSONConverterException("kan veld niet vinden controleer jes json");
         }
-        return new BusinessRule();
     }
 
     private Statement getStatementFromJSON(JSONObject obj) {
@@ -81,7 +103,7 @@ public class BusinessRuleConverter implements JSONConverter {
     }
 
     @Override
-    public ArrayList<BusinessRule> importObject(String json) {
+    public ArrayList<BusinessRule> importObject(String json) throws JSONConverterException {
 
         ArrayList<BusinessRule> businessRules = null;
 

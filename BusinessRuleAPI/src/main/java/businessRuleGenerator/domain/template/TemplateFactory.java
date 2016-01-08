@@ -1,4 +1,4 @@
-package businessRuleGenerator.template;
+package businessRuleGenerator.domain.template;
 
 import java.io.*;
 import java.util.HashMap;

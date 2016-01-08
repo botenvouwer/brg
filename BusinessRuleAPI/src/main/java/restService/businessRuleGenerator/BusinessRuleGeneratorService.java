@@ -1,18 +1,17 @@
 package restService.businessRuleGenerator;
 
-import businessRuleGenerator.domain.BusinessRule;
-import businessRuleGenerator.domain.DynamicAttribute;
-import businessRuleGenerator.domain.Statement;
-import businessRuleGenerator.domain.StaticAttribute;
-import businessRuleGenerator.template.Template;
-import businessRuleGenerator.template.TemplateException;
-import businessRuleGenerator.template.TemplateFactory;
+import businessRuleGenerator.domain.businessRule.BusinessRule;
+import businessRuleGenerator.domain.businessRule.DynamicAttribute;
+import businessRuleGenerator.domain.businessRule.Statement;
+import businessRuleGenerator.domain.businessRule.StaticAttribute;
+import businessRuleGenerator.domain.template.Template;
+import businessRuleGenerator.domain.template.TemplateException;
+import businessRuleGenerator.domain.template.TemplateFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 import restService.JSONConverter.BusinessRuleConverter;
 import restService.JSONConverter.JSONConverter;
 
-import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

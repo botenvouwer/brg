@@ -1,4 +1,4 @@
-package businessRuleGenerator.domain;
+package businessRuleGenerator.domain.businessRule;
 
 /**
  * Created by melvin on 28-12-2015.

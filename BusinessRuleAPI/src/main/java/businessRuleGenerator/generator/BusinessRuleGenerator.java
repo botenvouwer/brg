@@ -1,8 +1,8 @@
 package businessRuleGenerator.generator;
 
-import businessRuleGenerator.domain.BusinessRule;
-import businessRuleGenerator.template.Template;
-import businessRuleGenerator.template.TemplateException;
+import businessRuleGenerator.domain.businessRule.BusinessRule;
+import businessRuleGenerator.domain.template.Template;
+import businessRuleGenerator.domain.template.TemplateException;
 
 import java.io.IOException;
 import java.util.ArrayList;
