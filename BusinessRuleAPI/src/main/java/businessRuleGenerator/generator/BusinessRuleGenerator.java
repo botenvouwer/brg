@@ -1,6 +1,8 @@
 package businessRuleGenerator.generator;
 
 import businessRuleGenerator.domain.BusinessRule;
+import businessRuleGenerator.template.Template;
+import businessRuleGenerator.template.TemplateException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,8 +10,14 @@ import java.util.ArrayList;
 /**
  * Created by melvin on 28-12-2015.
  */
-public interface BusinessRuleGenerator {
+public abstract class BusinessRuleGenerator{
 
-    public String generate(ArrayList<BusinessRule> businessRules) throws IOException;
+    Template template;
+
+    public BusinessRuleGenerator(Template template){
+        this.template = template;
+    }
+
+    public abstract String generate(ArrayList<BusinessRule> businessRules) throws IOException, GeneratorException, TemplateException;
 
 }
