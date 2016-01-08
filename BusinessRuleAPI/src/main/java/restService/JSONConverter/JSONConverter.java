@@ -1,5 +1,6 @@
 package restService.JSONConverter;
 
+import businessRuleGenerator.domain.ValidatorException;
 import org.json.JSONObject;
 
 /**
@@ -7,7 +8,7 @@ import org.json.JSONObject;
  */
 public interface JSONConverter {
 
-    public Object importObject(String json) throws JSONConverterException;
+    public Object importObject(String json) throws JSONConverterException, ValidatorException;
     public JSONObject exportObject(Object object);
 
 }

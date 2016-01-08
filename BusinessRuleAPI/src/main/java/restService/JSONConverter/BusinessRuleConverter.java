@@ -1,8 +1,6 @@
 package restService.JSONConverter;
-import businessRuleGenerator.domain.businessRule.BusinessRule;
-import businessRuleGenerator.domain.businessRule.DynamicAttribute;
-import businessRuleGenerator.domain.businessRule.Statement;
-import businessRuleGenerator.domain.businessRule.StaticAttribute;
+import businessRuleGenerator.domain.ValidatorException;
+import businessRuleGenerator.domain.businessRule.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,8 +14,9 @@ import java.util.Map;
  */
 public class BusinessRuleConverter implements JSONConverter {
 
-    private BusinessRule getBusinessRuleFromJSON(JSONObject obj) throws JSONConverterException {
+    private BusinessRule getBusinessRuleFromJSON(JSONObject obj) throws JSONConverterException, ValidatorException {
 
+        /*
         ArrayList<String> keyList = new ArrayList<String>();
         keyList.add("category");
         keyList.add("type");
@@ -30,7 +29,7 @@ public class BusinessRuleConverter implements JSONConverter {
                 throw new JSONConverterException("Kan verwacht veld niet vinden met sluitel: "+ key);
             }
         }
-
+        */
         try {
             String category = obj.getString("category");
             String type = obj.getString("type");
@@ -55,7 +54,8 @@ public class BusinessRuleConverter implements JSONConverter {
                 statements.add(getStatementFromJSON(statement));
             }
 
-            return new BusinessRule(category, type, code, table, CRUDmode, ruleDescription, typeDescription, statements);
+            //return new BusinessRule(category, type, code, table, CRUDmode, ruleDescription, typeDescription, statements);
+            return new BusinessRuleBuilder().setCategory(category).setType(type).setCode(code).setTable(table).setCRUDmode(CRUDmode).setRuleDescription(ruleDescription).setTypeDescription(typeDescription).setStatements(statements).build();
 
         } catch(JSONException jce) {
             throw new JSONConverterException("kan veld niet vinden controleer jes json");
@@ -103,7 +103,7 @@ public class BusinessRuleConverter implements JSONConverter {
     }
 
     @Override
-    public ArrayList<BusinessRule> importObject(String json) throws JSONConverterException {
+    public ArrayList<BusinessRule> importObject(String json) throws JSONConverterException, ValidatorException {
 
         ArrayList<BusinessRule> businessRules = null;
 
