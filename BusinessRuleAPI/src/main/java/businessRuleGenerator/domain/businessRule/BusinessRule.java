@@ -10,7 +10,7 @@ import java.util.Comparator;
 /**
  * Created by melvin on 18-12-2015.
  */
-public class BusinessRule implements Validator{
+public class BusinessRule {
     public String category;
     public String type;
     public String code;
@@ -23,7 +23,7 @@ public class BusinessRule implements Validator{
     //op zijn minst 1 moet er zijn
     private ArrayList<Statement> statements = new ArrayList<Statement>();
 
-    public BusinessRule(String category, String type, String code, String table, String CRUDmode, String ruleDescription, String typeDescription, ArrayList<Statement> statements) {
+    public BusinessRule(String category, String type, String code, String table, String CRUDmode, String ruleDescription, String typeDescription, ArrayList<Statement> statements, String errorMessage) {
         this.category = category;
         this.type = type;
         this.code = code;
@@ -32,6 +32,7 @@ public class BusinessRule implements Validator{
         this.ruleDescription = ruleDescription;
         this.typeDescription = typeDescription;
         this.statements = statements;
+        this.errorMessage = errorMessage;
         sortStatements();
     }
 
@@ -51,14 +52,6 @@ public class BusinessRule implements Validator{
         });
     }
 
-    public void setStatements(ArrayList<Statement> statements) {
-        this.statements = statements;
-    }
-
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
-
     @Override
     public String toString() {
         return "BusinessRule{" +
@@ -71,10 +64,5 @@ public class BusinessRule implements Validator{
                 ", typeDescription='" + typeDescription + '\'' +
                 ", statements=" + statements +
                 '}';
-    }
-
-    @Override
-    public void validate() throws ValidatorException {
-
     }
 }

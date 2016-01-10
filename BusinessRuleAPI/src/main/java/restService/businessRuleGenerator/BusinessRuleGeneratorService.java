@@ -1,5 +1,6 @@
 package restService.businessRuleGenerator;
 
+import businessRuleGenerator.domain.ValidatorException;
 import businessRuleGenerator.domain.businessRule.BusinessRule;
 import businessRuleGenerator.domain.businessRule.DynamicAttribute;
 import businessRuleGenerator.domain.businessRule.Statement;
@@ -11,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import restService.JSONConverter.BusinessRuleConverter;
 import restService.JSONConverter.JSONConverter;
+import restService.JSONConverter.JSONConverterException;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
@@ -33,7 +35,7 @@ public class BusinessRuleGeneratorService {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response index(){
+    public Response index() throws ValidatorException, JSONConverterException {
 
         BusinessRule rule = new BusinessRule();
         rule.category = "testcategory";
@@ -86,15 +88,15 @@ public class BusinessRuleGeneratorService {
     @GET
     @Path("/example")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response example() {
+    public Response example() throws ValidatorException {
 
-        BusinessRule rule = new BusinessRule("category_test", "type_test", "code_test", "table_test", "CRUD_test", "ruleDesc_test", "typeDesc_test", new ArrayList<Statement>());
+        BusinessRule rule = new BusinessRule("category_test", "type_test", "code_test", "table_test", "CRUD_test", "ruleDesc_test", "typeDesc_test", new ArrayList<Statement>(), null);
 
         StaticAttribute sta1 = new StaticAttribute("30", "int");
         DynamicAttribute da1 = new DynamicAttribute("attribute_test", "test_foreignKey", "tableTest");
-        Statement statement0 = new Statement("attribute_test", 0, "logicalOperator_test", "comparisonOperator_test", da1, sta1);
-        Statement statement1 = new Statement("attribute_test12", 0, "logicalOperator_test12", "comparisonOperator_test12", da1, sta1);
-        Statement statement2 = new Statement("attribute2", 0, "logicalOperator2", "comparisonOperator2", da1, sta1);
+        Statement statement0 = new Statement("attribute_test", 0, "logicalOperator_test", "comparisonOperator_test", null, sta1);
+        Statement statement1 = new Statement("attribute_test12", 0, "logicalOperator_test12", "comparisonOperator_test12", da1, null);
+        Statement statement2 = new Statement("attribute2", 0, "logicalOperator2", "comparisonOperator2", da1, null);
 
         JSONObject businessRules = new JSONObject();
 
@@ -124,7 +126,7 @@ public class BusinessRuleGeneratorService {
             JSONObject staticAttribute0 = new JSONObject();
             staticAttribute0.put("value", sta1.value);
             staticAttribute0.put("dataType", sta1.dataType);
-            statements.put("staticAttribute", staticAttribute0);
+            //statements.put("staticAttribute", staticAttribute0);
 
             br.append("statements", statements);
             br.append("statements", statements);
@@ -150,7 +152,7 @@ public class BusinessRuleGeneratorService {
             dynamicAttribute1.put("attribute", da1.attribute);
             dynamicAttribute1.put("foreignKey", da1.foreignKey);
             dynamicAttribute1.put("table", da1.table);
-            statements2.put("dynamicAttribute", dynamicAttribute1);
+            //statements2.put("dynamicAttribute", dynamicAttribute1);
 
             JSONObject staticAttribute1 = new JSONObject();
             staticAttribute1.put("value", sta1.value);
@@ -217,7 +219,7 @@ public class BusinessRuleGeneratorService {
 
     @GET
     @Path("/testThingy")
-    public Response testThingy(){
+    public Response testThingy() throws ValidatorException, JSONConverterException {
         JSONConverter converter = new BusinessRuleConverter();
         ArrayList<BusinessRule> list = (ArrayList<BusinessRule>) converter.importObject("{}");
 
@@ -261,7 +263,7 @@ public class BusinessRuleGeneratorService {
 
     @GET
     @Path("runningdir")
-    public Response getRunDir(){
+    public Response getRunDir() throws ValidatorException {
 
         //haal het path naar de template directory op
         String templateRoot = servletContext.getRealPath("templates");
