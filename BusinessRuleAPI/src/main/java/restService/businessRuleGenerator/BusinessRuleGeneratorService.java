@@ -311,7 +311,7 @@ public class BusinessRuleGeneratorService {
         ArrayList<Statement> statements = new ArrayList<Statement>();
         statements.add(statement);
 
-        //rule.setStatements(statements);
+        rule.setStatements(statements);
 
         ArrayList<BusinessRule> rules = new ArrayList<BusinessRule>();
 

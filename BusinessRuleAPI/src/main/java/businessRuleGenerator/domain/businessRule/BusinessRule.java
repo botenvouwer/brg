@@ -44,6 +44,10 @@ public class BusinessRule {
         return statements;
     }
 
+    public void setStatements(ArrayList<Statement> statements) {
+        this.statements = statements;
+    }
+
     private void sortStatements() {
         Collections.sort(statements, new Comparator<Statement>() {
             @Override public int compare(Statement s1, Statement s2) {
