@@ -8,6 +8,9 @@ import businessRuleGenerator.domain.businessRule.StaticAttribute;
 import businessRuleGenerator.domain.template.Template;
 import businessRuleGenerator.domain.template.TemplateException;
 import businessRuleGenerator.domain.template.TemplateFactory;
+import businessRuleGenerator.generator.BusinessRuleGenerator;
+import businessRuleGenerator.generator.GeneratorException;
+import businessRuleGenerator.generator.GeneratorFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 import restService.JSONConverter.BusinessRuleConverter;
@@ -21,6 +24,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -78,8 +82,12 @@ public class BusinessRuleGeneratorService {
             e.printStackTrace();
         }
 
-        JSONConverter jsonconv = new BusinessRuleConverter();
-        jsonconv.importObject("wat");
+        JSONConverter converter = new BusinessRuleConverter();
+        try {
+            converter.importObject("wat");
+        } catch (JSONConverterException e) {
+            e.printStackTrace();
+        }
 
         return  Response.status(200).entity(ret).build();
 
@@ -221,7 +229,12 @@ public class BusinessRuleGeneratorService {
     @Path("/testThingy")
     public Response testThingy() throws ValidatorException, JSONConverterException {
         JSONConverter converter = new BusinessRuleConverter();
-        ArrayList<BusinessRule> list = (ArrayList<BusinessRule>) converter.importObject("{}");
+        ArrayList<BusinessRule> list = null;
+        try {
+            list = (ArrayList<BusinessRule>) converter.importObject("{}");
+        } catch (JSONConverterException e) {
+            e.printStackTrace();
+        }
 
         return  Response.status(200).entity("<pre>"+list.get(0).toString()).build();
     }
@@ -262,24 +275,66 @@ public class BusinessRuleGeneratorService {
     }
 
     @GET
-    @Path("runningdir")
-    public Response getRunDir() throws ValidatorException {
+    @Path("generatetest")
+    public Response getRunDir(){
+
+        String templateName = "plsql";
+        String generatorName = "plsql";
 
         //haal het path naar de template directory op
         String templateRoot = servletContext.getRealPath("templates");
 
+        //Maak BusinessRule aan
+
+        BusinessRule rule = new BusinessRule();
+        rule.table = "user";
+        rule.category = "AAA";
+        rule.code = "AAA";
+        rule.CRUDmode = "CU";
+        rule.type = "test rule";
+        rule.errorMessage = "Naam mag geen piet zijn";
+
+        //maak statements aan voor rule
+        Statement statement = new Statement();
+        statement.attribute = "name";
+        statement.order = 1;
+        statement.comparisonOperator = "NotEqual";
+        statement.staticAttribute = new StaticAttribute("piet", "String");
+
+        ArrayList<Statement> statements = new ArrayList<Statement>();
+        statements.add(statement);
+
+        //rule.setStatements(statements);
+
+        ArrayList<BusinessRule> rules = new ArrayList<BusinessRule>();
+
+        //Maak een template aan
         Template template = null;
         try {
-            template = TemplateFactory.build(templateRoot, "plsql");
-        } catch (TemplateException e){
+            template = TemplateFactory.build(templateRoot, templateName);
+        }
+        catch (TemplateException e){
+            e.printStackTrace();
+        }
+        catch (ValidatorException e) {
             e.printStackTrace();
         }
 
-        String res = "";
-        res += "template directory: "+ templateRoot;
-        res += "<br><br> <pre>" + template;
+        //Maak generator aan en genereer
+        String code = "";
+        BusinessRuleGenerator generator;
+        try {
+            generator = GeneratorFactory.build(generatorName,template);
+            code = generator.generate(rules);
+        }
+        catch (GeneratorException e) {
+            e.printStackTrace();
+        }
+        catch (TemplateException e) {
+            e.printStackTrace();
+        }
 
-        return Response.status(200).entity(res).build();
+        return Response.status(200).entity(code).build();
     }
 
 }

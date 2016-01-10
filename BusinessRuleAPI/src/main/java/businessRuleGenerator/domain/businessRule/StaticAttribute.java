@@ -6,14 +6,13 @@ import businessRuleGenerator.domain.ValidatorException;
 /**
  * Created by melvin on 18-12-2015.
  */
-public class StaticAttribute implements Validator {
+public class StaticAttribute implements Validator{
     public String value;
     public String dataType;
 
-    public StaticAttribute(String value, String dataType) throws ValidatorException {
+    public StaticAttribute(String value, String dataType){
         this.value = value;
         this.dataType = dataType;
-        validate();
     }
 
     public StaticAttribute() {

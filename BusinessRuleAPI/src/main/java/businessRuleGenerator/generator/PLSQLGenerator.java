@@ -16,11 +16,31 @@ public class PLSQLGenerator extends BusinessRuleGenerator {
     }
 
     @Override
-    public String generate(ArrayList<BusinessRule> businessRules) throws GeneratorException, TemplateException {
-        //genereer busniness rule plsql code
+    protected void buildBody() {
+
+        String body = template.body;
+
+        body.replace("{$table_name}", );
+    }
+
+    @Override
+    protected void buildRules() {
+
+    }
+
+    @Override
+    protected void buildStatements() {
+
+    }
+
+
+
+    /*
+    * //genereer busniness rule plsql code
         //String statements = "IF 1=1 THEN raise_application_error(-30000, 'haha');";
         //String template = new String(Files.readAllBytes(Paths.get("../../../webapp/plsql/body.txt")));
         //template.replace("{&body}", statements);
         return null;
-    }
+    *
+    * */
 }

@@ -7,7 +7,7 @@ import businessRuleGenerator.domain.template.Template;
  */
 public class GeneratorFactory {
 
-    static BusinessRuleGenerator build(String generatorName, Template template) throws GeneratorException {
+    public static BusinessRuleGenerator build(String generatorName, Template template) throws GeneratorException {
         return initiate(generatorName, template);
     }
 
