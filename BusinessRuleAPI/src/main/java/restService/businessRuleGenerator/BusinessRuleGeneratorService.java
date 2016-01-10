@@ -15,10 +15,8 @@ import restService.JSONConverter.JSONConverter;
 import restService.JSONConverter.JSONConverterException;
 
 import javax.servlet.ServletContext;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -172,6 +170,15 @@ public class BusinessRuleGeneratorService {
 
         return  Response.status(200).entity(result).build();
 
+    }
+
+    @GET
+    @Path("/convert/{param1}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getJSON(@PathParam("param1") String json_string) throws ValidatorException, JSONConverterException {
+        JSONConverter converter = new BusinessRuleConverter();
+        ArrayList<BusinessRule> list = (ArrayList<BusinessRule>) converter.importObject(json_string);
+        return  Response.status(200).entity("succesfully converted the JSON object!").build();
     }
 
     @GET

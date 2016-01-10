@@ -161,7 +161,7 @@ public class BusinessRuleConverter implements JSONConverter {
                 "]}";
 
 
-            JSONObject brs = new JSONObject(teststr);
+            JSONObject brs = new JSONObject(json);
 
 
             businessRules = new ArrayList<BusinessRule>();
