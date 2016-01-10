@@ -20,7 +20,7 @@ public class PLSQLGenerator extends BusinessRuleGenerator {
 
         String body = template.body;
 
-        body.replace("{$table_name}", );
+        body.replace("{$table_name}", "test");
     }
 
     @Override
