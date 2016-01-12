@@ -1,29 +1,47 @@
 <html>
-    <head>
-        <title>$Title$</title>
-        <script src="javascript/jquery.js"></script>
-        <script>
+<head>
+    <title>$Title$</title>
+    <script src="javascript/jquery.js"></script>
+    <script>
 
-            $(function(){
+        $(function(){
 
-                $.getJSON('service/bsn/testtest', {jsonMessage: '{"test":"Dit is een testBericht"}'}, function(shit){
-                    console.log('gelukt');
-                    console.log(shit);
-                    $('#shithier').html('hallo ' + shit);
-                });
+            $(document).on('click', 'button', function(){
+
+                var json = '{"businessRules": [ { "CRUDmode": "CRUD_test", "category": "category_test", "code": "code_test", "ruleDescription": "ruleDesc_test", "table": "table_test", "type": "type_test", "typeDescription": "typeDesc_test", "errorMessage": "errorMessage fgdshfjsdfhg" }, { "CRUDmode": "retret", "category": "ertert", "code": "ertert", "ruleDescription": "ertert", "table": "trtertret", "type": "terterter", "typeDescription": "ertetetert", "errorMessage": "eretertert fgdshfjsdfhg" } ]}';
+
+                // construct an HTTP request
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/service/bsn/convert');
+                xhr.setRequestHeader("Content-type", "application/json");
+                //xhr.setRequestHeader("Content-Length",json.length);
+                xhr.setRequestHeader('Accept', 'application/json');
+
+
+                //alert(json);
+                // send the collected data as JSON
+                xhr.send(json);
+
+
+                xhr.onloadend = function() {
+                    console.log(xhr.responseText);
+                }
 
             });
 
-        </script>
-    </head>
-    <body>
-        <div>
-            <h2>GET:</h2>
-            <div><p>1. <b>Geeft uitgebreide JSON terug (object-in-object, arrays)</b><br/><a href="/service/bsn">/service/bsn</a></p>
-            <p>2. <b>Geeft plaintext terug</b><br/><a href="/service/bsn/raw">/service/bsn/raw</a></p>
-            <p>3. <b>Geeft een simpel JSON-oject terug</b><br/><a href="/service/bsn/simple">/service/bsn/simple</a></p>
-            <p>4. <b>Geeft officieel voorbeeld van businessrules JSON object terug</b><br/><a href="/service/bsn/example">/service/bsn/example</a></p></div>
-        </div>
-        <div id="shithier"></div>
-    </body>
+        });
+
+    </script>
+</head>
+<body>
+<div>
+    <h2>GET:</h2>
+    <div><p>1. <b>Geeft uitgebreide JSON terug (object-in-object, arrays)</b><br/><a href="/service/bsn">/service/bsn</a></p>
+        <p>2. <b>Geeft plaintext terug</b><br/><a href="/service/bsn/raw">/service/bsn/raw</a></p>
+        <p>3. <b>Geeft een simpel JSON-oject terug</b><br/><a href="/service/bsn/simple">/service/bsn/simple</a></p>
+        <p>4. <b>Geeft officieel voorbeeld van businessrules JSON object terug</b><br/><a href="/service/bsn/example">/service/bsn/example</a></p></div>
+</div>
+<button>test</button>
+<div id="shithier"></div>
+</body>
 </html>

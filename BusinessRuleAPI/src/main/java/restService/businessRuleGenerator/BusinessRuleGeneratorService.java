@@ -13,16 +13,14 @@ import businessRuleGenerator.generator.GeneratorException;
 import businessRuleGenerator.generator.GeneratorFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
-import restService.JSONConverter.BusinessRuleConverter;
-import restService.JSONConverter.JSONConverter;
-import restService.JSONConverter.JSONConverterException;
+import restService.JSONConverter.BusinessRuleListJSON;
+import restService.JSONConverter.BusinessRuleJSON;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -37,57 +35,9 @@ public class BusinessRuleGeneratorService {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response index() throws ValidatorException, JSONConverterException {
+    public Response index(){
 
-        BusinessRule rule = new BusinessRule();
-        rule.category = "testcategory";
-        rule.code = "testcode";
-        rule.table = "testtable";
-
-        JSONObject ding = new JSONObject();
-
-        try {
-            ding.put("test2", "jantje2");
-            ding.put("test", "jantje");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JSONObject test = new JSONObject();
-        try {
-            test.put("category", rule.category);
-            test.put("type", rule.type);
-            test.put("code", rule.code);
-            test.put("table", rule.table);
-            test.put("CRUDmode", rule.CRUDmode);
-            test.put("ruleDescription", rule.ruleDescription);
-            test.put("typeDescription", rule.typeDescription);
-
-            test.append("test", ding);
-            test.append("test", ding);
-            test.append("test", ding);
-
-            test.put("test2", ding);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        String ret = "";
-        try {
-            ret = test.toString(4);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JSONConverter converter = new BusinessRuleConverter();
-        try {
-            converter.importObject("wat");
-        } catch (JSONConverterException e) {
-            e.printStackTrace();
-        }
-
-        return  Response.status(200).entity(ret).build();
+        return  Response.status(200).entity("index page").build();
 
     }
 
@@ -96,7 +46,8 @@ public class BusinessRuleGeneratorService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response example() throws ValidatorException {
 
-        BusinessRule rule = new BusinessRule("category_test", "type_test", "code_test", "table_test", "CRUD_test", "ruleDesc_test", "typeDesc_test", new ArrayList<Statement>(), null);
+        //BusinessRule rule = new BusinessRule("category_test", "type_test", "code_test", "table_test", "CRUD_test", "ruleDesc_test", "typeDesc_test", new ArrayList<Statement>(), null);
+        BusinessRule rule = new BusinessRule("category_test", "type_test", "code_test", "table_test", "CRUD_test", "ruleDesc_test", "typeDesc_test", null);
 
         StaticAttribute sta1 = new StaticAttribute("30", "int");
         DynamicAttribute da1 = new DynamicAttribute("attribute_test", "test_foreignKey", "tableTest");
@@ -180,13 +131,14 @@ public class BusinessRuleGeneratorService {
 
     }
 
-    @GET
-    @Path("/convert/{param1}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getJSON(@PathParam("param1") String json_string) throws ValidatorException, JSONConverterException {
-        JSONConverter converter = new BusinessRuleConverter();
-        ArrayList<BusinessRule> list = (ArrayList<BusinessRule>) converter.importObject(json_string);
-        return  Response.status(200).entity("succesfully converted the JSON object!").build();
+    @POST
+    @Path("/convert")
+    @Consumes("application/json")
+    public Response getJSON(BusinessRuleListJSON json){
+        //JSONConverter converter = new BusinessRuleConverter();
+        //ArrayList<BusinessRule> list = (ArrayList<BusinessRule>) converter.importObject("");
+
+        return  Response.status(200).entity("succesfully converted the JSON object!" + json.toString()).build();
     }
 
     @GET
@@ -230,20 +182,6 @@ public class BusinessRuleGeneratorService {
 
         return  Response.status(200).entity("testetst").build();
 
-    }
-
-    @GET
-    @Path("/testThingy")
-    public Response testThingy() throws ValidatorException, JSONConverterException {
-        JSONConverter converter = new BusinessRuleConverter();
-        ArrayList<BusinessRule> list = null;
-        try {
-            list = (ArrayList<BusinessRule>) converter.importObject("{}");
-        } catch (JSONConverterException e) {
-            e.printStackTrace();
-        }
-
-        return  Response.status(200).entity("<pre>"+list.get(0).toString()).build();
     }
 
     @GET
@@ -311,7 +249,7 @@ public class BusinessRuleGeneratorService {
         ArrayList<Statement> statements = new ArrayList<Statement>();
         statements.add(statement);
 
-        rule.setStatements(statements);
+        //rule.setStatements(statements);
 
         ArrayList<BusinessRule> rules = new ArrayList<BusinessRule>();
 
