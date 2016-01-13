@@ -90,6 +90,6 @@ public class BusinessRuleBuilder implements Validator {
 
     public BusinessRule build() throws ValidatorException {
         validate();
-        return new BusinessRule(category, type, code, table, CRUDmode, ruleDescription, typeDescription/*, statements*/, errorMessage);
+        return new BusinessRule(category, type, code, table, CRUDmode, ruleDescription, typeDescription, statements, errorMessage);
     }
 }

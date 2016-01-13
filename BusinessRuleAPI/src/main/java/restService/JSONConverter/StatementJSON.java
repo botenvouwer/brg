@@ -11,7 +11,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public class StatementJSON extends Statement {
 
-    public StatementJSON(@JsonProperty("attribute")String attribute, @JsonProperty("order")int order, @JsonProperty("logicalOperator")String logicalOperator, @JsonProperty("comparisonOperator")String comparisonOperator, @JsonProperty("dynamicAttribute")DynamicAttribute dynamicAttribute, @JsonProperty("staticAttribute")StaticAttribute staticAttribute) {
+    public StatementJSON(@JsonProperty("attribute")String attribute, @JsonProperty("order")int order, @JsonProperty("logicalOperator")String logicalOperator, @JsonProperty("comparisonOperator")String comparisonOperator, @JsonProperty("dynamicAttribute")DynamicAttributeJSON dynamicAttribute, @JsonProperty("staticAttribute")StaticAttributeJSON staticAttribute) {
         this.attribute = attribute;
         this.order = order;
         this.logicalOperator = logicalOperator;
