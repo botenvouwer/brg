@@ -21,7 +21,7 @@ public class BusinessRule {
     public String errorMessage;
 
     //op zijn minst 1 moet er zijn
-    private ArrayList<Statement> statements = new ArrayList<Statement>();
+    public ArrayList<Statement> statements = new ArrayList<Statement>();
 
     public BusinessRule(String category, String type, String code, String table, String CRUDmode, String ruleDescription, String typeDescription, ArrayList<Statement> statements, String errorMessage) {
         this.category = category;

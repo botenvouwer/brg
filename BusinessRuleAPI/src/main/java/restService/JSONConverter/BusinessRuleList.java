@@ -6,22 +6,18 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import java.util.ArrayList;
 
 /**
- * Created by melvin on 10-1-2016.
+ * Created by melvin on 13-1-2016.
  */
-public class BusinessRuleListJSON {
+public class BusinessRuleList {
 
-    public ArrayList<BusinessRuleJSON> businessRules;
+    public ArrayList<BusinessRule> businessRules;
 
-    public BusinessRuleListJSON(@JsonProperty("businessRules")ArrayList<BusinessRuleJSON> businessRules){
-
-        this.businessRules = businessRules;
-
-
+    public BusinessRuleList(){
     }
 
     @Override
     public String toString() {
-        return "BusinessRuleListJSON{" +
+        return "BusinessRuleList{" +
                 "businessRules=" + businessRules +
                 '}';
     }

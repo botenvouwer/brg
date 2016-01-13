@@ -13,8 +13,7 @@ import businessRuleGenerator.generator.GeneratorException;
 import businessRuleGenerator.generator.GeneratorFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
-import restService.JSONConverter.BusinessRuleListJSON;
-import restService.JSONConverter.BusinessRuleJSON;
+import restService.JSONConverter.BusinessRuleList;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.*;
@@ -47,7 +46,7 @@ public class BusinessRuleGeneratorService {
     public Response example() throws ValidatorException {
 
         //BusinessRule rule = new BusinessRule("category_test", "type_test", "code_test", "table_test", "CRUD_test", "ruleDesc_test", "typeDesc_test", new ArrayList<Statement>(), null);
-        BusinessRule rule = new BusinessRule("category_test", "type_test", "code_test", "table_test", "CRUD_test", "ruleDesc_test", "typeDesc_test", null);
+        BusinessRule rule = new BusinessRule("category_test", "type_test", "code_test", "table_test", "CRUD_test", "ruleDesc_test", "typeDesc_test", null, null);
 
         StaticAttribute sta1 = new StaticAttribute("30", "int");
         DynamicAttribute da1 = new DynamicAttribute("attribute_test", "test_foreignKey", "tableTest");
@@ -134,11 +133,11 @@ public class BusinessRuleGeneratorService {
     @POST
     @Path("/convert")
     @Consumes("application/json")
-    public Response getJSON(BusinessRuleListJSON json){
+    public Response getJSON(BusinessRuleList json) {
         //JSONConverter converter = new BusinessRuleConverter();
         //ArrayList<BusinessRule> list = (ArrayList<BusinessRule>) converter.importObject("");
 
-        return  Response.status(200).entity("succesfully converted the JSON object!" + json.toString()).build();
+        return Response.status(200).entity("succesfully converted the JSON object!" + json.toString()).build();
     }
 
     @GET
