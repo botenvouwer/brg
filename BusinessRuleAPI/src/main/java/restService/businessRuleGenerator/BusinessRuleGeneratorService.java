@@ -1,9 +1,8 @@
 package restService.businessRuleGenerator;
-
 import businessRuleGenerator.domain.ValidatorException;
 import businessRuleGenerator.domain.businessRule.BusinessRule;
-import businessRuleGenerator.domain.businessRule.DynamicAttribute;
 import businessRuleGenerator.domain.businessRule.Statement;
+import businessRuleGenerator.domain.businessRule.DynamicAttribute;
 import businessRuleGenerator.domain.businessRule.StaticAttribute;
 import businessRuleGenerator.domain.template.Template;
 import businessRuleGenerator.domain.template.TemplateException;
