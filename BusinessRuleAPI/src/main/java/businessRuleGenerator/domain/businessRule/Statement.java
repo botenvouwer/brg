@@ -26,7 +26,6 @@ public class Statement implements Validator {
         this.comparisonOperator = comparisonOperator;
         this.dynamicAttribute = dynamicAttribute;
         this.staticAttribute = staticAttribute;
-        validate();
     }
 
     public Statement() {
@@ -39,6 +38,7 @@ public class Statement implements Validator {
         if(logicalOperator == null) throw new ValidatorException("Statement with order-number " + order + " requires a logical operator.");
         if(dynamicAttribute == null && staticAttribute == null) throw new ValidatorException("Statement with order-number " + order + " requires to have either a dynamic attribute or a static attribute.");
         if(dynamicAttribute != null && staticAttribute != null) throw new ValidatorException("Statement with order-number " + order + " cannot have both a dynamic attribute and a static attribute.");
+        (dynamicAttribute == null ? staticAttribute : dynamicAttribute).validate();
     }
 
     @Override

@@ -31,7 +31,6 @@ public class BusinessRule implements Validator {
         this.typeDescription = typeDescription;
         this.statements = statements;
         this.errorMessage = errorMessage;
-        //sortStatements();
     }
 
     public BusinessRule() {
@@ -77,11 +76,24 @@ public class BusinessRule implements Validator {
         attributes.put("table", table);
         attributes.put("CRUDmode", CRUDmode);
 
-        for(Map.Entry<String, String> attribute : attributes.entrySet()) if(attribute.getValue() == null) throw new ValidatorException("A valid businessrule requires a " + attribute.getKey());
-        if(statements.size() == 0) throw new ValidatorException("A valid businessrule requires atleast 1 statement.");
+        for(Map.Entry<String, String> attribute : attributes.entrySet()) {
+            if(attribute.getValue() == null) {
+                throw new ValidatorException("A valid businessrule requires a " + attribute.getKey());
+            }
+        }
+        if(statements.size() == 0) {
+            throw new ValidatorException("A valid businessrule requires atleast 1 statement.");
+        }
 
         Set<Integer> set = new HashSet<Integer>();
-        for(Statement s : statements) set.add(s.order);
-        if(set.size() < statements.size()) throw new ValidatorException("Found duplicates in statement-order values.\nA valid businessrule requires statements with unique order-values");
+        for(Statement s : statements) {
+            s.validate();
+            set.add(s.order);
+        }
+        if(set.size() < statements.size()) {
+            throw new ValidatorException("Found duplicates in statement-order values.\nA valid businessrule requires statements with unique order-values");
+        }
+
+
     }
 }
