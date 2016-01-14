@@ -2,11 +2,11 @@ package businessRuleGenerator.generator;
 
 import businessRuleGenerator.domain.businessRule.BusinessRule;
 import businessRuleGenerator.domain.businessRule.BusinessRuleList;
+import businessRuleGenerator.domain.businessRule.Statement;
 import businessRuleGenerator.domain.template.Template;
 import businessRuleGenerator.domain.template.TemplateException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -34,7 +34,7 @@ public abstract class BusinessRuleGenerator{
     }
 
     protected abstract String buildBody(String tableName, ArrayList<BusinessRule> rules);
-    protected abstract String buildRules();
-    protected abstract String buildStatements();
+    protected abstract String buildRules(BusinessRule rule);
+    protected abstract String buildStatements(Statement statement);
 
 }

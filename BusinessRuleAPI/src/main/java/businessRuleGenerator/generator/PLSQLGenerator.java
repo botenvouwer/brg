@@ -1,6 +1,7 @@
 package businessRuleGenerator.generator;
 
 import businessRuleGenerator.domain.businessRule.BusinessRule;
+import businessRuleGenerator.domain.businessRule.Statement;
 import businessRuleGenerator.domain.template.Template;
 import businessRuleGenerator.domain.template.TemplateException;
 
@@ -16,21 +17,21 @@ public class PLSQLGenerator extends BusinessRuleGenerator {
     }
 
     @Override
-    protected void buildBody(String tableName, ArrayList<BusinessRule> rules) {
-        String body = template.body;
-
-        body.replace("{$table_name}", "test");
+    protected String buildBody(String tableName, ArrayList<BusinessRule> rules) {
+        return null;
     }
 
     @Override
-    protected void buildRules() {
-
+    protected String buildRules(BusinessRule rule) {
+        return null;
     }
 
     @Override
-    protected void buildStatements() {
-
+    protected String buildStatements(Statement statement) {
+        return null;
     }
+
+
 
 
 

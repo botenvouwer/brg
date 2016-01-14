@@ -273,6 +273,9 @@ public class BusinessRuleGeneratorService {
 
         ArrayList<BusinessRule> rules = new ArrayList<BusinessRule>();
 
+        BusinessRuleList ruless = new BusinessRuleList();
+        ruless.businessRules = rules;
+
         //Maak een template aan
         Template template = null;
         try {
@@ -290,7 +293,7 @@ public class BusinessRuleGeneratorService {
         BusinessRuleGenerator generator;
         try {
             generator = GeneratorFactory.build(generatorName,template);
-            code = generator.generate(rules);
+            code = generator.generate(ruless);
         }
         catch (GeneratorException e) {
             e.printStackTrace();
