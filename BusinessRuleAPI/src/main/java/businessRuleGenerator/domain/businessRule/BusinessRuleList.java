@@ -49,12 +49,11 @@ public class BusinessRuleList implements Validator {
     @Override
     public void validate() throws ValidatorException {
 
-        //todo: contoleer of er uberhaubt wel 1 business rule is
+        if(businessRules.size() == 0) {
+            throw new ValidatorException("0 businessrules have been found.\nThere has got to be atleast one businessrule.");
+        }
 
         for(BusinessRule br : businessRules) {
-
-            //first of all we sort all statements in the businessrule based on the statements order-number
-            br.sortStatements();
             br.validate();
         }
     }
