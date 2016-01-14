@@ -2,8 +2,8 @@ package businessRuleGenerator.domain.template;
 
 import businessRuleGenerator.domain.Validator;
 import businessRuleGenerator.domain.ValidatorException;
+import businessRuleGenerator.util.ListParser;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -18,19 +18,29 @@ public abstract class Template implements Validator{
     public Map<String, String> logicalOperator;
     public Map<String, String> dataType;
     public Map<String, String> stringOperator;
+    private static String seperator = ":-:";
 
     public Template(){
 
+    }
+
+    public static String getSeperator() {
+        return seperator;
     }
 
     public Template(String name, Map<String, String> templateData) throws TemplateException {
         this.name = name;
         body = templateData.get("body");
         statement = templateData.get("statement");
-        comparisonOperator = loadList(templateData.get("comparisonOperators"));
-        logicalOperator = loadList(templateData.get("logicalOperators"));
-        dataType = loadList(templateData.get("dataTypes"));
-        stringOperator = loadList(templateData.get("stringOperators"));
+
+        try {
+            comparisonOperator = ListParser.loadList(templateData.get("comparisonOperators"), seperator);
+            logicalOperator = ListParser.loadList(templateData.get("logicalOperators"), seperator);
+            dataType = ListParser.loadList(templateData.get("dataTypes"), seperator);
+            stringOperator = ListParser.loadList(templateData.get("stringOperators"), seperator);
+        } catch (Exception e) {
+            throw new TemplateException("Could not parse template files. Check the list files in the template.");
+        }
     }
 
     public void validate() throws ValidatorException {
@@ -63,24 +73,6 @@ public abstract class Template implements Validator{
             throw new ValidatorException("Template "+ name +" does not contain stringOperators");
         }
 
-    }
-
-    protected Map<String, String> loadList(String templateFile) throws TemplateException {
-        Map<String, String> list = new HashMap<String, String>();
-
-        //todo: hufter proof maken zodat er geen exception meer nodig is
-        try {
-            String[] splitList = templateFile.split("\\r");
-
-            for (String element : splitList) {
-                String[] splitElement = element.split("\\s+");
-                list.put(splitElement[0], splitElement[1]);
-            }
-        }
-        catch (ArrayIndexOutOfBoundsException ex){
-            throw new TemplateException("Could not load template file with LoadList (check file endings in your template list files)");
-        }
-        return list;
     }
 
     @Override

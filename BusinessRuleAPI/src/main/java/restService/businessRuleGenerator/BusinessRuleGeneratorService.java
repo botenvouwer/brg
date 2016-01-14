@@ -11,6 +11,8 @@ import businessRuleGenerator.domain.template.TemplateFactory;
 import businessRuleGenerator.generator.BusinessRuleGenerator;
 import businessRuleGenerator.generator.GeneratorException;
 import businessRuleGenerator.generator.GeneratorFactory;
+import businessRuleGenerator.util.ListParser;
+import com.sun.webkit.Utilities;
 import org.json.JSONException;
 import org.json.JSONObject;
 import businessRuleGenerator.domain.businessRule.BusinessRuleList;
@@ -21,6 +23,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by william on 17-Dec-15.
@@ -220,11 +223,8 @@ public class BusinessRuleGeneratorService {
     }
 
     @GET
-    @Path("generatetest")
-    public Response getRunDir(){
-
-        String templateName = "plsql";
-        String generatorName = "plsql";
+    @Path("generatetest/{templateName}/{generatorName}")
+    public Response getRunDir(@PathParam("templateName") String templateName, @PathParam("generatorName") String generatorName) throws TemplateException, ValidatorException {
 
         //haal het path naar de template directory op
         String templateRoot = servletContext.getRealPath("templates");
@@ -249,7 +249,27 @@ public class BusinessRuleGeneratorService {
         ArrayList<Statement> statements = new ArrayList<Statement>();
         statements.add(statement);
 
-        //rule.setStatements(statements);
+        rule.setStatements(statements);
+
+        BusinessRule rule2 = new BusinessRule();
+        rule.table = "user";
+        rule.category = "AAA";
+        rule.code = "AAA";
+        rule.CRUDmode = "CU";
+        rule.type = "test rule";
+        rule.errorMessage = "Naam mag geen piet zijn";
+
+        //maak statements aan voor rule
+        Statement statement2 = new Statement();
+        statement.attribute = "name";
+        statement.order = 1;
+        statement.comparisonOperator = "NotEqual";
+        statement.staticAttribute = new StaticAttribute("piet", "String");
+
+        ArrayList<Statement> statements2 = new ArrayList<Statement>();
+        statements.add(statement2);
+
+        rule.setStatements(statements);
 
         ArrayList<BusinessRule> rules = new ArrayList<BusinessRule>();
 
@@ -259,14 +279,14 @@ public class BusinessRuleGeneratorService {
             template = TemplateFactory.build(templateRoot, templateName);
         }
         catch (TemplateException e){
-            e.printStackTrace();
+            return Response.status(200).entity("Error: "+ e.getMessage()).build();
         }
         catch (ValidatorException e) {
-            e.printStackTrace();
+            return Response.status(200).entity("Error: "+ e.getMessage()).build();
         }
 
         //Maak generator aan en genereer
-        String code = "";
+        ArrayList<String> code = null;
         BusinessRuleGenerator generator;
         try {
             generator = GeneratorFactory.build(generatorName,template);
@@ -280,6 +300,17 @@ public class BusinessRuleGeneratorService {
         }
 
         return Response.status(200).entity(code).build();
+    }
+
+    @GET
+    @Path("homo")
+    public Response testdeziekeshit() throws Exception {
+
+        String ding = "TemplateClass:-:plsqlAA\nTemplateName:-:plsqlBB";
+
+        Map<String, String> list = ListParser.loadList(ding, ":-:");
+
+        return Response.status(200).entity("<pre>"+list.get("templateclass")).build();
     }
 
 }

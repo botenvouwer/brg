@@ -16,8 +16,7 @@ public class PLSQLGenerator extends BusinessRuleGenerator {
     }
 
     @Override
-    protected void buildBody() {
-
+    protected void buildBody(String tableName, ArrayList<BusinessRule> rules) {
         String body = template.body;
 
         body.replace("{$table_name}", "test");
