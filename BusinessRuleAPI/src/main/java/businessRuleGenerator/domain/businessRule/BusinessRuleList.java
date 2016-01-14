@@ -2,11 +2,10 @@ package businessRuleGenerator.domain.businessRule;
 
 import businessRuleGenerator.domain.Validator;
 import businessRuleGenerator.domain.ValidatorException;
-import businessRuleGenerator.domain.businessRule.BusinessRule;
-import businessRuleGenerator.domain.businessRule.Statement;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by melvin on 13-1-2016.
@@ -22,26 +21,43 @@ public class BusinessRuleList implements Validator {
                 '}';
     }
 
+    public Map<String, ArrayList<BusinessRule>> getBusinessRulesByTable(){
+
+        //Sort Business rules by table name because business rules are generated in blocks per table
+        Map<String, ArrayList<BusinessRule>> businessRulesByTable = new HashMap<String, ArrayList<BusinessRule>>();
+        ArrayList<BusinessRule> tempBusinessRules = null;
+        String previousTableName = "";
+        for(BusinessRule rule : businessRules){
+            String tableName = rule.table;
+
+            if(!businessRules.contains(tableName)){
+                businessRulesByTable.put(tableName, new ArrayList<BusinessRule>());
+            }
+
+            if(!tableName.equals(previousTableName)){
+                tempBusinessRules = businessRulesByTable.get(tableName);
+            }
+
+            tempBusinessRules.add(rule);
+
+            previousTableName = tableName;
+        }
+
+        return businessRulesByTable;
+    }
+
     @Override
     public void validate() throws ValidatorException {
+
+        //todo: contoleer of er uberhaubt wel 1 business rule is
+
         for(BusinessRule br : businessRules) {
 
             //first of all we sort all statements in the businessrule based on the statements order-number
             br.sortStatements();
-
-            //validate each businessRule in the list
             br.validate();
-
-            //
-            for(Statement s : br.statements) {
-
-                //validate each statement in each businessrule
-                s.validate();
-
-                //depending on what kind of attribute the statement uses, we also want to validate that
-                if(s.staticAttribute != null) s.staticAttribute.validate();
-                if(s.dynamicAttribute != null) s.dynamicAttribute.validate();
-            }
         }
     }
+
+
 }

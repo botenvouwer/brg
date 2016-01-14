@@ -1,6 +1,7 @@
 package businessRuleGenerator.generator;
 
 import businessRuleGenerator.domain.businessRule.BusinessRule;
+import businessRuleGenerator.domain.businessRule.BusinessRuleList;
 import businessRuleGenerator.domain.template.Template;
 import businessRuleGenerator.domain.template.TemplateException;
 
@@ -20,46 +21,20 @@ public abstract class BusinessRuleGenerator{
         this.template = template;
     }
 
-    public ArrayList<String> generate(ArrayList<BusinessRule> businessRules) throws GeneratorException, TemplateException{
+    public ArrayList<String> generate(BusinessRuleList businessRules) throws GeneratorException, TemplateException{
 
-        Map<String, ArrayList<BusinessRule>> rulesByTable = sortRulesOnTableName(businessRules);
+        Map<String, ArrayList<BusinessRule>> rulesByTable = businessRules.getBusinessRulesByTable();
         code = new ArrayList<String>();
 
         for(Map.Entry<String, ArrayList<BusinessRule>> entry : rulesByTable.entrySet()){
-            buildBody(entry.getKey(), entry.getValue());
+            code.add(buildBody(entry.getKey(), entry.getValue()));
         }
 
         return code;
     }
 
-    protected Map<String, ArrayList<BusinessRule>> sortRulesOnTableName(ArrayList<BusinessRule> businessRules){
-
-        //Sort Business rules by table name because business rules are generated in blocks per table
-        Map<String, ArrayList<BusinessRule>> businessRulesByTable = new HashMap<String, ArrayList<BusinessRule>>();
-        ArrayList<BusinessRule> tempBusinessRules = null;
-        String previousTableName = "";
-        for(BusinessRule rule : businessRules){
-            String tableName = rule.table;
-
-            if(!businessRules.contains(tableName)){
-                businessRulesByTable.put(tableName, new ArrayList<BusinessRule>());
-            }
-
-            if(!tableName.equals(previousTableName)){
-                tempBusinessRules = businessRulesByTable.get(tableName);
-            }
-
-            tempBusinessRules.add(rule);
-
-            previousTableName = tableName;
-        }
-
-        return businessRulesByTable;
-
-    }
-
-    protected abstract void buildBody(String tableName, ArrayList<BusinessRule> rules);
-    protected abstract void buildRules();
-    protected abstract void buildStatements();
+    protected abstract String buildBody(String tableName, ArrayList<BusinessRule> rules);
+    protected abstract String buildRules();
+    protected abstract String buildStatements();
 
 }
