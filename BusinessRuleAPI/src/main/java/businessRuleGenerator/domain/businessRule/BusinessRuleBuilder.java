@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * Created by melvin on 8-1-2016.
  */
-public class BusinessRuleBuilder implements Validator {
+public class BusinessRuleBuilder {
     private String category;
     private String type;
     private String code;
@@ -71,25 +71,7 @@ public class BusinessRuleBuilder implements Validator {
         return this;
     }
 
-    @Override
-    public void validate() throws ValidatorException {
-        Map<String, String> attributes = new HashMap<String, String>();
-        attributes.put("category", category);
-        attributes.put("type", type);
-        attributes.put("code", code);
-        attributes.put("table", table);
-        attributes.put("CRUDmode", CRUDmode);
-
-        for(Map.Entry<String, String> attribute : attributes.entrySet()) if(attribute.getValue() == null) throw new ValidatorException("A valid businessrule requires a " + attribute.getKey());
-        if(statements.size() == 0) throw new ValidatorException("A valid businessrule requires atleast 1 statement.");
-
-        Set<Integer> set = new HashSet<Integer>();
-        for(Statement s : statements) set.add(s.order);
-        if(set.size() < statements.size()) throw new ValidatorException("Found duplicates in statement-order values.\nA valid businessrule requires statements with unique order-values");
-    }
-
     public BusinessRule build() throws ValidatorException {
-        validate();
         return new BusinessRule(category, type, code, table, CRUDmode, ruleDescription, typeDescription, statements, errorMessage);
     }
 }
