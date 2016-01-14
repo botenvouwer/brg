@@ -3,14 +3,12 @@ package businessRuleGenerator.domain.businessRule;
 import businessRuleGenerator.domain.Validator;
 import businessRuleGenerator.domain.ValidatorException;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 /**
  * Created by melvin on 18-12-2015.
  */
-public class BusinessRule {
+public class BusinessRule implements Validator {
     public String category;
     public String type;
     public String code;
@@ -48,7 +46,7 @@ public class BusinessRule {
         this.statements = statements;
     }
 
-    private void sortStatements() {
+    public void sortStatements() {
         Collections.sort(statements, new Comparator<Statement>() {
             @Override public int compare(Statement s1, Statement s2) {
                 return s1.order - s2.order; // Ascending
@@ -66,7 +64,24 @@ public class BusinessRule {
                 ", CRUDmode='" + CRUDmode + '\'' +
                 ", ruleDescription='" + ruleDescription + '\'' +
                 ", typeDescription='" + typeDescription + '\'' +
-               // ", statements=" + statements +
+                ", statements=" + statements +
                 '}';
+    }
+
+    @Override
+    public void validate() throws ValidatorException {
+        Map<String, String> attributes = new HashMap<String, String>();
+        attributes.put("category", category);
+        attributes.put("type", type);
+        attributes.put("code", code);
+        attributes.put("table", table);
+        attributes.put("CRUDmode", CRUDmode);
+
+        for(Map.Entry<String, String> attribute : attributes.entrySet()) if(attribute.getValue() == null) throw new ValidatorException("A valid businessrule requires a " + attribute.getKey());
+        if(statements.size() == 0) throw new ValidatorException("A valid businessrule requires atleast 1 statement.");
+
+        Set<Integer> set = new HashSet<Integer>();
+        for(Statement s : statements) set.add(s.order);
+        if(set.size() < statements.size()) throw new ValidatorException("Found duplicates in statement-order values.\nA valid businessrule requires statements with unique order-values");
     }
 }

@@ -7,17 +7,26 @@
         $(function(){
 
             $(document).on('click', 'button', function(){
-                var json = '{"businessRules": [ { "CRUDmode": "CRUD_test", "category": "category_test", "code": "code_test", "ruleDescription": "ruleDesc_test", "statements": [ { "attribute": "attribute_test", "comparisonOperator": "comparisonOperator_test", "dynamicAttribute": { "attribute": "attribute_test", "foreignKey": "test_foreignKey", "table": "tableTest" }, "logicalOperator": "logicalOperator_test", "order": 0 }, { "attribute": "attribute_test", "comparisonOperator": "comparisonOperator_test", "dynamicAttribute": { "attribute": "attribute_test", "foreignKey": "test_foreignKey", "table": "tableTest" }, "logicalOperator": "logicalOperator_test", "order": 0 } ], "table": "table_test", "type": "type_test", "typeDescription": "typeDesc_test" }, { "CRUDmode": "CRUD_test", "category": "category_test", "code": "code_test", "ruleDescription": "ruleDesc_test", "statements": [{ "attribute": "attribute_test", "comparisonOperator": "comparisonOperator_test", "logicalOperator": "logicalOperator_test", "order": 0, "staticAttribute": { "dataType": "int", "value": "30" } }], "table": "table_test", "type": "type_test", "typeDescription": "typeDesc_test" } ]}';
+
+                var json = '{"businessRules": [ { "CRUDmode": "CRUD_test", "category": "category_test", "code": "code_test", "ruleDescription": "ruleDesc_test", "statements": [ { "attribute": "attribute_test", "comparisonOperator": "comparisonOperator_test", "dynamicAttribute": { "attribute": "attribute_test", "foreignKey": "test_foreignKey", "table": "tableTest" }, "logicalOperator": "logicalOperator_test", "order": 1 }, { "attribute": "attribute_test", "comparisonOperator": "comparisonOperator_test", "dynamicAttribute": { "attribute": "attribute_test", "foreignKey": "test_foreignKey", "table": "tableTest" }, "logicalOperator": "logicalOperator_test", "order": 0 } ], "table": "table_test", "type": "type_test", "typeDescription": "typeDesc_test" }, { "CRUDmode": "CRUD_test", "category": "category_test", "code": "code_test", "ruleDescription": "ruleDesc_test", "statements": [{ "attribute": "attribute_test", "comparisonOperator": "comparisonOperator_test", "logicalOperator": "logicalOperator_test", "order": 0, "staticAttribute": { "dataType": "int", "value": "30" } }], "table": "table_test", "type": "type_test", "typeDescription": "typeDesc_test" } ]}';
 
                 // construct an HTTP request
                 var xhr = new XMLHttpRequest();
                 xhr.open('POST', '/service/bsn/convert');
                 xhr.setRequestHeader("Content-type", "application/json");
+                //xhr.setRequestHeader("Content-Length",json.length);
                 xhr.setRequestHeader('Accept', 'application/json');
+
+
+                //alert(json);
+                // send the collected data as JSON
                 xhr.send(json);
+
+
                 xhr.onloadend = function() {
                     console.log(xhr.responseText);
                 }
+
             });
 
         });

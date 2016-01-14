@@ -15,7 +15,7 @@ import businessRuleGenerator.util.ListParser;
 import com.sun.webkit.Utilities;
 import org.json.JSONException;
 import org.json.JSONObject;
-import restService.JSONConverter.BusinessRuleList;
+import businessRuleGenerator.domain.businessRule.BusinessRuleList;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.*;
@@ -38,7 +38,6 @@ public class BusinessRuleGeneratorService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response index(){
-
         return  Response.status(200).entity("index page").build();
 
     }
@@ -136,10 +135,12 @@ public class BusinessRuleGeneratorService {
     @POST
     @Path("/convert")
     @Consumes("application/json")
-    public Response getJSON(ArrayList<BusinessRule> json) {
-        //JSONConverter converter = new BusinessRuleConverter();
-        //ArrayList<BusinessRule> list = (ArrayList<BusinessRule>) converter.importObject("");
-
+    public Response getJSON(BusinessRuleList json) {
+        try {
+            json.validate();
+        } catch (ValidatorException e) {
+            return Response.status(200).entity(e.getMessage()).build();
+        }
         return Response.status(200).entity("succesfully converted the JSON object!" + json.toString()).build();
     }
 
