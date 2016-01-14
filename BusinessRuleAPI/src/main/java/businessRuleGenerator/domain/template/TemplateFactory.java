@@ -1,10 +1,11 @@
 package businessRuleGenerator.domain.template;
 
 import businessRuleGenerator.domain.ValidatorException;
+import businessRuleGenerator.util.ListParser;
 
 import java.io.*;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by william on 31/12/2015.
@@ -21,7 +22,7 @@ public class TemplateFactory {
             throw new TemplateException("templateDirectory is not specified");
         }
 
-        Map<String, String> templateFiles = new HashMap<String, String>();
+        Map<String, String> templateFiles = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
 
         File templateDir = new File(templateDirectory+"\\"+templateName);
 
@@ -59,22 +60,36 @@ public class TemplateFactory {
                     throw new TemplateException("Unsupported Encoding when loading template file: " + file.getName());
                 }
 
+
+
                 templateFiles.put(file.getName(), str);
             }
         }
 
-        return initiate(templateName, templateFiles);
+        Map <String, String> config = null;
+
+        System.out.println(templateFiles.get("config"));
+
+        try {
+            config = ListParser.loadList(templateFiles.get("config"), Template.getSeperator());
+        } catch (Exception e) {
+            throw new TemplateException("Can not parse template config. Check your template config file.");
+        }
+
+        System.out.println(config);
+
+        return initiate(config, templateFiles);
     }
 
-    private static Template initiate(String templateName, Map<String, String> templateFiles) throws TemplateException, ValidatorException {
+    private static Template initiate(Map<String, String> templateConfig, Map<String, String> templateFiles) throws TemplateException, ValidatorException {
 
         Template template;
-        switch (templateName) {
+        switch (templateConfig.get("TemplateClass")) {
             case "plsql":
-                template = new PLSQLTemplate(templateName, templateFiles);
+                template = new PLSQLTemplate(templateConfig.get("TemplateName"), templateFiles);
                 break;
             default:
-                template = new DefaultTemplate(templateName, templateFiles);
+                template = new DefaultTemplate(templateConfig.get("TemplateName"), templateFiles);
                 break;
         }
 
