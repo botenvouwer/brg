@@ -230,7 +230,6 @@ public class BusinessRuleGeneratorService {
         String templateRoot = servletContext.getRealPath("templates");
 
         //Maak BusinessRule aan
-
         BusinessRule rule = new BusinessRule();
         rule.table = "user";
         rule.category = "AAA";
@@ -252,29 +251,40 @@ public class BusinessRuleGeneratorService {
         rule.setStatements(statements);
 
         BusinessRule rule2 = new BusinessRule();
-        rule.table = "user";
-        rule.category = "AAA";
-        rule.code = "AAA";
-        rule.CRUDmode = "CU";
-        rule.type = "test rule";
-        rule.errorMessage = "Naam mag geen piet zijn";
+        rule2.table = "dinkie";
+        rule2.category = "AAA";
+        rule2.code = "AAA";
+        rule2.CRUDmode = "CU";
+        rule2.type = "test rule";
+        rule2.errorMessage = "Naam mag geen piet zijn";
 
         //maak statements aan voor rule
         Statement statement2 = new Statement();
-        statement.attribute = "name";
-        statement.order = 1;
-        statement.comparisonOperator = "NotEqual";
-        statement.staticAttribute = new StaticAttribute("piet", "String");
+        statement2.attribute = "name";
+        statement2.order = 1;
+        statement2.comparisonOperator = "NotEqual";
+        statement2.staticAttribute = new StaticAttribute("piet", "String");
 
         ArrayList<Statement> statements2 = new ArrayList<Statement>();
-        statements.add(statement2);
+        statements2.add(statement2);
 
-        rule.setStatements(statements);
+        rule2.setStatements(statements2);
 
         ArrayList<BusinessRule> rules = new ArrayList<BusinessRule>();
+        rules.add(rule);
+        rules.add(rule2);
 
-        BusinessRuleList ruless = new BusinessRuleList();
-        ruless.businessRules = rules;
+        BusinessRuleList rulesList = new BusinessRuleList();
+        rulesList.businessRules = rules;
+
+        System.out.println(rulesList);
+
+        try{
+            rulesList.validate();
+        }
+        catch (ValidatorException e){
+            return Response.status(500).entity("Error: "+ e.getMessage()).build();
+        }
 
         //Maak een template aan
         Template template = null;
@@ -282,18 +292,18 @@ public class BusinessRuleGeneratorService {
             template = TemplateFactory.build(templateRoot, templateName);
         }
         catch (TemplateException e){
-            return Response.status(200).entity("Error: "+ e.getMessage()).build();
+            return Response.status(500).entity("Error: "+ e.getMessage()).build();
         }
         catch (ValidatorException e) {
-            return Response.status(200).entity("Error: "+ e.getMessage()).build();
+            return Response.status(500).entity("Error: "+ e.getMessage()).build();
         }
 
         //Maak generator aan en genereer
         ArrayList<String> code = null;
-        BusinessRuleGenerator generator;
+        BusinessRuleGenerator generator = null;
         try {
             generator = GeneratorFactory.build(generatorName,template);
-            code = generator.generate(ruless);
+            code = generator.generate(rulesList);
         }
         catch (GeneratorException e) {
             e.printStackTrace();
@@ -302,7 +312,7 @@ public class BusinessRuleGeneratorService {
             e.printStackTrace();
         }
 
-        return Response.status(200).entity(code).build();
+        return Response.status(200).entity("<pre>"+code).build();
     }
 
     @GET

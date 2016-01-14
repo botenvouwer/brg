@@ -34,10 +34,18 @@ public class Statement implements Validator {
 
     @Override
     public void validate() throws ValidatorException {
-        if(attribute == null) throw new ValidatorException("Statement with order-number " + order + " requires an attribute.");
-        if(logicalOperator == null) throw new ValidatorException("Statement with order-number " + order + " requires a logical operator.");
-        if(dynamicAttribute == null && staticAttribute == null) throw new ValidatorException("Statement with order-number " + order + " requires to have either a dynamic attribute or a static attribute.");
-        if(dynamicAttribute != null && staticAttribute != null) throw new ValidatorException("Statement with order-number " + order + " cannot have both a dynamic attribute and a static attribute.");
+        if(attribute == null){
+            throw new ValidatorException("Statement with order-number " + order + " requires an attribute.");
+        }
+
+        if(dynamicAttribute == null && staticAttribute == null){
+            throw new ValidatorException("Statement with order-number " + order + " requires to have either a dynamic attribute or a static attribute.");
+        }
+
+        if(dynamicAttribute != null && staticAttribute != null){
+            throw new ValidatorException("Statement with order-number " + order + " cannot have both a dynamic attribute and a static attribute.");
+        }
+
         (dynamicAttribute == null ? staticAttribute : dynamicAttribute).validate();
     }
 

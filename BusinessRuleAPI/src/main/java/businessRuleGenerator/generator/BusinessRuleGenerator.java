@@ -15,7 +15,7 @@ import java.util.Map;
 public abstract class BusinessRuleGenerator{
 
     protected Template template;
-    protected ArrayList<String> code = new ArrayList<String>();
+
 
     public BusinessRuleGenerator(Template template){
         this.template = template;
@@ -23,6 +23,7 @@ public abstract class BusinessRuleGenerator{
 
     public ArrayList<String> generate(BusinessRuleList businessRules) throws GeneratorException, TemplateException{
 
+        ArrayList<String> code = new ArrayList<String>();
         Map<String, ArrayList<BusinessRule>> rulesByTable = businessRules.getBusinessRulesByTable();
         code = new ArrayList<String>();
 

@@ -68,15 +68,11 @@ public class TemplateFactory {
 
         Map <String, String> config = null;
 
-        System.out.println(templateFiles.get("config"));
-
         try {
             config = ListParser.loadList(templateFiles.get("config"), Template.getSeperator());
         } catch (Exception e) {
             throw new TemplateException("Can not parse template config. Check your template config file.");
         }
-
-        System.out.println(config);
 
         return initiate(config, templateFiles);
     }

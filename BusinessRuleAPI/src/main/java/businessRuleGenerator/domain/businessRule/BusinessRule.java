@@ -69,6 +69,9 @@ public class BusinessRule implements Validator {
 
     @Override
     public void validate() throws ValidatorException {
+
+        sortStatements();
+
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("category", category);
         attributes.put("type", type);
@@ -86,14 +89,21 @@ public class BusinessRule implements Validator {
         }
 
         Set<Integer> set = new HashSet<Integer>();
-        for(Statement s : statements) {
-            s.validate();
-            set.add(s.order);
+        int order = 0;
+        for(Statement statement : statements){
+            statement.validate();
+
+            if(statements.size() > 1 && statement.logicalOperator == null){
+                throw new ValidatorException("When rule has multiple statements there must be a logicalOperator to compare. Problem found at statement with " + order + ".");
+            }
+
+            set.add(statement.order);
+            order++;
         }
+
         if(set.size() < statements.size()) {
             throw new ValidatorException("Found duplicates in statement-order values.\nA valid businessrule requires statements with unique order-values");
         }
-
 
     }
 }
