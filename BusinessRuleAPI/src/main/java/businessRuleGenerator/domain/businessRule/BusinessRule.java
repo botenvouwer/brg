@@ -79,6 +79,12 @@ public class BusinessRule implements Validator {
         attributes.put("table", table);
         attributes.put("CRUDmode", CRUDmode);
 
+        for(char character : CRUDmode.toCharArray()) {
+            if("CUD".indexOf(character) == -1) {
+                throw new ValidatorException("Invalid type of CRUD-mode detected.");
+            }
+        }
+
         for(Map.Entry<String, String> attribute : attributes.entrySet()) {
             if(attribute.getValue() == null) {
                 throw new ValidatorException("A valid businessrule requires a " + attribute.getKey());
