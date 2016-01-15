@@ -149,9 +149,9 @@ public class BusinessRuleGeneratorService {
     @GET
     @Path("/raw")
     public Response rawResponse(){
-        String tekst = "create or replace trigger \"VBMG_KLANTEN_T1\"\n" +
+        String tekst = "[{\"code\" : \"create or replace trigger \\\"VBMG_KLANTEN_T1\\\"\n" +
                 "        BEFORE\n" +
-                "        insert or update on \"VBMG_KLANTEN\"\n" +
+                "        insert or update on \\\"VBMG_KLANTEN\\\"\n" +
                 "        for each row\n" +
                 "        begin\n" +
                 "\n" +
@@ -159,7 +159,7 @@ public class BusinessRuleGeneratorService {
                 "        raise_application_error(-20001, 'error rule overtreden');\n" +
                 "        END IF;\n" +
                 "\n" +
-                "        end;";
+                "        end;\"}]";
 
         return  Response.status(200).entity(tekst).build();
     }
