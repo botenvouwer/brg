@@ -1,5 +1,8 @@
-IF {$statements} THEN
+        --Category: {$category}
+        --Type: {$typeDiscription}
+        --Rule: {$ruleDiscription}
+        IF NOT({$statements}) THEN
 
-    raise_application_error({$act})
+            raise_application_error(-20000,'{$error}');
 
-END IF;
+        END IF;

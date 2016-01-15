@@ -1,0 +1,6 @@
+C_Header:-:INSERT
+U_Header:-:UPDATE
+D_Header:-:DELETE
+C_Body:-:INSERTING
+U_Body:-:UPDATING
+D_Body:-:DELETING

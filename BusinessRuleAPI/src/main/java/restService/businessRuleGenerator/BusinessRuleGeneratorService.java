@@ -230,7 +230,7 @@ public class BusinessRuleGeneratorService {
 
         //Maak BusinessRule aan
         BusinessRule rule = new BusinessRule();
-        rule.table = "user";
+        rule.table = "dinkie";
         rule.category = "AAA";
         rule.code = "AAA";
         rule.CRUDmode = "CU";
@@ -244,6 +244,12 @@ public class BusinessRuleGeneratorService {
         statement.comparisonOperator = "NotEqual";
         statement.staticAttribute = new StaticAttribute("piet", "String");
 
+        Statement statement3 = new Statement();
+        statement3.attribute = "name";
+        statement3.order = 2;
+        statement3.comparisonOperator = "GreaterThan";
+        statement3.dynamicAttribute = new DynamicAttribute("name2");
+
         ArrayList<Statement> statements = new ArrayList<Statement>();
         statements.add(statement);
 
@@ -256,6 +262,8 @@ public class BusinessRuleGeneratorService {
         rule2.CRUDmode = "CU";
         rule2.type = "test rule";
         rule2.errorMessage = "Naam mag geen piet zijn";
+        rule2.typeDescription = "Jan hoekman kan timmertenernebrnb";
+        rule2.ruleDescription = "Melvin fuck you";
 
         //maak statements aan voor rule
         Statement statement2 = new Statement();
@@ -275,8 +283,6 @@ public class BusinessRuleGeneratorService {
 
         BusinessRuleList rulesList = new BusinessRuleList();
         rulesList.businessRules = rules;
-
-        System.out.println(rulesList);
 
         try{
             rulesList.validate();
@@ -311,7 +317,14 @@ public class BusinessRuleGeneratorService {
             e.printStackTrace();
         }
 
-        return Response.status(200).entity("<pre>"+code).build();
+        String res = "";
+
+        for (String c : code){
+            res += c;
+            res += "\n\n";
+        }
+
+        return Response.status(200).entity("<pre>"+res).build();
     }
 
     @GET

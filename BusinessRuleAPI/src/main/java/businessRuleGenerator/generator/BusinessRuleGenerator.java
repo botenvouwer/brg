@@ -16,7 +16,6 @@ public abstract class BusinessRuleGenerator{
 
     protected Template template;
 
-
     public BusinessRuleGenerator(Template template){
         this.template = template;
     }
@@ -25,17 +24,29 @@ public abstract class BusinessRuleGenerator{
 
         ArrayList<String> code = new ArrayList<String>();
         Map<String, ArrayList<BusinessRule>> rulesByTable = businessRules.getBusinessRulesByTable();
-        code = new ArrayList<String>();
 
         for(Map.Entry<String, ArrayList<BusinessRule>> entry : rulesByTable.entrySet()){
-            code.add(buildBody(entry.getKey(), entry.getValue()));
+
+            String body = buildBody(entry.getKey(), entry.getValue());
+            code.add(body);
         }
 
         return code;
     }
 
+    protected String buildStaticValue(String value, String dataType){
+        if(dataType.equals("Int")){
+            //If dataType is Int we make sure that we really create an int value
+            return value.replaceAll("[^\\d.]", "");
+        }
+        else{
+            //Or else we create String (or other data format)
+            return template.dataType.get(dataType).replace("{$value}", value);
+        }
+    }
+
     protected abstract String buildBody(String tableName, ArrayList<BusinessRule> rules);
-    protected abstract String buildRules(BusinessRule rule);
+    protected abstract String buildRule(BusinessRule rule);
     protected abstract String buildStatements(Statement statement);
 
 }
