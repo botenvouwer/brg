@@ -1,4 +1,5 @@
 package restService.businessRuleGenerator;
+import businessRuleGenerator.domain.JDBC;
 import businessRuleGenerator.domain.ValidatorException;
 import businessRuleGenerator.domain.businessRule.BusinessRule;
 import businessRuleGenerator.domain.businessRule.Statement;
@@ -135,6 +136,8 @@ public class BusinessRuleGeneratorService {
     @Path("/convert")
     @Consumes("application/json")
     public Response getJSON(BusinessRuleList json) {
+        JDBC jdbc = new JDBC();
+        jdbc.doQuery();
         try {
             json.validate();
         } catch (ValidatorException e) {
