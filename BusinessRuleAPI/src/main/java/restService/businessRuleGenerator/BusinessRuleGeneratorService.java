@@ -134,10 +134,10 @@ public class BusinessRuleGeneratorService {
 
     @POST
     @Path("/convert")
-    @Consumes("application/json")
-    public Response getJSON(BusinessRuleList json) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getJSON(BusinessRuleList json) throws Exception {
         JDBC jdbc = new JDBC();
-        jdbc.doQuery();
+        jdbc.insertTrigger("create or replace TRIGGER TOSAD_2015_2A_TEAM1_TARGET.VBMG_KLANTEN_T2 BEFORE INSERT OR UPDATE ON TOSAD_2015_2A_TEAM1_TARGET.VBMG_KLANTEN FOR EACH ROW BEGIN IF :new.GESLACHT NOT IN('M', 'V', 'O') THEN raise_application_error(-20001, 'error rule overtreden'); END IF; END;");
         try {
             json.validate();
         } catch (ValidatorException e) {
