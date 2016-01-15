@@ -16,23 +16,22 @@ public class JDBC {
         }
     }
 
-
-    public void doQuery() {
+    public void insertTrigger(String sql) throws Exception {
         try(Connection con = DriverManager.getConnection("jdbc:oracle:thin:@ondora02.hu.nl:8521/cursus02.hu.nl", "tosad_2015_2a_team1_target", "732r78tt3vngy873"))
         {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(/*"SELECT DESCRIPTION FROM TYPE WHERE PK_TYPE = 22"*/"SELECT TEST FROM TESTVIEW");
+            stmt.executeUpdate(sql);
 
-            while(rs.next()) {
-                String description = rs.getString("DESCRIPTION");
-                System.out.println("Description: " + description);
-            }
             stmt.close();
-            rs.close();
             con.close();
         }
         catch(Exception e) {
-            e.printStackTrace();
+            throw new Exception("Inserting trigger into database failed because the syntax was invalid...");
         }
     }
+
+    public String getTables() {
+        return "";
+    }
+
 }
