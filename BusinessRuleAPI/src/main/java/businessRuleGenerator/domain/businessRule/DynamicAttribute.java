@@ -15,7 +15,10 @@ public class DynamicAttribute implements Validator {
         this.attribute = attribute;
         this.foreignKey = foreignKey;
         this.table = table;
-        validate();
+    }
+
+    public DynamicAttribute(String attribute) {
+        this.attribute = attribute;
     }
 
     public DynamicAttribute() {

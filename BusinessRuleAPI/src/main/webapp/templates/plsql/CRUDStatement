@@ -1,0 +1,5 @@
+    IF {$CRUDMode} THEN
+
+{$rules}
+
+    END IF;

@@ -1,5 +1,6 @@
 package businessRuleGenerator.generator;
 
+import businessRuleGenerator.domain.template.PLSQLTemplate;
 import businessRuleGenerator.domain.template.Template;
 
 /**
@@ -16,7 +17,7 @@ public class GeneratorFactory {
         BusinessRuleGenerator generator;
         switch (generatorName) {
             case "plsql":
-                generator = new PLSQLGenerator(template);
+                generator = new PLSQLGenerator((PLSQLTemplate) template);
                 break;
             default:
                 throw new GeneratorException("There is no BusinessRuleGenerator with the name: "+generatorName);

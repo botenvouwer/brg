@@ -28,9 +28,9 @@ public class BusinessRuleList implements Validator {
         ArrayList<BusinessRule> tempBusinessRules = null;
         String previousTableName = "";
         for(BusinessRule rule : businessRules){
-            String tableName = rule.table;
+            String tableName = rule.table.toLowerCase();
 
-            if(!businessRules.contains(tableName)){
+            if(!businessRulesByTable.containsKey(tableName)){
                 businessRulesByTable.put(tableName, new ArrayList<BusinessRule>());
             }
 
