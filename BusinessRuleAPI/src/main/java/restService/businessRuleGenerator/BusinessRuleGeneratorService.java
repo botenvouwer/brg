@@ -12,10 +12,12 @@ import businessRuleGenerator.generator.BusinessRuleGenerator;
 import businessRuleGenerator.generator.GeneratorException;
 import businessRuleGenerator.generator.GeneratorFactory;
 import businessRuleGenerator.util.ListParser;
+import com.sun.corba.se.spi.orbutil.fsm.Guard;
 import com.sun.webkit.Utilities;
 import org.json.JSONException;
 import org.json.JSONObject;
 import businessRuleGenerator.domain.businessRule.BusinessRuleList;
+import restService.response.Result;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.*;
@@ -29,7 +31,7 @@ import java.util.Map;
  * Created by william on 17-Dec-15.
  */
 
-@Path("/bsn")
+@Path("/businessrulegenerator")
 public class BusinessRuleGeneratorService {
 
     @Context
@@ -133,17 +135,58 @@ public class BusinessRuleGeneratorService {
     }
 
     @POST
-    @Path("/convert")
+    @Path("/generate/{templateName}/{generatorName}")
     @Consumes("application/json")
-    public Response getJSON(BusinessRuleList json) {
-        JDBC jdbc = new JDBC();
-        jdbc.doQuery();
-        try {
-            json.validate();
-        } catch (ValidatorException e) {
-            return Response.status(200).entity(e.getMessage()).build();
+    @Produces("application/json")
+    public Result getJSON(BusinessRuleList rulesList, @PathParam("templateName") String templateName, @PathParam("generatorName") String generatorName) {
+
+        Result result = new Result();
+        result.status = "success";
+
+        //haal het path naar de template directory op
+        String templateRoot = servletContext.getRealPath("templates");
+
+        try{
+            rulesList.validate();
         }
-        return Response.status(200).entity("succesfully converted the JSON object!" + json.toString()).build();
+        catch (ValidatorException e){
+            result.error = "ValidatorException: "+ e.getMessage();
+            result.status = "error";
+        }
+
+        //Maak een template aan
+        Template template = null;
+        try {
+            template = TemplateFactory.build(templateRoot, templateName);
+        }
+        catch (TemplateException e){
+            result.error = "TemplateException: "+ e.getMessage();
+            result.status = "error";
+        }
+        catch (ValidatorException e) {
+            result.error = "ValidatorException: "+ e.getMessage();
+            result.status = "error";
+        }
+
+        //Maak generator aan en genereer
+        ArrayList<String> code = null;
+        BusinessRuleGenerator generator = null;
+        try {
+            generator = GeneratorFactory.build(generatorName,template);
+            code = generator.generate(rulesList);
+        }
+        catch (GeneratorException e) {
+            result.error = "GeneratorException: "+ e.getMessage();
+            result.status = "error";
+        }
+        catch (TemplateException e) {
+            result.error = "TemplateException: "+ e.getMessage();
+            result.status = "error";
+        }
+
+        result.result = code;
+
+        return result;
     }
 
     @GET
@@ -179,14 +222,6 @@ public class BusinessRuleGeneratorService {
             e.printStackTrace();
         }
         return  Response.status(200).entity(result).build();
-    }
-
-    @GET
-    @Path("/generate")
-    public Response generateRules(){
-
-        return  Response.status(200).entity("testetst").build();
-
     }
 
     @GET
