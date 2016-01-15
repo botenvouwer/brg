@@ -6,3 +6,4 @@ FOR EACH ROW
 BEGIN
 {$body}
 END;
+/
