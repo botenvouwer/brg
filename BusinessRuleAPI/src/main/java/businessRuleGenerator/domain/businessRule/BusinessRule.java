@@ -80,7 +80,7 @@ public class BusinessRule implements Validator {
         attributes.put("CRUDmode", CRUDmode);
 
         for(char character : CRUDmode.toCharArray()) {
-            if("IUD".indexOf(character) == -1) {
+            if("CUD".indexOf(character) == -1) {
                 throw new ValidatorException("Invalid type of CRUD-mode detected.");
             }
         }
