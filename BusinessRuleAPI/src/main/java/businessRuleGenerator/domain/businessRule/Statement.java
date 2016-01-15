@@ -12,8 +12,8 @@ import java.util.Map;
 public class Statement implements Validator {
     public String attribute;
     public int order;
-    public String logicalOperator;
-    public String comparisonOperator; //opt
+    public String logicalOperator;//opt
+    public String comparisonOperator;
 
     //Een van deze twee moet zijn gevult
     public DynamicAttribute dynamicAttribute;
@@ -45,6 +45,8 @@ public class Statement implements Validator {
         if(dynamicAttribute != null && staticAttribute != null){
             throw new ValidatorException("Statement with order-number " + order + " cannot have both a dynamic attribute and a static attribute.");
         }
+
+        //todo: moet comparrison validaten
 
         (dynamicAttribute == null ? staticAttribute : dynamicAttribute).validate();
     }

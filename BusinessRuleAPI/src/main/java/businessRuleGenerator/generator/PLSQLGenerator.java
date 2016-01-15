@@ -136,14 +136,14 @@ public class PLSQLGenerator extends BusinessRuleGenerator {
         if (statement.dynamicAttribute != null){
             //assume that dynamicAttribute must be used
             //todo: dynamicAttribute wordt nog niet voor andere tabbellen ondersteund
-            statementCode += statement.dynamicAttribute.attribute;
+            statementCode += ":new."+statement.dynamicAttribute.attribute;
         }
         else{
             //assume that static attribute must be used
             statementCode += buildStaticValue(statement.staticAttribute.value, statement.staticAttribute.dataType);
         }
 
-        if(statement.logicalOperator != null){
+        if(statement.logicalOperator != null && !statement.equals("")){
             statementCode += " ";
             statementCode += template.logicalOperator.get(statement.logicalOperator);
         }
