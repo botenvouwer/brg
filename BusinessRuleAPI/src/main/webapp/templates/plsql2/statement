@@ -1,5 +1,0 @@
-IF {$statements} THEN
-
-    raise_application_error({$act})
-
-END IF;

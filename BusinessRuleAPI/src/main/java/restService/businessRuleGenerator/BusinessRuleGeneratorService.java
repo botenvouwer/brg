@@ -18,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import businessRuleGenerator.domain.businessRule.BusinessRuleList;
 import restService.response.Result;
+import restService.response.Rule;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.*;
@@ -184,7 +185,15 @@ public class BusinessRuleGeneratorService {
             result.status = "error";
         }
 
-        result.result = code;
+        //Anders kan dat kut apex het weer niet parsen
+        ArrayList<Rule> finalCode = new ArrayList<Rule>();
+        for (String s : code){
+            Rule rule = new Rule();
+            rule.rule = s;
+            finalCode.add(rule);
+        }
+
+        result.result = finalCode;
 
         return result;
     }
