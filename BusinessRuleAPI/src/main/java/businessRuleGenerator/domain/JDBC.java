@@ -6,6 +6,10 @@ import java.sql.*;
  * Created by melvin on 14-1-2016.
  */
 public class JDBC {
+    public String dbDriver;
+    public String dbUrl;
+    public String dbUsername;
+    public String dbPassword;
 
     public JDBC()
     {

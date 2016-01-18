@@ -136,6 +136,23 @@ public class BusinessRuleGeneratorService {
     }
 
     @POST
+    @Path("/tablenames/")
+    @Consumes("application/json")
+    @Produces("application/json")
+    public Response getTableNames(JDBC dbdetails) {
+
+        return  Response.status(200).entity("").build();
+    }
+
+    @GET
+    @Path("/tablenames_example/")
+    @Produces("application/json")
+    public Response getTablenamesExample() {
+
+        return  Response.status(200).entity("{ \"dbDriver\": \"oracle.jdbc.driver.OracleDriver\", \"dbUrl\": \"jdbc:oracle:thin:@ondora02.hu.nl:8521/cursus02.hu.nl\", \"dbUsername\": \"tosad_2015_2a_team1_target\", \"dbPassword\": \"secretPass123\" }").build();
+    }
+
+    @POST
     @Path("/generate/{templateName}/{generatorName}")
     @Consumes("application/json")
     @Produces("application/json")

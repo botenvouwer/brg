@@ -126,14 +126,16 @@
 <body>
 <div>
     <h2>GET:</h2>
-    <div><p>1. <b>Geeft uitgebreide JSON terug (object-in-object, arrays)</b><br/><a href="/service/businessrulegenerator">/service/businessrulegenerator</a></p>
-        <p>2. <b>Geeft plaintext terug</b><br/><a href="/service/businessrulegenerator/raw">/service/businessrulegenerator/raw</a></p>
-        <p>3. <b>Geeft een simpel JSON-oject terug</b><br/><a href="/service/businessrulegenerator/simple">/service/businessrulegenerator/simple</a></p>
-        <p>4. <b>Geeft officieel voorbeeld van businessrules JSON object terug</b><br/><a href="/service/businessrulegenerator/example">/service/businessrulegenerator/example</a></p></div>
+    <div><p>1. <b>Returns complicated JSON (object-in-object, arrays)</b><br/><a href="/service/businessrulegenerator">/service/businessrulegenerator</a></p>
+        <p>2. <b>Returns plaintext </b><br/><a href="/service/businessrulegenerator/raw">/service/businessrulegenerator/raw</a></p>
+        <p>3. <b>Returns a simple JSON-object </b><br/><a href="/service/businessrulegenerator/simple">/service/businessrulegenerator/simple</a></p>
+        <p>4. <b>Returns an official example of a businessrules JSON object </b><br/><a href="/service/businessrulegenerator/example">/service/businessrulegenerator/example</a></p></div>
+        <p>5. <b>Example of what we expect to receive in the body of POST #2 on this page </b><br/><a href="/service/businessrulegenerator/tablenames_example">/service/businessrulegenerator/tablenames_example/</a></p>
 
     <h2>POST:</h2>
     <div>
-        <p>1. <b>Hier kan een arraylist van businessrules naartoe gestuurd worden</b><br/><a class="postdinkie" href="/service/businessrulegenerator/generate/{template}/{generator}">/service/businessrulegenerator/generate/{template}/{generator}</a></p>
+        <p>1. <b>An arraylist of businessrules can be send here to be converted/generated </b><br/><a class="postdinkie" href="/service/businessrulegenerator/generate/{template}/{generator}">/service/businessrulegenerator/generate/{template}/{generator}</a></p>
+        <p>2. <b>Allows you to request table-names by providing database credentials </b><br/><a href="/service/businessrulegenerator/tablenames/">/service/businessrulegenerator/tablenames/</a></p>
     </div>
 </div>
 <h3>target</h3>
