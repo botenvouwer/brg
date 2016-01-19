@@ -1,22 +1,19 @@
 package restService.businessRuleGenerator;
+
+import businessRuleGenerator.dao.DAO;
+import businessRuleGenerator.dao.OracleDAO;
 import businessRuleGenerator.domain.JDBC;
 import businessRuleGenerator.domain.ValidatorException;
-import businessRuleGenerator.domain.businessRule.BusinessRule;
-import businessRuleGenerator.domain.businessRule.Statement;
-import businessRuleGenerator.domain.businessRule.DynamicAttribute;
-import businessRuleGenerator.domain.businessRule.StaticAttribute;
+import businessRuleGenerator.domain.businessRule.*;
+import businessRuleGenerator.domain.database.ConnectionDetails;
 import businessRuleGenerator.domain.template.Template;
 import businessRuleGenerator.domain.template.TemplateException;
 import businessRuleGenerator.domain.template.TemplateFactory;
 import businessRuleGenerator.generator.BusinessRuleGenerator;
 import businessRuleGenerator.generator.GeneratorException;
 import businessRuleGenerator.generator.GeneratorFactory;
-import businessRuleGenerator.util.ListParser;
-import com.sun.corba.se.spi.orbutil.fsm.Guard;
-import com.sun.webkit.Utilities;
 import org.json.JSONException;
 import org.json.JSONObject;
-import businessRuleGenerator.domain.businessRule.BusinessRuleList;
 import restService.response.Result;
 import restService.response.Rule;
 
@@ -26,7 +23,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Created by william on 17-Dec-15.
@@ -135,14 +131,7 @@ public class BusinessRuleGeneratorService {
 
     }
 
-    @POST
-    @Path("/tablenames/")
-    @Consumes("application/json")
-    @Produces("application/json")
-    public Response getTableNames(JDBC dbdetails) {
 
-        return  Response.status(200).entity("").build();
-    }
 
     @GET
     @Path("/tablenames_example/")
@@ -395,11 +384,17 @@ public class BusinessRuleGeneratorService {
     @Path("homo")
     public Response testdeziekeshit() throws Exception {
 
-        String ding = "TemplateClass:-:plsqlAA\nTemplateName:-:plsqlBB";
+        ConnectionDetails dbcon = new ConnectionDetails();
+        dbcon.dbDriver = "oracle.jdbc.driver.OracleDriver";
+        dbcon.dbName = "TOSAD_2015_2A_TEAM1_TARGET";
+        dbcon.dbPassword = "732r78tt3vngy873";
+        dbcon.dbUrl = "jdbc:oracle:thin:@ondora02.hu.nl:8521/cursus02.hu.nl";
+        dbcon.dbUsername = "tosad_2015_2a_team1_target";
 
-        Map<String, String> list = ListParser.loadList(ding, ":-:");
+        DAO dao = new OracleDAO(dbcon);
+        dao.getTables();
 
-        return Response.status(200).entity("<pre>"+list.get("templateclass")).build();
+        return Response.status(200).entity("<pre>").build();
     }
 
 }
