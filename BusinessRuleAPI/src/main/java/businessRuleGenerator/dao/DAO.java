@@ -1,5 +1,6 @@
 package businessRuleGenerator.dao;
 
+import businessRuleGenerator.domain.database.ColumnList;
 import businessRuleGenerator.domain.database.ConnectionDetails;
 import businessRuleGenerator.domain.database.TableList;
 
@@ -49,7 +50,15 @@ public abstract class DAO {
         return tableList;
     }
 
-    //todo: getCoumlfgk  namens
+    public ColumnList getColumns(String tableName) throws DAOException, SQLException {
+        Connection connection = connect();
+        ColumnList columnList = getColumns(connection);
+        close(connection);
+
+        return columnList;
+    }
+
+    protected abstract ColumnList getColumns(Connection connection) throws DAOException, SQLException;
 
     //todo: query methode maken
     //public void query();

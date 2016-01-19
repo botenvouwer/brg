@@ -6,10 +6,7 @@ import businessRuleGenerator.dao.DAOFactory;
 import businessRuleGenerator.domain.database.ConnectionDetails;
 import restService.response.Result;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import java.sql.SQLException;
 
 /**
@@ -20,42 +17,37 @@ import java.sql.SQLException;
 public class DatabaseCommunicationService{
 
     @POST
-    @Path("/gettables")
+    @Path("/tables")
     @Consumes("application/json")
     @Produces("application/json")
     public Result getTables(ConnectionDetails dbdetails) throws SQLException {
 
         Result result = new Result();
-        result.status = "success";
 
         DAO dao = null;
         try {
             dao = DAOFactory.build(dbdetails);
-            result.result = dao.getTables();
+            result.setResult(dao.getTables());
         } catch (DAOException e) {
-            result.error = e.getMessage();
-            result.status = "error";
+            result.setError("DAOException: " + e.getMessage());
         }
-
         return result;
     }
 
     @POST
-    @Path("/getcolumnnames")
+    @Path("/columns/{tableName}")
     @Consumes("application/json")
     @Produces("application/json")
-    public Result getColumnNames(ConnectionDetails dbdetails) throws SQLException {
+    public Result getColumnNames(ConnectionDetails dbdetails, @PathParam("tableName")String tableName) throws SQLException {
 
         Result result = new Result();
-        result.status = "success";
 
         DAO dao = null;
         try {
             dao = DAOFactory.build(dbdetails);
-            result.result = dao.getTables();
+            result.setResult(dao.getColumns());
         } catch (DAOException e) {
-            result.error = e.getMessage();
-            result.status = "error";
+            result.setError("DAOException: " + e.getMessage());
         }
 
         return result;
