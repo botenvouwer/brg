@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Created by william on 17-Dec-15.
  */
 
-@Path("/businessrulegenerator")
+@Path("/generator")
 public class BusinessRuleGeneratorService {
 
     @Context
@@ -41,7 +41,6 @@ public class BusinessRuleGeneratorService {
     public Result getJSON(BusinessRuleList rulesList, @PathParam("templateName") String templateName, @PathParam("generatorName") String generatorName) {
 
         Result result = new Result();
-        result.status = "success";
 
         //haal het path naar de template directory op
         String templateRoot = servletContext.getRealPath("templates");
@@ -50,8 +49,7 @@ public class BusinessRuleGeneratorService {
             rulesList.validate();
         }
         catch (ValidatorException e){
-            result.error = "ValidatorException: "+ e.getMessage();
-            result.status = "error";
+            result.setError("ValidatorException: "+ e.getMessage());
         }
 
         //Maak een template aan
@@ -60,12 +58,10 @@ public class BusinessRuleGeneratorService {
             template = TemplateFactory.build(templateRoot, templateName);
         }
         catch (TemplateException e){
-            result.error = "TemplateException: "+ e.getMessage();
-            result.status = "error";
+            result.setError("TemplateException: "+ e.getMessage());
         }
         catch (ValidatorException e) {
-            result.error = "ValidatorException: "+ e.getMessage();
-            result.status = "error";
+            result.setError("ValidatorException: "+ e.getMessage());
         }
 
         //Maak generator aan en genereer
@@ -76,12 +72,10 @@ public class BusinessRuleGeneratorService {
             code = generator.generate(rulesList);
         }
         catch (GeneratorException e) {
-            result.error = "GeneratorException: "+ e.getMessage();
-            result.status = "error";
+            result.setError("GeneratorException: "+ e.getMessage());
         }
         catch (TemplateException e) {
-            result.error = "TemplateException: "+ e.getMessage();
-            result.status = "error";
+            result.setError("TemplateException: "+ e.getMessage());
         }
 
         //Anders kan dat kut apex het weer niet parsen
@@ -92,9 +86,40 @@ public class BusinessRuleGeneratorService {
             finalCode.add(rule);
         }
 
-        result.result = finalCode;
+        result.setResult(finalCode);
 
         return result;
     }
 
+    @GET
+    @Path("/template/{templateName}")
+    public Result getTemplate(@PathParam("templateName") String templateName){
+
+        Result result = new Result();
+
+        //haal het path naar de template directory op
+        String templateRoot = servletContext.getRealPath("templates");
+
+        //Maak een template aan
+        Template template = null;
+        try {
+            template = TemplateFactory.build(templateRoot, templateName);
+        }
+        catch (TemplateException e){
+            result.setError("TemplateException: "+ e.getMessage());
+        }
+        catch (ValidatorException e) {
+            result.setError("ValidatorException: "+ e.getMessage());
+        }
+
+        result.setResult(template);
+
+        return result;
+    }
+
+    /*@GET
+    @Path("/template/")
+    public ServletContext getServletContext() {
+        return servletContext;
+    }*/
 }
