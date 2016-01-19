@@ -52,13 +52,13 @@ public abstract class DAO {
 
     public ColumnList getColumns(String tableName) throws DAOException, SQLException {
         Connection connection = connect();
-        ColumnList columnList = getColumns(connection);
+        ColumnList columnList = getColumns(connection, tableName);
         close(connection);
 
         return columnList;
     }
 
-    protected abstract ColumnList getColumns(Connection connection) throws DAOException, SQLException;
+    protected abstract ColumnList getColumns(Connection connection, String tableName) throws DAOException, SQLException;
 
     //todo: query methode maken
     //public void query();
