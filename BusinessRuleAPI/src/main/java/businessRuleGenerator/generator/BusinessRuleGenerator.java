@@ -35,7 +35,7 @@ public abstract class BusinessRuleGenerator{
     }
 
     protected String buildStaticValue(String value, String dataType){
-        if(dataType.equals("Int")){
+        if(dataType.equalsIgnoreCase("Int")){
             //If dataType is Int we make sure that we really create an int value
             return value.replaceAll("[^\\d.]", "");
         }
