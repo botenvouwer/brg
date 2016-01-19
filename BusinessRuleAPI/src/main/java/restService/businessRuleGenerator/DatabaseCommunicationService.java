@@ -20,10 +20,10 @@ import java.sql.SQLException;
 public class DatabaseCommunicationService{
 
     @POST
-    @Path("/tablenames")
+    @Path("/gettables")
     @Consumes("application/json")
     @Produces("application/json")
-    public Result getTableNames(ConnectionDetails dbdetails) throws SQLException {
+    public Result getTables(ConnectionDetails dbdetails) throws SQLException {
 
         Result result = new Result();
         result.status = "success";
@@ -40,8 +40,26 @@ public class DatabaseCommunicationService{
         return result;
     }
 
+    @POST
+    @Path("/getcolumnnames")
+    @Consumes("application/json")
+    @Produces("application/json")
+    public Result getColumnNames(ConnectionDetails dbdetails) throws SQLException {
 
-    //todo: get all coulmnbnames
+        Result result = new Result();
+        result.status = "success";
+
+        DAO dao = null;
+        try {
+            dao = DAOFactory.build(dbdetails);
+            result.result = dao.getTables();
+        } catch (DAOException e) {
+            result.error = e.getMessage();
+            result.status = "error";
+        }
+
+        return result;
+    }
 
     //todo: query uitvoeren
 }
