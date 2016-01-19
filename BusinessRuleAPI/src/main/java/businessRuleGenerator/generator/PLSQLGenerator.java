@@ -67,7 +67,7 @@ public class PLSQLGenerator extends BusinessRuleGenerator {
             }
 
             ArrayList<BusinessRule> list = null;
-            if(!previous.equals(rule.CRUDmode)){
+            if(!previous.equalsIgnoreCase(rule.CRUDmode)){
                 list = rulesByCRUDMode.get(rule.CRUDmode);
             }
 
