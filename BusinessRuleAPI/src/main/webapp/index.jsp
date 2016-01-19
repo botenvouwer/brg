@@ -17,109 +17,83 @@
             $(document).on('click', 'button', function(){
 
                 var json = $('#payload').val();
+                var url = $('#url').val();
 
-                // construct an HTTP request
-                var xhr = new XMLHttpRequest();
-                xhr.open('POST', $('#url').val());
-                xhr.setRequestHeader("Content-type", "application/json");
-                //xhr.setRequestHeader("Content-Length",json.length);
-                xhr.setRequestHeader('Accept', 'application/json');
+                if(json == ""){
 
+                    $.getJSON(url, function(data){
+                        $('#shithier').html(print_r(data));
+                    });
 
-                //alert(json);
-                // send the collected data as JSON
-                xhr.send(json);
-
-                xhr.onloadend = function() {
-
-                    json = xhr.responseText;
-                    json = JSON.parse(json);
-
-                    console.log(json);
-                    $('#shithier').html(print_r(json, true));
                 }
+                else {
 
+                    // construct an HTTP request
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', url);
+                    xhr.setRequestHeader("Content-type", "application/json");
+                    //xhr.setRequestHeader("Content-Length",json.length);
+                    xhr.setRequestHeader('Accept', 'application/json');
+
+
+                    //alert(json);
+                    // send the collected data as JSON
+                    xhr.send(json);
+
+                    xhr.onloadend = function () {
+
+                        json = xhr.responseText;
+                        json = JSON.parse(json);
+
+                        console.log(json);
+                        $('#shithier').html(print_r(json));
+                    }
+                }
             });
 
         });
 
-        function print_r (array, return_val) {
-            // http://kevin.vanzonneveld.net
-            // +   original by: Michael White (http://getsprink.com)
-            // +   improved by: Ben Bryan
-            // +      input by: Brett Zamir (http://brett-zamir.me)
-            // +      improved by: Brett Zamir (http://brett-zamir.me)
-            // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-            // -    depends on: echo
-            // *     example 1: print_r(1, true);
-            // *     returns 1: 1
-            var output = '',
-                    pad_char = ' ',
-                    pad_val = 4,
-                    d = this.window.document,
-                    getFuncName = function (fn) {
-                        var name = (/\W*function\s+([\w\$]+)\s*\(/).exec(fn);
-                        if (!name) {
-                            return '(Anonymous)';
-                        }
-                        return name[1];
-                    },
-                    repeat_char = function (len, pad_char) {
-                        var str = '';
-                        for (var i = 0; i < len; i++) {
-                            str += pad_char;
-                        }
-                        return str;
-                    },
-                    formatArray = function (obj, cur_depth, pad_val, pad_char) {
-                        if (cur_depth > 0) {
-                            cur_depth++;
-                        }
+        var print_r = function (obj, t) {
 
-                        var base_pad = repeat_char(pad_val * cur_depth, pad_char);
-                        var thick_pad = repeat_char(pad_val * (cur_depth + 1), pad_char);
-                        var str = '';
+            // define tab spacing
+            var tab = t || '';
 
-                        if (typeof obj === 'object' && obj !== null && obj.constructor && getFuncName(obj.constructor) !== 'PHPJS_Resource') {
-                            str += 'Array\n' + base_pad + '(\n';
-                            for (var key in obj) {
-                                if (Object.prototype.toString.call(obj[key]) === '[object Array]') {
-                                    str += thick_pad + '[' + key + '] => ' + formatArray(obj[key], cur_depth + 1, pad_val, pad_char);
-                                }
-                                else {
-                                    str += thick_pad + '[' + key + '] => ' + obj[key] + '\n';
-                                }
-                            }
-                            str += base_pad + ')\n';
-                        }
-                        else if (obj === null || obj === undefined) {
-                            str = '';
-                        }
-                        else { // for our "resource" class
-                            str = obj.toString();
-                        }
+            // check if it's array
+            var isArr = Object.prototype.toString.call(obj) === '[object Array]';
 
-                        return str;
-                    };
+            // use {} for object, [] for array
+            var str = isArr ? ('Array\n' + tab + '[\n') : ('Object\n' + tab + '{\n');
 
-            output = formatArray(array, 0, pad_val, pad_char);
+            // walk through it's properties
+            for (var prop in obj) {
+                if (obj.hasOwnProperty(prop)) {
+                    var val1 = obj[prop];
+                    var val2 = '';
+                    var type = Object.prototype.toString.call(val1);
+                    switch (type) {
 
-            if (return_val !== true) {
-                if (d.body) {
-                    this.echo(output);
-                }
-                else {
-                    try {
-                        d = XULDocument; // We're in XUL, so appending as plain text won't work; trigger an error out of XUL
-                        this.echo('<pre xmlns="http://www.w3.org/1999/xhtml" style="white-space:pre;">' + output + '</pre>');
-                    } catch (e) {
-                        this.echo(output); // Outputting as plain text may work in some plain XML
+                        // recursive if object/array
+                        case '[object Array]':
+                        case '[object Object]':
+                            val2 = print_r(val1, (tab + '\t'));
+                            break;
+
+                        case '[object String]':
+                            val2 = '\'' + val1 + '\'';
+                            break;
+
+                        default:
+                            val2 = val1;
                     }
+                    str += tab + '\t' + prop + ' => ' + val2 + ',\n';
                 }
-                return true;
             }
-            return output;
-        }
+
+            // remove extra comma for last property
+            str = str.substring(0, str.length - 2) + '\n' + tab;
+
+            return isArr ? (str + ']') : (str + '}');
+        };
 
     </script>
 </head>

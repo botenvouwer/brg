@@ -8,9 +8,11 @@ import businessRuleGenerator.domain.businessRule.DynamicAttribute;
 import businessRuleGenerator.domain.businessRule.Statement;
 import businessRuleGenerator.domain.businessRule.StaticAttribute;
 import businessRuleGenerator.domain.database.ConnectionDetails;
+import com.sun.xml.internal.ws.developer.SerializationFeature;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -166,7 +168,9 @@ public class testService {
 
     @GET
     @Path("homo")
-    public Response testdeziekeshit() throws Exception {
+    @Consumes("application/json")
+    @Produces("application/json")
+    public ConnectionDetails testdeziekeshit(){
 
         ConnectionDetails dbcon = new ConnectionDetails();
         dbcon.dbDriver = "oracle.jdbc.driver.OracleDriver";
@@ -175,10 +179,10 @@ public class testService {
         dbcon.dbUrl = "jdbc:oracle:thin:@ondora02.hu.nl:8521/cursus02.hu.nl";
         dbcon.dbUsername = "tosad_2015_2a_team1_target";
 
-        DAO dao = new OracleDAO(dbcon);
-        dao.getTables();
+        //DAO dao = new OracleDAO(dbcon);
+        //dao.getTables();
 
-        return Response.status(200).entity("<pre>").build();
+        return dbcon;
     }
 
 }

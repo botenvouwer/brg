@@ -7,6 +7,6 @@ import java.util.ArrayList;
  */
 public class TableList {
 
-    public ArrayList<Table> tables;
+    public ArrayList<Table> tables = new ArrayList<Table>();
 
 }

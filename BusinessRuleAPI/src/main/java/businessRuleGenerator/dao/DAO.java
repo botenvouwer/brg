@@ -5,6 +5,7 @@ import businessRuleGenerator.domain.database.TableList;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
  * Created by william on 19-Jan-16.
@@ -40,7 +41,7 @@ public abstract class DAO {
         }
     }
 
-    public TableList getTables() throws DAOException {
+    public TableList getTables() throws DAOException, SQLException {
         Connection connection = connect();
         TableList tableList = getTables(connection);
         close(connection);
@@ -53,6 +54,6 @@ public abstract class DAO {
     //todo: query methode maken
     //public void query();
 
-    protected abstract TableList getTables(Connection connection) throws DAOException;
+    protected abstract TableList getTables(Connection connection) throws DAOException, SQLException;
 
 }
