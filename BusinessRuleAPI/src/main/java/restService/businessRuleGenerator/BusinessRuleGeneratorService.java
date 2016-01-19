@@ -1,185 +1,125 @@
 package restService.businessRuleGenerator;
 
-import businessRuleGenerator.domain.BusinessRule;
-import businessRuleGenerator.template.Template;
-import businessRuleGenerator.template.TemplateException;
-import businessRuleGenerator.template.TemplateFactory;
-import org.json.JSONException;
-import org.json.JSONObject;
-import restService.JSONConverter.BusinessRuleConverter;
-import restService.JSONConverter.JSONConverter;
+import businessRuleGenerator.domain.ValidatorException;
+import businessRuleGenerator.domain.businessRule.BusinessRuleList;
+import businessRuleGenerator.domain.template.Template;
+import businessRuleGenerator.domain.template.TemplateException;
+import businessRuleGenerator.domain.template.TemplateFactory;
+import businessRuleGenerator.generator.BusinessRuleGenerator;
+import businessRuleGenerator.generator.GeneratorException;
+import businessRuleGenerator.generator.GeneratorFactory;
+import restService.response.Result;
+import restService.response.Rule;
 
 import javax.servlet.ServletContext;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 
 /**
  * Created by william on 17-Dec-15.
  */
 
-@Path("/bsn")
+@Path("/generator")
 public class BusinessRuleGeneratorService {
-
 
     @Context
     ServletContext servletContext;
 
-    @GET
-    public Response index(){
+    @POST
+    @Path("/{templateName}/{generatorName}")
+    @Consumes("application/json")
+    @Produces("application/json")
+    public Result index(BusinessRuleList rulesList, @PathParam("templateName") String templateName, @PathParam("generatorName") String generatorName){
+        return getJSON(rulesList, templateName, generatorName);
+    }
 
-        BusinessRule rule = new BusinessRule();
-        rule.category = "testcategory";
-        rule.code = "testcode";
-        rule.table = "testtable";
+    @POST
+    @Path("/generate/{templateName}/{generatorName}")
+    @Consumes("application/json")
+    @Produces("application/json")
+    public Result getJSON(BusinessRuleList rulesList, @PathParam("templateName") String templateName, @PathParam("generatorName") String generatorName) {
 
-        JSONObject ding = new JSONObject();
+        Result result = new Result();
 
-        try {
-            ding.put("test2", "jantje2");
-            ding.put("test", "jantje");
-        } catch (JSONException e) {
-            e.printStackTrace();
+        //haal het path naar de template directory op
+        String templateRoot = servletContext.getRealPath("templates");
+
+        try{
+            rulesList.validate();
+        }
+        catch (ValidatorException e){
+            result.setError("ValidatorException: "+ e.getMessage());
         }
 
-        JSONObject test = new JSONObject();
+        //Maak een template aan
+        Template template = null;
         try {
-            test.put("category", rule.category);
-            test.put("type", rule.type);
-            test.put("code", rule.code);
-            test.put("table", rule.table);
-            test.put("CRUDmode", rule.CRUDmode);
-            test.put("ruleDescription", rule.ruleDescription);
-            test.put("typeDescription", rule.typeDescription);
-
-            test.append("test", ding);
-            test.append("test", ding);
-            test.append("test", ding);
-
-            test.put("test2", ding);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
+            template = TemplateFactory.build(templateRoot, templateName);
+        }
+        catch (TemplateException e){
+            result.setError("TemplateException: "+ e.getMessage());
+        }
+        catch (ValidatorException e) {
+            result.setError("ValidatorException: "+ e.getMessage());
         }
 
-        String ret = "";
+        //Maak generator aan en genereer
+        ArrayList<String> code = null;
+        BusinessRuleGenerator generator = null;
         try {
-            ret = test.toString(4);
-        } catch (JSONException e) {
-            e.printStackTrace();
+            generator = GeneratorFactory.build(generatorName,template);
+            code = generator.generate(rulesList);
+        }
+        catch (GeneratorException e) {
+            result.setError("GeneratorException: "+ e.getMessage());
+        }
+        catch (TemplateException e) {
+            result.setError("TemplateException: "+ e.getMessage());
         }
 
-        ret = "<pre>"+ret+"</pre>";
+        //Anders kan dat kut apex het weer niet parsen
+        ArrayList<Rule> finalCode = new ArrayList<Rule>();
+        for (String s : code){
+            Rule rule = new Rule();
+            rule.rule = s;
+            finalCode.add(rule);
+        }
 
-        JSONConverter jsonconv = new BusinessRuleConverter();
-        jsonconv.importObject("wat");
+        result.setResult(finalCode);
 
-        return  Response.status(200).entity(ret).build();
-
+        return result;
     }
 
     @GET
-    @Path("/raw")
-    public Response rawResponse(){
-        String tekst = "create or replace trigger \"VBMG_KLANTEN_T1\"\n" +
-                "        BEFORE\n" +
-                "        insert or update on \"VBMG_KLANTEN\"\n" +
-                "        for each row\n" +
-                "        begin\n" +
-                "\n" +
-                "        IF :new.GESLACHT NOT IN('M', 'V', 'O') THEN\n" +
-                "        raise_application_error(-20001, 'error rule overtreden');\n" +
-                "        END IF;\n" +
-                "\n" +
-                "        end;";
+    @Path("/template/{templateName}")
+    public Result getTemplate(@PathParam("templateName") String templateName){
 
-        return  Response.status(200).entity(tekst).build();
-    }
+        Result result = new Result();
 
-    @GET
-    @Path("/simple")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response simpleResponse(){
-        String result = null;
+        //haal het path naar de template directory op
+        String templateRoot = servletContext.getRealPath("templates");
+
+        //Maak een template aan
+        Template template = null;
         try {
-        JSONObject simple = new JSONObject();
-
-            simple.put("testeasy1", "dit_is_makkelijk");
-            simple.put("testeasy2", "12321");
-            result = simple.toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
+            template = TemplateFactory.build(templateRoot, templateName);
         }
-        return  Response.status(200).entity(result).build();
-    }
-
-    @GET
-    @Path("/generate")
-    public Response generateRules(){
-
-        return  Response.status(200).entity("testetst").build();
-
-    }
-
-    @GET
-    @Path("/test")
-    public Response test(){
-
-        String plsql = "create or replace trigger \"VBMG_KLANTEN_T1\"\n" +
-                "BEFORE\n" +
-                "insert or update on \"VBMG_KLANTEN\"\n" +
-                "for each row\n" +
-                "begin\n" +
-                "\n" +
-                "IF :new.GESLACHT NOT IN('M', 'V', 'O') THEN\n" +
-                "    raise_application_error(-20001, 'error rule overtreden');\n" +
-                "END IF;\n" +
-                "\n" +
-                "end;\u200B";
-
-        JSONObject test = new JSONObject();
-        try {
-            test.put("trigger", plsql);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        catch (TemplateException e){
+            result.setError("TemplateException: "+ e.getMessage());
+        }
+        catch (ValidatorException e) {
+            result.setError("ValidatorException: "+ e.getMessage());
         }
 
-        String res = "";
-        try {
-            res = test.toString(4);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        result.setResult(template);
 
-        //res = "<pre>"+res+"</pre>";
-
-        return  Response.status(200).entity(res).build();
+        return result;
     }
 
-    @GET
-    @Path("runningdir")
-    public Response getRunDir(){
-
-        String res = System.getProperty( "catalina.base" );
-
-        String root = servletContext.getContextPath();
-        String root2 = servletContext.getRealPath("templates");
-
-        res += "<br><br> deze: "+ root+"<br><br> of die: "+ root2;
-
-        Template temp = null;
-        try {
-            temp = TemplateFactory.build(root2, "plsql");
-        } catch (TemplateException e) {
-            e.printStackTrace();
-        }
-
-        res += "<br><br> " + temp.body;
-
-        return Response.status(200).entity(res).build();
-    }
-
+    /*@GET
+    @Path("/template/")
+    public ServletContext getServletContext() {
+        return servletContext;
+    }*/
 }

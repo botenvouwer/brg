@@ -1,4 +1,4 @@
-package businessRuleGenerator.template;
+package businessRuleGenerator.domain.template;
 
 /**
  * Created by william on 31/12/2015.

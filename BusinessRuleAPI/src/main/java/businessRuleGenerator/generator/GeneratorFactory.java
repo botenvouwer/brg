@@ -1,15 +1,30 @@
 package businessRuleGenerator.generator;
 
+import businessRuleGenerator.domain.template.PLSQLTemplate;
+import businessRuleGenerator.domain.template.Template;
+
 /**
  * Created by melvin on 28-12-2015.
  */
 public class GeneratorFactory {
 
-    static BusinessRuleGenerator create(String templateName){
+    public static BusinessRuleGenerator build(String generatorName, Template template) throws GeneratorException {
+        return initiate(generatorName, template);
+    }
 
-        //zoek juiste template op en return daarvoor de bijbehoorende class
+    private static BusinessRuleGenerator initiate(String generatorName, Template template) throws GeneratorException {
 
-        return null;
+        BusinessRuleGenerator generator;
+        switch (generatorName) {
+            case "plsql":
+                generator = new PLSQLGenerator((PLSQLTemplate) template);
+                break;
+            default:
+                throw new GeneratorException("There is no BusinessRuleGenerator with the name: "+generatorName);
+        }
+
+        return generator;
+
     }
 
 }
