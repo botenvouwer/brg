@@ -45,7 +45,7 @@ public class DatabaseCommunicationService{
         DAO dao = null;
         try {
             dao = DAOFactory.build(dbdetails);
-            result.setResult(dao.getColumns());
+            //result.setResult(dao.getColumns());
         } catch (DAOException e) {
             result.setError("DAOException: " + e.getMessage());
         }
