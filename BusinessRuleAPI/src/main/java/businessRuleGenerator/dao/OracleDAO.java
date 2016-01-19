@@ -1,11 +1,12 @@
 package businessRuleGenerator.dao;
 
 import businessRuleGenerator.domain.database.ConnectionDetails;
+import businessRuleGenerator.domain.database.Table;
+import businessRuleGenerator.domain.database.TableList;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 /**
  * Created by william on 19-Jan-16.
@@ -13,29 +14,31 @@ import java.sql.SQLException;
 public class OracleDAO extends DAO {
 
 
-    public OracleDAO(ConnectionDetails con) throws IllegalAccessException, InstantiationException, ClassNotFoundException {
+    public OracleDAO(ConnectionDetails con) throws DAOException {
         super(con);
     }
 
     @Override
-    protected void getTables(Connection connection) throws SQLException {
+    protected TableList getTables(Connection connection) throws DAOException {
 
-        PreparedStatement statement = connection.prepareStatement("SELECT \"TABLE\"_NAME FROM all_tables WHERE owner = ?");
-        statement.setString(1, connectionDetails.dbName);
+        try {
+            TableList tableList = new TableList();
 
-        ResultSet res = statement.executeQuery();
+            PreparedStatement statement = connection.prepareStatement("SELECT \"TABLE\"_NAME FROM all_tables WHERE owner = ?");
+            statement.setString(1, connectionDetails.dbName);
 
-        System.out.println("Tabel namen:");
-        while (res.next()){
-            String test = res.getString("TABLE_NAME");
-            System.out.println(test);
+            ResultSet res = statement.executeQuery();
 
-            //todo: haal kollom namen op
+            System.out.println("Tabel namen:");
+            while (res.next()) {
+                String table_name = res.getString("TABLE_NAME");
+                tableList.tables.add(new Table(table_name));
+            }
 
+            return tableList;
+        } catch(Exception e) {
+            throw new DAOException("Failed to retrieve table-names");
         }
-
-        //todo: maak Table object en return deze
-
     }
 
     //todo: get collumns names

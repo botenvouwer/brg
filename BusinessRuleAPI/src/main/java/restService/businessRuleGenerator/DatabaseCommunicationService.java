@@ -1,10 +1,12 @@
 package restService.businessRuleGenerator;
 
-import businessRuleGenerator.domain.JDBC;
+import businessRuleGenerator.dao.DAO;
+import businessRuleGenerator.dao.DAOException;
+import businessRuleGenerator.dao.DAOFactory;
 import businessRuleGenerator.domain.database.ConnectionDetails;
+import businessRuleGenerator.domain.database.TableList;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
 
 /**
  * Created by william on 19-Jan-16.
@@ -17,10 +19,11 @@ public class DatabaseCommunicationService{
     @Path("/tablenames")
     @Consumes("application/json")
     @Produces("application/json")
-    public Response getTableNames(ConnectionDetails dbdetails) {
+    public TableList getTableNames(ConnectionDetails dbdetails) throws DAOException {
 
-        //todo: get all tebbelellen
-        return  Response.status(200).entity("").build();
+        DAO dao = DAOFactory.build(dbdetails);
+
+        return dao.getTables();
     }
 
 
