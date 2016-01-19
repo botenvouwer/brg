@@ -21,11 +21,6 @@ public class OracleDAO extends DAO {
     }
 
     @Override
-    protected ColumnList getColumns(Connection connection) throws DAOException, SQLException {
-        return null;
-    }
-
-    @Override
     protected TableList getTables(Connection connection) throws DAOException, SQLException {
         //Haal alle tabllen op
         PreparedStatement tableQuery = connection.prepareStatement("SELECT TABLE_NAME FROM all_tables WHERE owner = ?");
@@ -72,5 +67,8 @@ public class OracleDAO extends DAO {
         return tableList;
     }
 
-    //todo: get collumns names
+    @Override
+    protected ColumnList getColumns(Connection connection, String tableName) throws DAOException, SQLException {
+        return null;
+    }
 }
