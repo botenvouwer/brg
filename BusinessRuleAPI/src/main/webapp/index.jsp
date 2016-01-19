@@ -96,10 +96,40 @@
         };
 
     </script>
+    <style>
+        body{
+            font-family: Arial;
+        }
+    </style>
 </head>
 <body>
 <div>
-    <h2>GET:</h2>
+    <h1>HUBUGEN - Hogeschool Utrecht Businessrule Generator</h1>
+    <p>This is the HUBUGEN (businessrule generator) REST API. HUBUGEN can convert static businessrule definitions into real implementable code. See all callable services below.</p>
+    <hr>
+    <h1>Service</h1>
+    <p>Root where are services reside</p>
+        <h2>Generate</h2>
+        <p>Here resides the template and generate services</p>
+            <h3>Generate code</h3>
+            <table>
+                <tr>
+                    <td>Method:</td>
+                    <td>POST</td>
+                </tr>
+                <tr>
+                    <td>URL:</td>
+                    <td>/service/generator/{templateName}/{generatorName}</td>
+                </tr>
+                <tr>
+                    <td>Payload:</td>
+                    <td><pre></pre></td>
+                </tr>
+            </table>
+        <h2>Database</h2>
+    <p></p>
+    <hr>
+    <h2>Service</h2>
     <div><p>1. <b>Returns complicated JSON (object-in-object, arrays)</b><br/><a href="/service/businessrulegenerator">/service/businessrulegenerator</a></p>
         <p>2. <b>Returns plaintext </b><br/><a href="/service/businessrulegenerator/raw">/service/businessrulegenerator/raw</a></p>
         <p>3. <b>Returns a simple JSON-object </b><br/><a href="/service/businessrulegenerator/simple">/service/businessrulegenerator/simple</a></p>
