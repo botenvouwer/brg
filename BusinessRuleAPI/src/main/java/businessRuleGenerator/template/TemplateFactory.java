@@ -53,7 +53,7 @@ public class TemplateFactory {
             }
         }
 
-        //switch maken en door alle templates loopen
+        //todo: switch maken en door alle templates loopen
         Template template = new PLSQLTemplate(templateFiles, templateName);
 
         return template;
