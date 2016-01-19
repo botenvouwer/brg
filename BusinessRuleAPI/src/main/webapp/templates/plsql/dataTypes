@@ -1,1 +1,2 @@
 String:-:'{$value}'
+Int:-:{$value}
