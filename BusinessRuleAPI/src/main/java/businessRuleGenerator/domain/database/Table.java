@@ -7,7 +7,10 @@ import java.util.ArrayList;
  */
 public class Table {
 
-    String name;
-    ArrayList<Column> columns;
+    public String name;
+    public ArrayList<Column> columns;
 
+    public Table(String name) {
+        this.name = name;
+    }
 }

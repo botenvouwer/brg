@@ -5,7 +5,7 @@ package businessRuleGenerator.domain.database;
  */
 public class Column {
 
-    String name;
-    String dataType;
+    public String name;
+    public String dataType;
 
 }
