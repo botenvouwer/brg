@@ -65,7 +65,7 @@ public class DatabaseCommunicationService{
         try {
             dao = DAOFactory.build(q.con);
             String errorString = dao.doQuery(q.query);
-            if(errorString != "") result.setError("Query returned warning(s): " + errorString);
+            if(errorString != null) result.setError("Query returned warning(s): " + errorString);
 
         } catch(DAOException daoe) {
             result.setError("DAOException: " + daoe.getMessage());

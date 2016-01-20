@@ -219,7 +219,8 @@
 	"dbDriver": "oracle.jdbc.driver.driverName",
 	"dbUrl": "jdbc:oracle:thin:@examlple.com:8521/serverbla",
 	"dbUsername": "username",
-	"dbPassword": "password"
+	"dbPassword": "password",
+    "dbName": "schema-name"
 }</pre></td>
                 </tr>
             </table>
