@@ -21,10 +21,16 @@ public class JDBC {
     }
 
     public void insertTrigger(String sql) throws Exception {
-        try(Connection con = DriverManager.getConnection("jdbc:oracle:thin:@ondora02.hu.nl:8521/cursus02.hu.nl", "tosad_2015_2a_team1_target", "732r78tt3vngy873"))
+        try(Connection con = DriverManager.getConnection("jdbc:oracle:thin:@ondora02.hu.nl:8521/cursus02.hu.nl", "", ""))
         {
             Statement stmt = con.createStatement();
-            stmt.executeUpdate(sql);
+            ResultSet result = stmt.executeQuery(sql);
+
+            SQLWarning sqlWarning = result.getWarnings();
+            while(sqlWarning != null) {
+                System.out.println("Warning: " + sqlWarning.getMessage());
+                sqlWarning = sqlWarning.getNextWarning();
+            }
 
             stmt.close();
             con.close();

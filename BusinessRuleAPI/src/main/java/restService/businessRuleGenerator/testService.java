@@ -2,6 +2,7 @@ package restService.businessRuleGenerator;
 
 import businessRuleGenerator.dao.DAO;
 import businessRuleGenerator.dao.OracleDAO;
+import businessRuleGenerator.domain.JDBC;
 import businessRuleGenerator.domain.ValidatorException;
 import businessRuleGenerator.domain.businessRule.BusinessRule;
 import businessRuleGenerator.domain.businessRule.DynamicAttribute;
@@ -183,6 +184,15 @@ public class testService {
         //dao.getTables();
 
         return dbcon;
+    }
+
+    @GET
+    @Path("/testInsert")
+    public Response testTrigger() throws Exception {
+        JDBC jdbc = new JDBC();
+        jdbc.insertTrigger("create or replace trigger \"BIUD_Businessrule\" BEFORE insert or update or delete on \"VBMG_KLANTEN\" for each row begin IF inserting THEN :new.TITEL := 'IR'; END IF; end;");
+
+        return  Response.status(200).entity("wow").build();
     }
 
 }

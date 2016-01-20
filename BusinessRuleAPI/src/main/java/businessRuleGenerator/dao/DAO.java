@@ -3,10 +3,9 @@ package businessRuleGenerator.dao;
 import businessRuleGenerator.domain.database.ColumnList;
 import businessRuleGenerator.domain.database.ConnectionDetails;
 import businessRuleGenerator.domain.database.TableList;
+import oracle.jdbc.internal.OracleResultSetMetaData;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * Created by william on 19-Jan-16.
@@ -60,8 +59,27 @@ public abstract class DAO {
 
     protected abstract ColumnList getColumns(Connection connection, String tableName) throws DAOException, SQLException;
 
-    //todo: query methode maken
-    //public void query();
+    public String doQuery(String sql) throws DAOException {
+        try {
+            Connection connection = connect();
+            Statement stmt = connection.createStatement();
+
+            ResultSet result = stmt.executeQuery(sql);
+
+            SQLWarning sqlWarning = result.getWarnings();
+            String warningString = null;
+            while (sqlWarning != null) {
+                warningString += sqlWarning.getMessage() + "\r\n";
+                sqlWarning = sqlWarning.getNextWarning();
+            }
+
+            stmt.close();
+            close(connection);
+            return warningString;
+        } catch(Exception e) {
+            throw new DAOException("DAOException: " + e.getMessage());
+        }
+    }
 
     protected abstract TableList getTables(Connection connection) throws DAOException, SQLException;
 

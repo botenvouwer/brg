@@ -69,6 +69,19 @@ public class OracleDAO extends DAO {
 
     @Override
     protected ColumnList getColumns(Connection connection, String tableName) throws DAOException, SQLException {
-        return null;
+
+        //Haal alle column-informatie op van een specifieke tabel
+        PreparedStatement columnQuery = connection.prepareStatement("SELECT COLUMN_NAME, DATA_TYPE FROM user_tab_columns WHERE TABLE_NAME = ?");
+        columnQuery.setString(1, tableName);
+        ResultSet columnResult = columnQuery.executeQuery();
+
+        ColumnList columnList = new ColumnList();
+        while (columnResult.next()) {
+            String columnName = columnResult.getString("COLUMN_NAME");
+            String dataType = columnResult.getString("DATA_TYPE");
+            columnList.columns.add(new Column(columnName, dataType));
+        }
+
+        return columnList;
     }
 }
