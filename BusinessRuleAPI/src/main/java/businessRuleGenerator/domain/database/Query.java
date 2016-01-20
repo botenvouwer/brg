@@ -6,6 +6,6 @@ package businessRuleGenerator.domain.database;
 public class Query {
 
     public String query;
-    public ConnectionDetails con;
+    public ConnectionDetails connection;
 
 }

@@ -63,12 +63,12 @@ public class DatabaseCommunicationService{
 
         DAO dao = null;
         try {
-            dao = DAOFactory.build(q.con);
+            dao = DAOFactory.build(q.connection);
             String errorString = dao.doQuery(q.query);
             if(errorString != null) result.setError("Query returned warning(s): " + errorString);
 
         } catch(DAOException daoe) {
-            result.setError("DAOException: " + daoe.getMessage());
+            result.setError(daoe.getMessage());
         }
         return result;
     }
