@@ -217,13 +217,62 @@
                     <td style="vertical-align: top;">Payload:</td>
                     <td><pre class="josnmooimaakshit">{
 	"dbDriver": "oracle.jdbc.driver.driverName",
-	"dbUrl": "jdbc:oracle:thin:@examlple.com:8521/serverbla",
+	"dbUrl": "jdbc:oracle:thin:@example.com:8521/server",
 	"dbUsername": "username",
 	"dbPassword": "password",
-    "dbName": "schema-name"
+	"dbName": "schema-name"
 }</pre></td>
                 </tr>
             </table>
+
+    <h3>Columns</h3>
+    <p>Get columns from database of a specific table.</p>
+    <table>
+        <tr>
+            <td>Method:</td>
+            <td>POST</td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top;">URL:</td>
+            <td>/service/database/columns/{tableName}</td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top;">Payload:</td>
+            <td><pre class="josnmooimaakshit">{
+	"dbDriver": "oracle.jdbc.driver.driverName",
+	"dbUrl": "jdbc:oracle:thin:@example.com:8521/server",
+	"dbUsername": "username",
+	"dbPassword": "password",
+	"dbName": "schema-name"
+}</pre></td>
+        </tr>
+    </table>
+
+    <h3>Query</h3>
+    <p>Insert a query into the database.</p>
+    <table>
+        <tr>
+            <td>Method:</td>
+            <td>POST</td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top;">URL:</td>
+            <td>/service/database/query/</td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top;">Payload:</td>
+            <td><pre class="josnmooimaakshit">{
+	"query": "create or replace trigger \"BIUD_KLANTEN\" BEFORE insert or update or delete on \"VBMG_KLANTEN\" for each row begin IF inserting THEN :new.TITEL := 'IR'; END IF; end;",
+	"con": {
+		"dbDriver": "oracle.jdbc.driver.driverName",
+		"dbUrl": "jdbc:oracle:thin:@example.com:8521/server",
+		"dbUsername": "username",
+		"dbPassword": "password",
+		"dbName": "schema-name"
+	}
+}</pre></td>
+        </tr>
+    </table>
     <p></p>
     <hr>
 </div>
