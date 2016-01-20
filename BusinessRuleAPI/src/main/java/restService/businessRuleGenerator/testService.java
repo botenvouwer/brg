@@ -1,15 +1,11 @@
 package restService.businessRuleGenerator;
 
-import businessRuleGenerator.dao.DAO;
-import businessRuleGenerator.dao.OracleDAO;
-import businessRuleGenerator.domain.JDBC;
 import businessRuleGenerator.domain.ValidatorException;
 import businessRuleGenerator.domain.businessRule.BusinessRule;
 import businessRuleGenerator.domain.businessRule.DynamicAttribute;
 import businessRuleGenerator.domain.businessRule.Statement;
 import businessRuleGenerator.domain.businessRule.StaticAttribute;
 import businessRuleGenerator.domain.database.ConnectionDetails;
-import com.sun.xml.internal.ws.developer.SerializationFeature;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -176,7 +172,7 @@ public class testService {
         ConnectionDetails dbcon = new ConnectionDetails();
         dbcon.dbDriver = "oracle.jdbc.driver.OracleDriver";
         dbcon.dbName = "TOSAD_2015_2A_TEAM1_TARGET";
-        dbcon.dbPassword = "732r78tt3vngy873";
+        dbcon.dbPassword = "password";
         dbcon.dbUrl = "jdbc:oracle:thin:@ondora02.hu.nl:8521/cursus02.hu.nl";
         dbcon.dbUsername = "tosad_2015_2a_team1_target";
 
@@ -184,15 +180,6 @@ public class testService {
         //dao.getTables();
 
         return dbcon;
-    }
-
-    @GET
-    @Path("/testInsert")
-    public Response testTrigger() throws Exception {
-        JDBC jdbc = new JDBC();
-        jdbc.insertTrigger("create or replace trigger \"BIUD_Businessrule\" BEFORE insert or update or delete on \"VBMG_KLANTEN\" for each row begin IF inserting THEN :new.TITEL := 'IR'; END IF; end;");
-
-        return  Response.status(200).entity("wow").build();
     }
 
 }
