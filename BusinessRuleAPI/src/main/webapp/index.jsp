@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>$Title$</title>
+    <title>HUBUGEN - Hogeschool Utrecht Businessrule Generator</title>
     <script src="javascript/jquery.js"></script>
     <script>
 
