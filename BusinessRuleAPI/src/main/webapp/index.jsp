@@ -6,6 +6,10 @@
 
         $(function(){
 
+            $(".josnmooimaakshit").each(function(){
+                this.innerHTML = syntaxHighlight(this.innerHTML);
+            });
+
             $(document).on('click', '.postdinkie', function(){
 
                 var link = $(this).attr("href");
@@ -22,7 +26,11 @@
                 if(json == ""){
 
                     $.getJSON(url, function(data){
-                        $('#shithier').html(print_r(data));
+                        //$('#shithier').html(print_r(data));
+                        //var json = JSON.parse(data);
+
+                        var shit = JSON.stringify(data, null, "\t");
+                        $('#shithier').html(syntaxHighlight(shit));
                     });
 
                 }
@@ -41,12 +49,19 @@
                     xhr.send(json);
 
                     xhr.onloadend = function () {
-
+                        /*
                         json = xhr.responseText;
                         json = JSON.parse(json);
 
                         console.log(json);
-                        $('#shithier').html(print_r(json));
+                        $('#shithier').html(print_r(json));*/
+
+                        json = xhr.responseText;
+                        json = JSON.parse(json);
+
+                        var shit = JSON.stringify(json, null, "\t");
+                        $('#shithier').html(syntaxHighlight(shit));
+
                     }
                 }
             });
@@ -95,11 +110,37 @@
             return isArr ? (str + ']') : (str + '}');
         };
 
+        function syntaxHighlight(json) {
+            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                var cls = 'number';
+                if (/^"/.test(match)) {
+                    if (/:$/.test(match)) {
+                        cls = 'key';
+                    } else {
+                        cls = 'string';
+                    }
+                } else if (/true|false/.test(match)) {
+                    cls = 'boolean';
+                } else if (/null/.test(match)) {
+                    cls = 'null';
+                }
+                return '<span class="' + cls + '">' + match + '</span>';
+            });
+        }
+
     </script>
     <style>
         body{
             font-family: Arial;
         }
+
+        pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
+        .string { color: green; }
+        .number { color: darkorange; }
+        .boolean { color: blue; }
+        .null { color: magenta; }
+        .key { color: red; }
     </style>
 </head>
 <body>
@@ -108,39 +149,82 @@
     <p>This is the HUBUGEN (businessrule generator) REST API. HUBUGEN can convert static businessrule definitions into real implementable code. See all callable services below.</p>
     <hr>
     <h1>Service</h1>
-    <p>Root where are services reside</p>
+    <p>Root where all services reside</p>
         <h2>Generate</h2>
         <p>Here resides the template and generate services</p>
             <h3>Generate code</h3>
+            <p>Generate businessrules based on static businessrule definition. Note that logicalOperator is only necessary when there is more then 1 statement. All statements need to be compared with logical operators. When you only have one statement you can ignore this field. See template service to get all suported types.</p>
             <table>
                 <tr>
                     <td>Method:</td>
                     <td>POST</td>
                 </tr>
                 <tr>
-                    <td>URL:</td>
-                    <td>/service/generator/{templateName}/{generatorName}</td>
+                    <td style="vertical-align: top;">URL:</td>
+                    <td>/service/generator/{templateName}/{generatorName}<br>/service/generator/generate/{templateName}/{generatorName}</td>
                 </tr>
                 <tr>
-                    <td>Payload:</td>
-                    <td><pre></pre></td>
+                    <td style="vertical-align: top;">Payload:</td>
+                    <td><pre class="josnmooimaakshit">{
+	"businessRules": [{
+		"CRUDmode": "CUD",
+		"category": "CategoryName",
+		"code": "CODE",
+		"ruleDescription": "Lorem ipsum dolor sit amet consectetur adipiscing elit.",
+		"errorMessage": "Lorem ipsum dolor sit amet consectetur adipiscing elit.",
+		"table": "TABLE_NAME",
+		"type": "TYPE_Rule",
+		"typeDescription": "Lorem ipsum dolor sit amet consectetur adipiscing elit.",
+		"statements": [{
+			"attribute": "TEST",
+			"comparisonOperator": "EQUAL",
+			"logicalOperator": "",
+			"order": 0,
+			"staticAttribute": {
+				"dataType": "String",
+				"value": "testtest"
+			}
+		}]
+	}]
+}</pre></td>
+                </tr>
+            </table>
+            <h3>Template</h3>
+            <p>Get template by template name.</p>
+            <table>
+                <tr>
+                    <td>Method:</td>
+                    <td>GET</td>
+                </tr>
+                <tr>
+                    <td>URL:</td>
+                    <td>/service/generator/template/{templateName}</td>
                 </tr>
             </table>
         <h2>Database</h2>
+            <h3>Tables</h3>
+            <p>Get all tables and columns from database.</p>
+            <table>
+                <tr>
+                    <td>Method:</td>
+                    <td>POST</td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: top;">URL:</td>
+                    <td>/service/database/tables/</td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: top;">Payload:</td>
+                    <td><pre class="josnmooimaakshit">{
+	"dbDriver": "oracle.jdbc.driver.driverName",
+	"dbUrl": "jdbc:oracle:thin:@examlple.com:8521/serverbla",
+	"dbUsername": "username",
+	"dbPassword": "password"
+}</pre></td>
+                </tr>
+            </table>
     <p></p>
     <hr>
-    <h2>Service</h2>
-    <div><p>1. <b>Returns complicated JSON (object-in-object, arrays)</b><br/><a href="/service/businessrulegenerator">/service/businessrulegenerator</a></p>
-        <p>2. <b>Returns plaintext </b><br/><a href="/service/businessrulegenerator/raw">/service/businessrulegenerator/raw</a></p>
-        <p>3. <b>Returns a simple JSON-object </b><br/><a href="/service/businessrulegenerator/simple">/service/businessrulegenerator/simple</a></p>
-        <p>4. <b>Returns an official example of a businessrules JSON object </b><br/><a href="/service/businessrulegenerator/example">/service/businessrulegenerator/example</a></p></div>
-        <p>5. <b>Example of what we expect to receive in the body of POST #2 on this page </b><br/><a href="/service/businessrulegenerator/tablenames_example">/service/businessrulegenerator/tablenames_example/</a></p>
-
-    <h2>POST:</h2>
-    <div>
-        <p>1. <b>An arraylist of businessrules can be send here to be converted/generated </b><br/><a class="postdinkie" href="/service/businessrulegenerator/generate/{template}/{generator}">/service/businessrulegenerator/generate/{template}/{generator}</a></p>
-        <p>2. <b>Allows you to request table-names by providing database credentials </b><br/><a href="/service/businessrulegenerator/tablenames/">/service/businessrulegenerator/tablenames/</a></p>
-    </div>
 </div>
 <h3>target</h3>
 <input type="text" id="url" value="" style=" width: 500px; ">

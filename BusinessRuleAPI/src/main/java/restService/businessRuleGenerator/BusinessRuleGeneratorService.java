@@ -93,6 +93,7 @@ public class BusinessRuleGeneratorService {
 
     @GET
     @Path("/template/{templateName}")
+    @Produces("application/json")
     public Result getTemplate(@PathParam("templateName") String templateName){
 
         Result result = new Result();
