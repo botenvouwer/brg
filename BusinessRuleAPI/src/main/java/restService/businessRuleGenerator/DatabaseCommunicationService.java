@@ -4,6 +4,7 @@ import businessRuleGenerator.dao.DAO;
 import businessRuleGenerator.dao.DAOException;
 import businessRuleGenerator.dao.DAOFactory;
 import businessRuleGenerator.domain.database.ConnectionDetails;
+import businessRuleGenerator.domain.database.Query;
 import restService.response.Result;
 
 import javax.ws.rs.*;
@@ -52,5 +53,23 @@ public class DatabaseCommunicationService{
         return result;
     }
 
-    //todo: query uitvoeren
+    @POST
+    @Path("/query/")
+    @Consumes("application/json")
+    @Produces("application/json")
+    public Result doQuery(Query q) {
+
+        Result result = new Result();
+
+        DAO dao = null;
+        try {
+            dao = DAOFactory.build(q.con);
+            String errorString = dao.doQuery(q.query);
+            if(errorString != null) result.setError("Query returned warning(s): " + errorString);
+
+        } catch(DAOException daoe) {
+            result.setError("DAOException: " + daoe.getMessage());
+        }
+        return result;
+    }
 }

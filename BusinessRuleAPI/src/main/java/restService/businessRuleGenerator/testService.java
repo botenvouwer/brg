@@ -1,14 +1,11 @@
 package restService.businessRuleGenerator;
 
-import businessRuleGenerator.dao.DAO;
-import businessRuleGenerator.dao.OracleDAO;
 import businessRuleGenerator.domain.ValidatorException;
 import businessRuleGenerator.domain.businessRule.BusinessRule;
 import businessRuleGenerator.domain.businessRule.DynamicAttribute;
 import businessRuleGenerator.domain.businessRule.Statement;
 import businessRuleGenerator.domain.businessRule.StaticAttribute;
 import businessRuleGenerator.domain.database.ConnectionDetails;
-import com.sun.xml.internal.ws.developer.SerializationFeature;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -175,7 +172,7 @@ public class testService {
         ConnectionDetails dbcon = new ConnectionDetails();
         dbcon.dbDriver = "oracle.jdbc.driver.OracleDriver";
         dbcon.dbName = "TOSAD_2015_2A_TEAM1_TARGET";
-        dbcon.dbPassword = "732r78tt3vngy873";
+        dbcon.dbPassword = "password";
         dbcon.dbUrl = "jdbc:oracle:thin:@ondora02.hu.nl:8521/cursus02.hu.nl";
         dbcon.dbUsername = "tosad_2015_2a_team1_target";
 
