@@ -34,14 +34,14 @@ public abstract class BusinessRuleGenerator{
         return code;
     }
 
-    protected String buildStaticValue(String value, String dataType){
-        if(dataType.equalsIgnoreCase("Int")){
-            //If dataType is Int we make sure that we really create an int value
+    protected String buildValue(String value, String valueType){
+        if(valueType.equalsIgnoreCase("Int")){
+            //If valueType is Int we make sure that we really create an int value
             return value.replaceAll("[^\\d.]", "");
         }
         else{
             //Or else we create String (or other data format)
-            return template.dataType.get(dataType).replace("{$value}", value);
+            return template.valueType.get(valueType).replace("{$value}", value);
         }
     }
 

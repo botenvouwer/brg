@@ -65,28 +65,33 @@ public class BusinessRuleGeneratorService {
         }
 
         //Maak generator aan en genereer
-        ArrayList<String> code = null;
-        BusinessRuleGenerator generator = null;
-        try {
-            generator = GeneratorFactory.build(generatorName,template);
-            code = generator.generate(rulesList);
-        }
-        catch (GeneratorException e) {
-            result.setError("GeneratorException: "+ e.getMessage());
-        }
-        catch (TemplateException e) {
-            result.setError("TemplateException: "+ e.getMessage());
-        }
+        if (template != null) {
+            ArrayList<String> code = null;
+            BusinessRuleGenerator generator = null;
+            try {
+                generator = GeneratorFactory.build(generatorName,template);
+                code = generator.generate(rulesList);
+            }
+            catch (GeneratorException e) {
+                result.setError("GeneratorException: "+ e.getMessage());
+            }
+            catch (TemplateException e) {
+                result.setError("TemplateException: "+ e.getMessage());
+            }
 
-        //Anders kan dat kut apex het weer niet parsen
-        ArrayList<Rule> finalCode = new ArrayList<Rule>();
-        for (String s : code){
-            Rule rule = new Rule();
-            rule.rule = s;
-            finalCode.add(rule);
-        }
+            //Anders kan dat kut apex het weer niet parsen
+            ArrayList<Rule> finalCode = null;
+            if (code != null) {
+                finalCode = new ArrayList<Rule>();
+                for (String s : code){
+                    Rule rule = new Rule();
+                    rule.rule = s;
+                    finalCode.add(rule);
+                }
+            }
 
-        result.setResult(finalCode);
+            result.setResult(finalCode);
+        }
 
         return result;
     }

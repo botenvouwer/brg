@@ -129,21 +129,22 @@ public class PLSQLGenerator extends BusinessRuleGenerator {
     protected String buildStatements(Statement statement) {
         String statementCode = "";
 
-        statementCode += ":new."+statement.attribute+" ";
+        statementCode += buildValue(statement.attribute, "newVar");
+        statementCode += " ";
         statementCode += template.comparisonOperator.get(statement.comparisonOperator);
         statementCode += " ";
 
         if (statement.dynamicAttribute != null){
             //assume that dynamicAttribute must be used
             //todo: dynamicAttribute wordt nog niet voor andere tabbellen ondersteund
-            statementCode += ":new."+statement.dynamicAttribute.attribute;
+            statementCode += buildValue(statement.dynamicAttribute.attribute, "newVar");
         }
         else{
             //assume that static attribute must be used
-            statementCode += buildStaticValue(statement.staticAttribute.value, statement.staticAttribute.dataType);
+            statementCode += buildValue(statement.staticAttribute.value, statement.staticAttribute.dataType);
         }
 
-        if(statement.logicalOperator != null && !statement.equals("")){
+        if(statement.logicalOperator != null && !statement.logicalOperator.equals("")){
             statementCode += " ";
             statementCode += template.logicalOperator.get(statement.logicalOperator);
         }

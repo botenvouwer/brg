@@ -263,7 +263,7 @@
             <td style="vertical-align: top;">Payload:</td>
             <td><pre class="josnmooimaakshit">{
 	"query": "create or replace trigger \"BIUD_KLANTEN\" BEFORE insert or update or delete on \"VBMG_KLANTEN\" for each row begin IF inserting THEN :new.TITEL := 'IR'; END IF; end;",
-	"con": {
+	"connection": {
 		"dbDriver": "oracle.jdbc.driver.driverName",
 		"dbUrl": "jdbc:oracle:thin:@example.com:8521/server",
 		"dbUsername": "username",

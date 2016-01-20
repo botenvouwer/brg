@@ -80,13 +80,16 @@ public class TemplateFactory {
     private static Template initiate(Map<String, String> templateConfig, Map<String, String> templateFiles) throws TemplateException, ValidatorException {
 
         Template template;
-        switch (templateConfig.get("TemplateClass")) {
+        switch (templateConfig.get("TemplateClass").toLowerCase()) {
             case "plsql":
                 template = new PLSQLTemplate(templateConfig.get("TemplateName"), templateFiles);
                 break;
-            default:
+            case "default":
+            case "def":
                 template = new DefaultTemplate(templateConfig.get("TemplateName"), templateFiles);
                 break;
+            default:
+                throw new TemplateException("Template class '"+templateConfig.get("TemplateClass")+"' not found. Check template config (config->TemplateClass).");
         }
 
         template.validate();

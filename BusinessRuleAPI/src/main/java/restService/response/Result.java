@@ -8,7 +8,7 @@ import java.util.Objects;
 public class Result {
 
     private ResponseStatus status;
-    private String error;
+    private String error = "";
     private Object result;
 
     public Result(){
@@ -17,7 +17,7 @@ public class Result {
 
     public void setError(String error){
         status = ResponseStatus.ERROR;
-        this.error = error;
+        this.error += error + "\n";
     }
 
     public void setResult(Object o){

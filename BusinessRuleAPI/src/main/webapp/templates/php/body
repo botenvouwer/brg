@@ -1,0 +1,13 @@
+<?php
+
+    function {$validator_name}(${$table_name}){
+
+    //validation rules for table: {$table_name}
+
+    {$body}
+
+        return true;
+
+    }
+
+?>
