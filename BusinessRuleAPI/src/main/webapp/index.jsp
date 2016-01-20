@@ -249,8 +249,8 @@
     </table>
 
     <h3>Query</h3>
-    <p>Insert a query into the database.</p>
-    <table>
+    <p>This service is meant to implement a trigger with businessrule validation logic into a database. However you can execute any query you like.</p>
+        <table>
         <tr>
             <td>Method:</td>
             <td>POST</td>
