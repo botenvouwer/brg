@@ -60,8 +60,6 @@ public class TemplateFactory {
                     throw new TemplateException("Unsupported Encoding when loading template file: " + file.getName());
                 }
 
-
-
                 templateFiles.put(file.getName(), str);
             }
         }

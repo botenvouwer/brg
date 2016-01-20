@@ -45,8 +45,8 @@ public abstract class BusinessRuleGenerator{
         }
     }
 
-    protected abstract String buildBody(String tableName, ArrayList<BusinessRule> rules);
-    protected abstract String buildRule(BusinessRule rule);
-    protected abstract String buildStatements(Statement statement);
+    protected abstract String buildBody(String tableName, ArrayList<BusinessRule> rules) throws GeneratorException;
+    protected abstract String buildRule(BusinessRule rule) throws GeneratorException;
+    protected abstract String buildStatement(Statement statement) throws GeneratorException;
 
 }

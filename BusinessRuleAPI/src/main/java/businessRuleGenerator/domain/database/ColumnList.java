@@ -1,6 +1,5 @@
 package businessRuleGenerator.domain.database;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**

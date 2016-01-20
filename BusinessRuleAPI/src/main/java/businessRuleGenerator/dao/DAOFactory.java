@@ -1,8 +1,6 @@
 package businessRuleGenerator.dao;
 
 import businessRuleGenerator.domain.database.ConnectionDetails;
-import businessRuleGenerator.generator.BusinessRuleGenerator;
-import businessRuleGenerator.generator.GeneratorException;
 
 /**
  * Created by melvin on 19-1-2016.

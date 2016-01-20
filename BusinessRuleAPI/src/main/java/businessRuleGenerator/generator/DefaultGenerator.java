@@ -4,7 +4,7 @@ import businessRuleGenerator.domain.businessRule.BusinessRule;
 import businessRuleGenerator.domain.businessRule.Statement;
 import businessRuleGenerator.domain.template.DefaultTemplate;
 
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * Created by william on 20-Jan-16.
@@ -57,7 +57,7 @@ public class DefaultGenerator extends BusinessRuleGenerator{
 
         ArrayList<String> statementCodes = new ArrayList<>();
         for(Statement statement : rule.getStatements()){
-            statementCodes.add(buildStatements(statement));
+            statementCodes.add(buildStatement(statement));
         }
 
         ruleBody = ruleBody.replace("{$statements}", String.join(" ", statementCodes));
@@ -66,7 +66,7 @@ public class DefaultGenerator extends BusinessRuleGenerator{
     }
 
     @Override
-    protected String buildStatements(Statement statement) {
+    protected String buildStatement(Statement statement) {
         String statementCode = "";
 
         statementCode += buildValue(tableName +template.languageOperator.get("Chain")+statement.attribute, "var");

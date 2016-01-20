@@ -99,12 +99,17 @@ public class BusinessRule implements Validator {
         for(Statement statement : statements){
             statement.validate();
 
-            if(statements.size() > 1 && statement.logicalOperator == null){
-                throw new ValidatorException("When rule has multiple statements there must be a logicalOperator to compare. Problem found at statement with " + order + ".");
+            if(statements.size() > 1 && statement.logicalOperator == null && order != (statements.size()-1)){
+                throw new ValidatorException("When rule has multiple statements there must be a logicalOperator to compare. Problem found at statement " + order + " with order "+statement.order+".");
             }
 
             set.add(statement.order);
             order++;
+        }
+
+        Statement statement = statements.get(statements.size()-1);
+        if(statement.logicalOperator != null && !statement.logicalOperator.equals("")){
+            throw new ValidatorException("Last statement can not have logicalOperator.");
         }
 
         if(set.size() < statements.size()) {

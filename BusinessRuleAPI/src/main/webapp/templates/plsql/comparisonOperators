@@ -2,3 +2,5 @@ Equal:-:=
 NotEqual:-:!=
 LessThan:-:<
 GreaterThan:-:>
+Not:-:NOT
+ListRule:-:({$variable-name}{$not}IN({$value}))

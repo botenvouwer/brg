@@ -3,9 +3,6 @@ package businessRuleGenerator.domain.businessRule;
 import businessRuleGenerator.domain.Validator;
 import businessRuleGenerator.domain.ValidatorException;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Created by melvin on 18-12-2015.
  */

@@ -19,7 +19,7 @@ public class PLSQLGenerator extends BusinessRuleGenerator {
     }
 
     @Override
-    protected String buildBody(String tableName, ArrayList<BusinessRule> rules) {
+    protected String buildBody(String tableName, ArrayList<BusinessRule> rules) throws GeneratorException {
 
         String code = template.body;
 
@@ -77,7 +77,7 @@ public class PLSQLGenerator extends BusinessRuleGenerator {
         return rulesByCRUDMode;
     }
 
-    protected String buildCRUDStatement(String CRUDMode, ArrayList<BusinessRule> rules){
+    protected String buildCRUDStatement(String CRUDMode, ArrayList<BusinessRule> rules) throws GeneratorException {
 
         Set<String> CRUDModes = new HashSet<>();
         for (int i = 0; i < CRUDMode.length(); i++){
@@ -101,7 +101,7 @@ public class PLSQLGenerator extends BusinessRuleGenerator {
     }
 
     @Override
-    protected String buildRule(BusinessRule rule) {
+    protected String buildRule(BusinessRule rule) throws GeneratorException {
         String ruleBody = template.statement;
 
         ruleBody = ruleBody.replace("{$category}", rule.category);
@@ -117,7 +117,7 @@ public class PLSQLGenerator extends BusinessRuleGenerator {
 
         ArrayList<String> statementCodes = new ArrayList<>();
         for(Statement statement : rule.getStatements()){
-            statementCodes.add(buildStatements(statement));
+            statementCodes.add(buildStatement(statement));
         }
 
         ruleBody = ruleBody.replace("{$statements}", String.join(" ", statementCodes));
@@ -126,7 +126,12 @@ public class PLSQLGenerator extends BusinessRuleGenerator {
     }
 
     @Override
-    protected String buildStatements(Statement statement) {
+    protected String buildStatement(Statement statement) throws GeneratorException {
+
+        if(statement.staticAttribute != null && statement.staticAttribute.dataType.equalsIgnoreCase("list")){
+            return buildListStatement(statement);
+        }
+
         String statementCode = "";
 
         statementCode += buildValue(statement.attribute, "newVar");
@@ -150,6 +155,28 @@ public class PLSQLGenerator extends BusinessRuleGenerator {
         }
 
         return statementCode;
+    }
+
+    private String buildListStatement(Statement statement) throws GeneratorException {
+
+        if(!statement.comparisonOperator.equalsIgnoreCase("Equal") && !statement.comparisonOperator.equalsIgnoreCase("NotEqual")){
+            throw new GeneratorException("When staticAttribute is of dataType List the comparisonOperator must be Equal or NotEqual");
+        }
+
+        List<String> itemList = Arrays.asList(statement.staticAttribute.value.split("\\s*,\\s*"));
+        for (ListIterator item = itemList.listIterator(); item.hasNext();)
+        {
+            item.set(buildValue((String)item.next(),"string"));
+        }
+
+        String listItems = String.join(", ", itemList);
+        String not = (statement.comparisonOperator.equalsIgnoreCase("NotEqual") ? template.comparisonOperator.get("Not") + " " : "");
+        String variable = buildValue(statement.attribute, "newVar") + " ";
+
+        String statementCode = template.comparisonOperator.get("ListRule").replace("{$variable-name}",variable).replace("{$not}", not).replace("{$value}", listItems);
+
+        return statementCode;
+
     }
 
 }

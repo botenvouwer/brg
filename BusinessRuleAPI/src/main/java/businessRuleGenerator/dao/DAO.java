@@ -3,7 +3,6 @@ package businessRuleGenerator.dao;
 import businessRuleGenerator.domain.database.ColumnList;
 import businessRuleGenerator.domain.database.ConnectionDetails;
 import businessRuleGenerator.domain.database.TableList;
-import oracle.jdbc.internal.OracleResultSetMetaData;
 
 import java.sql.*;
 

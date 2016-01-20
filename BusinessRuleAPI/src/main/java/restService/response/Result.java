@@ -1,7 +1,5 @@
 package restService.response;
 
-import java.util.Objects;
-
 /**
  * Created by william on 15-Jan-16.
  */
