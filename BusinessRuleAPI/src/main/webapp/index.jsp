@@ -216,10 +216,11 @@
                 <tr>
                     <td style="vertical-align: top;">Payload:</td>
                     <td><pre class="josnmooimaakshit">{
-	"dbDriver": "oracle.jdbc.driver.driverName",
-	"dbUrl": "jdbc:oracle:thin:@examlple.com:8521/serverbla",
-	"dbUsername": "username",
-	"dbPassword": "password"
+	"dbDriver": "oracle.jdbc.driver.DriverName",
+	"dbUrl": "jdbc:oracle:thin:@example.com:8521",
+	"dbUsername": "user",
+	"dbPassword": "pass",
+	"dbName": "schemaName"
 }</pre></td>
                 </tr>
             </table>

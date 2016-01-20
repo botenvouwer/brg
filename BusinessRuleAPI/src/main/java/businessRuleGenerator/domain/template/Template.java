@@ -16,8 +16,8 @@ public abstract class Template implements Validator{
     public String statement;
     public Map<String, String> comparisonOperator;
     public Map<String, String> logicalOperator;
-    public Map<String, String> dataType;
-    public Map<String, String> stringOperator;
+    public Map<String, String> valueType;
+    public Map<String, String> languageOperator;
     private static String seperator = ":-:";
 
     public Template(){
@@ -36,8 +36,8 @@ public abstract class Template implements Validator{
         try {
             comparisonOperator = ListParser.loadList(templateData.get("comparisonOperators"), seperator);
             logicalOperator = ListParser.loadList(templateData.get("logicalOperators"), seperator);
-            dataType = ListParser.loadList(templateData.get("dataTypes"), seperator);
-            stringOperator = ListParser.loadList(templateData.get("stringOperators"), seperator);
+            valueType = ListParser.loadList(templateData.get("valueTypes"), seperator);
+            languageOperator = ListParser.loadList(templateData.get("languageOperators"), seperator);
         } catch (Exception e) {
             throw new TemplateException("Could not parse template files. Check the list files in the template.");
         }
@@ -65,12 +65,12 @@ public abstract class Template implements Validator{
             throw new ValidatorException("Template "+ name +" does not contain logicalOperators");
         }
 
-        if(dataType == null || dataType.size() == 0){
-            throw new ValidatorException("Template "+ name +" does not contain dataTypes");
+        if(valueType == null || valueType.size() == 0){
+            throw new ValidatorException("Template "+ name +" does not contain valueTypes");
         }
 
-        if(stringOperator == null || stringOperator.size() == 0){
-            throw new ValidatorException("Template "+ name +" does not contain stringOperators");
+        if(languageOperator == null || languageOperator.size() == 0){
+            throw new ValidatorException("Template "+ name +" does not contain languageOperators");
         }
 
     }
@@ -83,8 +83,8 @@ public abstract class Template implements Validator{
                 ", statement='" + statement + '\'' +
                 ", comparisonOperator=" + comparisonOperator +
                 ", logicalOperator=" + logicalOperator +
-                ", dataType=" + dataType +
-                ", stringOperator=" + stringOperator +
+                ", valueType=" + valueType +
+                ", languageOperator=" + languageOperator +
                 '}';
     }
 }

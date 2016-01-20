@@ -1,0 +1,7 @@
+    //Category: {$category}
+        //Type: {$typeDiscription}
+        //Rule: {$ruleDiscription}
+        //CRUD: {$crud}
+        if(!({$statements})){
+            return '{$error}';
+        }

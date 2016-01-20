@@ -1,0 +1,3 @@
+String:-:'{$value}'
+Int:-:{$value}
+NewVar:-::new."{$value}"
