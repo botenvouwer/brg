@@ -79,7 +79,7 @@ public class OracleDAO extends DAO {
         while (columnResult.next()) {
             String columnName = columnResult.getString("COLUMN_NAME");
             String dataType = columnResult.getString("DATA_TYPE");
-            columnList.columns.add(new Column(columnName, dataType));
+            columnList.columns.add(new Column(dataType, columnName));
         }
 
         return columnList;
